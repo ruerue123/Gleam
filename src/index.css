@@ -1,0 +1,49 @@
+@import url('https://fonts.googleapis.com/css2?family=Cormorant:wght@300;400;500;600&family=Cardo:wght@400;700&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Cormorant', serif;
+  background-color: #ffffff;
+  color: #171515;
+  line-height: 1.7;
+  font-weight: 300;
+}
+
+h1, h2, h3, h4 {
+  font-family: 'Cardo', serif;
+  font-weight: 400;
+  letter-spacing: 0.5px;
+  color: #171515;
+}
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  
+}
+@keyframes slideIn {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+@keyframes slideIn {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}

@@ -1,0 +1,196 @@
+import { Link } from 'react-router-dom'
+
+function Navbar({ cartCount }) {
+  return (
+    <nav style={{
+      position: 'fixed',
+      top: 0,
+      width: '100%',
+      background: '#EDECE4',
+      zIndex: 1000,
+      padding: 'clamp(1rem, 2vw, 1.5rem) clamp(2rem, 5vw, 4rem)',
+      borderBottom: '1px solid rgba(23, 21, 21, 0.08)'
+    }}>
+      <div style={{
+        display: 'grid',
+        gridTemplateColumns: '1fr auto 1fr',
+        alignItems: 'center',
+        gap: '2rem'
+      }}>
+        {/* Left - Social Icons */}
+        <div style={{
+          display: 'flex',
+          gap: 'clamp(1rem, 2vw, 1.5rem)',
+          alignItems: 'center'
+        }}>
+          <a
+            href="#"
+            aria-label="Facebook"
+            style={{
+              color: '#171515',
+              fontSize: 'clamp(1.1rem, 2vw, 1.3rem)',
+              transition: 'color 0.3s'
+            }}
+            onMouseEnter={(e) => e.currentTarget.style.color = '#8B7355'}
+            onMouseLeave={(e) => e.currentTarget.style.color = '#171515'}
+          >
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M9.198 21.5h4v-8.01h3.604l.396-3.98h-4V7.5a1 1 0 0 1 1-1h3v-4h-3a5 5 0 0 0-5 5v2.01h-2l-.396 3.98h2.396v8.01Z"/>
+            </svg>
+          </a>
+          <a
+            href="#"
+            aria-label="Instagram"
+            style={{
+              color: '#171515',
+              fontSize: 'clamp(1.1rem, 2vw, 1.3rem)',
+              transition: 'color 0.3s'
+            }}
+            onMouseEnter={(e) => e.currentTarget.style.color = '#8B7355'}
+            onMouseLeave={(e) => e.currentTarget.style.color = '#171515'}
+          >
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M7.8 2h8.4C19.4 2 22 4.6 22 7.8v8.4a5.8 5.8 0 0 1-5.8 5.8H7.8C4.6 22 2 19.4 2 16.2V7.8A5.8 5.8 0 0 1 7.8 2m-.2 2A3.6 3.6 0 0 0 4 7.6v8.8C4 18.39 5.61 20 7.6 20h8.8a3.6 3.6 0 0 0 3.6-3.6V7.6C20 5.61 18.39 4 16.4 4H7.6m9.65 1.5a1.25 1.25 0 0 1 1.25 1.25A1.25 1.25 0 0 1 17.25 8 1.25 1.25 0 0 1 16 6.75a1.25 1.25 0 0 1 1.25-1.25M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3z"/>
+            </svg>
+          </a>
+          <a
+            href="#"
+            aria-label="TikTok"
+            style={{
+              color: '#171515',
+              fontSize: 'clamp(1.1rem, 2vw, 1.3rem)',
+              transition: 'color 0.3s'
+            }}
+            onMouseEnter={(e) => e.currentTarget.style.color = '#8B7355'}
+            onMouseLeave={(e) => e.currentTarget.style.color = '#171515'}
+          >
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M16.6 5.82s.51.5 0 0A4.278 4.278 0 0 1 15.54 3h-3.09v12.4a2.592 2.592 0 0 1-2.59 2.5c-1.42 0-2.6-1.16-2.6-2.6 0-1.72 1.66-3.01 3.37-2.48V9.66c-3.45-.46-6.47 2.22-6.47 5.64 0 3.33 2.76 5.7 5.69 5.7 3.14 0 5.69-2.55 5.69-5.7V9.01a7.35 7.35 0 0 0 4.3 1.38V7.3s-1.88.09-3.24-1.48z"/>
+            </svg>
+          </a>
+        </div>
+
+        {/* Center - Logo */}
+        <Link to="/" style={{
+          textAlign: 'center',
+          textDecoration: 'none'
+        }}>
+          <div style={{
+            fontFamily: "'Cardo', serif",
+            fontSize: 'clamp(1.3rem, 2.5vw, 1.6rem)',
+            fontWeight: 400,
+            letterSpacing: '2px',
+            color: '#171515',
+            textTransform: 'uppercase'
+          }}>
+            Gleam
+          </div>
+        </Link>
+
+        {/* Right - Utility Icons */}
+        <div style={{
+          display: 'flex',
+          gap: 'clamp(1rem, 2vw, 1.5rem)',
+          alignItems: 'center',
+          justifyContent: 'flex-end'
+        }}>
+          <button
+            aria-label="Search"
+            style={{
+              background: 'none',
+              border: 'none',
+              color: '#171515',
+              fontSize: 'clamp(1.1rem, 2vw, 1.3rem)',
+              cursor: 'pointer',
+              padding: 0,
+              transition: 'color 0.3s'
+            }}
+            onMouseEnter={(e) => e.currentTarget.style.color = '#8B7355'}
+            onMouseLeave={(e) => e.currentTarget.style.color = '#171515'}
+          >
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <circle cx="11" cy="11" r="8"/>
+              <path d="m21 21-4.35-4.35"/>
+            </svg>
+          </button>
+
+          <Link
+            to="#"
+            aria-label="Account"
+            style={{
+              color: '#171515',
+              fontSize: 'clamp(1.1rem, 2vw, 1.3rem)',
+              transition: 'color 0.3s',
+              textDecoration: 'none'
+            }}
+            onMouseEnter={(e) => e.currentTarget.style.color = '#8B7355'}
+            onMouseLeave={(e) => e.currentTarget.style.color = '#171515'}
+          >
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+              <circle cx="12" cy="7" r="4"/>
+            </svg>
+          </Link>
+
+          <div style={{
+            position: 'relative',
+            cursor: 'pointer',
+            transition: 'color 0.3s'
+          }}
+          onMouseEnter={(e) => e.currentTarget.style.color = '#8B7355'}
+          onMouseLeave={(e) => e.currentTarget.style.color = '#171515'}
+          >
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <circle cx="9" cy="21" r="1"/>
+              <circle cx="20" cy="21" r="1"/>
+              <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
+            </svg>
+            {cartCount > 0 && (
+              <span style={{
+                position: 'absolute',
+                top: '-8px',
+                right: '-8px',
+                background: '#8B7355',
+                color: '#ffffff',
+                borderRadius: '50%',
+                width: '18px',
+                height: '18px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                fontSize: '0.65rem',
+                fontWeight: 600,
+                fontFamily: "'Cormorant', serif"
+              }}>
+                {cartCount}
+              </span>
+            )}
+          </div>
+
+          <button
+            aria-label="Menu"
+            style={{
+              background: 'none',
+              border: 'none',
+              color: '#171515',
+              fontSize: 'clamp(1.1rem, 2vw, 1.3rem)',
+              cursor: 'pointer',
+              padding: 0,
+              transition: 'color 0.3s'
+            }}
+            onMouseEnter={(e) => e.currentTarget.style.color = '#8B7355'}
+            onMouseLeave={(e) => e.currentTarget.style.color = '#171515'}
+          >
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <line x1="3" y1="12" x2="21" y2="12"/>
+              <line x1="3" y1="6" x2="21" y2="6"/>
+              <line x1="3" y1="18" x2="21" y2="18"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </nav>
+  );
+}
+
+export default Navbar;
