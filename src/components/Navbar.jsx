@@ -96,17 +96,15 @@ function Navbar({ cartCount, favouritesCount }) {
             textDecoration: 'none',
             display: 'flex',
             alignItems: 'center',
-            justifyContent: 'center'
+            justifyContent: 'center',
+            fontFamily: "'Cardo', serif",
+            fontSize: 'clamp(1.8rem, 4vw, 2.5rem)',
+            fontWeight: 400,
+            letterSpacing: '1px',
+            color: iconColor,
+            transition: 'color 0.3s ease'
           }}>
-            <img
-              src="/logo.png"
-              alt="Gleam"
-              style={{
-                height: 'clamp(60px, 12vw, 90px)',
-                width: 'auto',
-                objectFit: 'contain'
-              }}
-            />
+            Gleam
           </Link>
 
           {/* Right - Utility Icons */}
