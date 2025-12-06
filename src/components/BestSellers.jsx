@@ -70,8 +70,8 @@ function BestSellers({ onAddToCart }) {
         maxWidth: '1400px',
         margin: '0 auto',
         display: 'grid',
-        gridTemplateColumns: 'repeat(auto-fit, minmax(min(280px, 100%), 1fr))',
-        gap: 'clamp(2rem, 4vw, 3rem)',
+        gridTemplateColumns: 'repeat(auto-fit, minmax(min(150px, 100%), 1fr))',
+        gap: 'clamp(1rem, 4vw, 3rem)',
         marginTop: '3rem'
       }}>
         {bestSellers.map((product) => (

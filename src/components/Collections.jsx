@@ -70,8 +70,8 @@ function Collections() {
 
       <div style={{
         display: 'grid',
-        gridTemplateColumns: 'repeat(auto-fit, minmax(min(250px, 100%), 1fr))',
-        gap: 'clamp(1.5rem, 2.5vw, 2rem)',
+        gridTemplateColumns: 'repeat(auto-fit, minmax(min(140px, 100%), 1fr))',
+        gap: 'clamp(1rem, 2.5vw, 2rem)',
         marginTop: '3rem'
       }}>
         {collections.map((collection) => (
