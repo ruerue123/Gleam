@@ -77,18 +77,20 @@ function Navbar({ cartCount, favouritesCount }) {
           {/* Center - Logo */}
           <Link to="/" style={{
             textAlign: 'center',
-            textDecoration: 'none'
+            textDecoration: 'none',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center'
           }}>
-            <div style={{
-              fontFamily: "'Cardo', serif",
-              fontSize: 'clamp(1.3rem, 2.5vw, 1.6rem)',
-              fontWeight: 400,
-              letterSpacing: '2px',
-              color: '#171515',
-              textTransform: 'uppercase'
-            }}>
-              Gleam
-            </div>
+            <img
+              src="/logo.png"
+              alt="Gleam"
+              style={{
+                height: 'clamp(40px, 8vw, 60px)',
+                width: 'auto',
+                objectFit: 'contain'
+              }}
+            />
           </Link>
 
           {/* Right - Utility Icons */}
