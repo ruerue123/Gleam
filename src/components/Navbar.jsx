@@ -10,10 +10,10 @@ function Navbar({ cartCount, favouritesCount }) {
         position: 'fixed',
         top: 0,
         width: '100%',
-        background: '#EDECE4',
+        background: '#171515',
         zIndex: 1000,
         padding: 'clamp(1rem, 2vw, 1.5rem) clamp(2rem, 5vw, 4rem)',
-        borderBottom: '1px solid rgba(23, 21, 21, 0.08)'
+        borderBottom: '1px solid rgba(237, 236, 228, 0.15)'
       }}>
         <div style={{
           display: 'grid',
@@ -31,12 +31,12 @@ function Navbar({ cartCount, favouritesCount }) {
               href="#"
               aria-label="Facebook"
               style={{
-                color: '#171515',
+                color: '#EDECE4',
                 fontSize: 'clamp(1.1rem, 2vw, 1.3rem)',
                 transition: 'color 0.3s'
               }}
               onMouseEnter={(e) => e.currentTarget.style.color = '#8B7355'}
-              onMouseLeave={(e) => e.currentTarget.style.color = '#171515'}
+              onMouseLeave={(e) => e.currentTarget.style.color = '#EDECE4'}
             >
               <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
                 <path d="M9.198 21.5h4v-8.01h3.604l.396-3.98h-4V7.5a1 1 0 0 1 1-1h3v-4h-3a5 5 0 0 0-5 5v2.01h-2l-.396 3.98h2.396v8.01Z"/>
@@ -46,12 +46,12 @@ function Navbar({ cartCount, favouritesCount }) {
               href="#"
               aria-label="Instagram"
               style={{
-                color: '#171515',
+                color: '#EDECE4',
                 fontSize: 'clamp(1.1rem, 2vw, 1.3rem)',
                 transition: 'color 0.3s'
               }}
               onMouseEnter={(e) => e.currentTarget.style.color = '#8B7355'}
-              onMouseLeave={(e) => e.currentTarget.style.color = '#171515'}
+              onMouseLeave={(e) => e.currentTarget.style.color = '#EDECE4'}
             >
               <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
                 <path d="M7.8 2h8.4C19.4 2 22 4.6 22 7.8v8.4a5.8 5.8 0 0 1-5.8 5.8H7.8C4.6 22 2 19.4 2 16.2V7.8A5.8 5.8 0 0 1 7.8 2m-.2 2A3.6 3.6 0 0 0 4 7.6v8.8C4 18.39 5.61 20 7.6 20h8.8a3.6 3.6 0 0 0 3.6-3.6V7.6C20 5.61 18.39 4 16.4 4H7.6m9.65 1.5a1.25 1.25 0 0 1 1.25 1.25A1.25 1.25 0 0 1 17.25 8 1.25 1.25 0 0 1 16 6.75a1.25 1.25 0 0 1 1.25-1.25M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3z"/>
@@ -61,12 +61,12 @@ function Navbar({ cartCount, favouritesCount }) {
               href="#"
               aria-label="TikTok"
               style={{
-                color: '#171515',
+                color: '#EDECE4',
                 fontSize: 'clamp(1.1rem, 2vw, 1.3rem)',
                 transition: 'color 0.3s'
               }}
               onMouseEnter={(e) => e.currentTarget.style.color = '#8B7355'}
-              onMouseLeave={(e) => e.currentTarget.style.color = '#171515'}
+              onMouseLeave={(e) => e.currentTarget.style.color = '#EDECE4'}
             >
               <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
                 <path d="M16.6 5.82s.51.5 0 0A4.278 4.278 0 0 1 15.54 3h-3.09v12.4a2.592 2.592 0 0 1-2.59 2.5c-1.42 0-2.6-1.16-2.6-2.6 0-1.72 1.66-3.01 3.37-2.48V9.66c-3.45-.46-6.47 2.22-6.47 5.64 0 3.33 2.76 5.7 5.69 5.7 3.14 0 5.69-2.55 5.69-5.7V9.01a7.35 7.35 0 0 0 4.3 1.38V7.3s-1.88.09-3.24-1.48z"/>
@@ -86,7 +86,7 @@ function Navbar({ cartCount, favouritesCount }) {
               src="/logo.png"
               alt="Gleam"
               style={{
-                height: 'clamp(40px, 8vw, 60px)',
+                height: 'clamp(60px, 12vw, 90px)',
                 width: 'auto',
                 objectFit: 'contain'
               }}
@@ -104,13 +104,13 @@ function Navbar({ cartCount, favouritesCount }) {
               to="/profile"
               aria-label="Account"
               style={{
-                color: '#171515',
+                color: '#EDECE4',
                 fontSize: 'clamp(1.1rem, 2vw, 1.3rem)',
                 transition: 'color 0.3s',
                 textDecoration: 'none'
               }}
               onMouseEnter={(e) => e.currentTarget.style.color = '#8B7355'}
-              onMouseLeave={(e) => e.currentTarget.style.color = '#171515'}
+              onMouseLeave={(e) => e.currentTarget.style.color = '#EDECE4'}
             >
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                 <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
@@ -123,13 +123,13 @@ function Navbar({ cartCount, favouritesCount }) {
               aria-label="Favourites"
               style={{
                 position: 'relative',
-                color: '#171515',
+                color: '#EDECE4',
                 fontSize: 'clamp(1.1rem, 2vw, 1.3rem)',
                 transition: 'color 0.3s',
                 textDecoration: 'none'
               }}
               onMouseEnter={(e) => e.currentTarget.style.color = '#8B7355'}
-              onMouseLeave={(e) => e.currentTarget.style.color = '#171515'}
+              onMouseLeave={(e) => e.currentTarget.style.color = '#EDECE4'}
             >
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                 <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
@@ -161,13 +161,13 @@ function Navbar({ cartCount, favouritesCount }) {
               aria-label="Cart"
               style={{
                 position: 'relative',
-                color: '#171515',
+                color: '#EDECE4',
                 fontSize: 'clamp(1.1rem, 2vw, 1.3rem)',
                 transition: 'color 0.3s',
                 textDecoration: 'none'
               }}
               onMouseEnter={(e) => e.currentTarget.style.color = '#8B7355'}
-              onMouseLeave={(e) => e.currentTarget.style.color = '#171515'}
+              onMouseLeave={(e) => e.currentTarget.style.color = '#EDECE4'}
             >
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                 <circle cx="9" cy="21" r="1"/>
@@ -202,14 +202,14 @@ function Navbar({ cartCount, favouritesCount }) {
               style={{
                 background: 'none',
                 border: 'none',
-                color: '#171515',
+                color: '#EDECE4',
                 fontSize: 'clamp(1.1rem, 2vw, 1.3rem)',
                 cursor: 'pointer',
                 padding: 0,
                 transition: 'color 0.3s'
               }}
               onMouseEnter={(e) => e.currentTarget.style.color = '#8B7355'}
-              onMouseLeave={(e) => e.currentTarget.style.color = '#171515'}
+              onMouseLeave={(e) => e.currentTarget.style.color = '#EDECE4'}
             >
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                 <line x1="3" y1="12" x2="21" y2="12"/>
