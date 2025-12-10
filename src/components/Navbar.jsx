@@ -99,8 +99,8 @@ function Navbar({ cartCount, favouritesCount }) {
             justifyContent: 'center'
           }}>
             <img
-              src={isScrolled ? '/logo2.png' : '/logo.png'}
-              alt="Gleam"
+              src={isScrolled ? '/logo2.svg' : '/logo.svg'}
+              alt="gleam"
               style={{
                 height: 'clamp(60px, 12vw, 90px)',
                 width: 'auto',
