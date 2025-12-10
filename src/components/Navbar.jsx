@@ -102,7 +102,7 @@ function Navbar({ cartCount, favouritesCount }) {
               src={isScrolled ? '/logo2.svg' : '/logo.svg'}
               alt="gleam"
               style={{
-                height: 'clamp(60px, 12vw, 90px)',
+                height: 'clamp(80px, 15vw, 120px)',
                 width: 'auto',
                 objectFit: 'contain',
                 transition: 'opacity 0.3s ease'
