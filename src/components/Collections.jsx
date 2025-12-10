@@ -101,7 +101,7 @@ function Collections() {
           >
             <div style={{
               width: '100%',
-              height: 'clamp(280px, 45vw, 380px)',
+              height: 'clamp(180px, 30vw, 280px)',
               position: 'relative',
               overflow: 'hidden'
             }}>
@@ -118,15 +118,15 @@ function Collections() {
             </div>
 
             <div style={{
-              padding: 'clamp(1.8rem, 3.5vw, 2.5rem)',
+              padding: 'clamp(1.2rem, 2.5vw, 1.8rem)',
               textAlign: 'center',
               background: '#ffffff'
             }}>
               <h3 style={{
                 fontFamily: "'Cardo', serif",
-                fontSize: 'clamp(1.4rem, 3vw, 1.9rem)',
+                fontSize: 'clamp(1.1rem, 2.2vw, 1.4rem)',
                 fontWeight: 400,
-                marginBottom: 'clamp(0.6rem, 1.2vw, 0.9rem)',
+                marginBottom: 'clamp(0.4rem, 0.8vw, 0.6rem)',
                 letterSpacing: '0.3px',
                 color: '#171515'
               }}>
@@ -134,10 +134,10 @@ function Collections() {
               </h3>
               <p style={{
                 fontFamily: "'Cormorant', serif",
-                fontSize: 'clamp(0.95rem, 1.6vw, 1.05rem)',
+                fontSize: 'clamp(0.85rem, 1.4vw, 0.95rem)',
                 color: '#171515',
                 opacity: 0.7,
-                lineHeight: 1.6,
+                lineHeight: 1.5,
                 fontWeight: 300
               }}>
                 {collection.description}
