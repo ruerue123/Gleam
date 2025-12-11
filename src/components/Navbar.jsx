@@ -27,7 +27,7 @@ function Navbar({ cartCount, favouritesCount }) {
         width: '100%',
         background: bgColor,
         zIndex: 1000,
-        padding: 'clamp(1rem, 2vw, 1.5rem) clamp(2rem, 5vw, 4rem)',
+        padding: 'clamp(0.8rem, 2vw, 1.5rem) clamp(1rem, 3vw, 4rem)',
         borderBottom: `1px solid ${borderColor}`,
         transition: 'background 0.3s ease, border-color 0.3s ease'
       }}>

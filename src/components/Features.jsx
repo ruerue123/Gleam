@@ -1,4 +1,42 @@
 function Features() {
+  const scrollContainerStyle = `
+    .features-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr));
+      gap: clamp(3rem, 6vw, 5rem);
+    }
+
+    @media (max-width: 768px) {
+      .features-container {
+        display: flex;
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        gap: 2rem;
+        padding-bottom: 1rem;
+        -webkit-overflow-scrolling: touch;
+      }
+
+      .features-container > div {
+        flex: 0 0 85%;
+        scroll-snap-align: center;
+      }
+
+      .features-container::-webkit-scrollbar {
+        height: 6px;
+      }
+
+      .features-container::-webkit-scrollbar-track {
+        background: rgba(23, 21, 21, 0.1);
+        border-radius: 3px;
+      }
+
+      .features-container::-webkit-scrollbar-thumb {
+        background: #8B7355;
+        border-radius: 3px;
+      }
+    }
+  `;
+
   const features = [
     {
       id: 1,
@@ -44,12 +82,10 @@ function Features() {
       background: 'linear-gradient(to bottom, #FAFAF8 0%, #EDECE4 100%)',
       padding: 'clamp(4rem, 10vw, 8rem) 5%'
     }}>
-      <div style={{
+      <style>{scrollContainerStyle}</style>
+      <div className="features-container" style={{
         maxWidth: '1400px',
-        margin: '0 auto',
-        display: 'grid',
-        gridTemplateColumns: 'repeat(auto-fit, minmax(min(300px, 100%), 1fr))',
-        gap: 'clamp(3rem, 6vw, 5rem)'
+        margin: '0 auto'
       }}>
         {features.map((feature) => (
           <div

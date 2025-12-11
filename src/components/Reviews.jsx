@@ -1,4 +1,42 @@
 function Reviews() {
+  const scrollContainerStyle = `
+    .reviews-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr));
+      gap: clamp(2rem, 4vw, 3rem);
+    }
+
+    @media (max-width: 768px) {
+      .reviews-container {
+        display: flex;
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        gap: 1.5rem;
+        padding-bottom: 1rem;
+        -webkit-overflow-scrolling: touch;
+      }
+
+      .reviews-container > div {
+        flex: 0 0 85%;
+        scroll-snap-align: center;
+      }
+
+      .reviews-container::-webkit-scrollbar {
+        height: 6px;
+      }
+
+      .reviews-container::-webkit-scrollbar-track {
+        background: #EDECE4;
+        border-radius: 3px;
+      }
+
+      .reviews-container::-webkit-scrollbar-thumb {
+        background: #8B7355;
+        border-radius: 3px;
+      }
+    }
+  `;
+
   const reviews = [
     {
       id: 1,
@@ -43,6 +81,7 @@ function Reviews() {
       background: '#ffffff',
       padding: 'clamp(4rem, 10vw, 8rem) 5%'
     }}>
+      <style>{scrollContainerStyle}</style>
       <div style={{
         maxWidth: '1400px',
         margin: '0 auto'
@@ -72,11 +111,7 @@ function Reviews() {
           Hear from those who light their feelings
         </p>
 
-        <div style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(min(280px, 100%), 1fr))',
-          gap: 'clamp(2rem, 4vw, 3rem)'
-        }}>
+        <div className="reviews-container">
           {reviews.map((review) => (
             <div
               key={review.id}
