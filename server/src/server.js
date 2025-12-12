@@ -57,9 +57,29 @@ app.use('/api/products', productRoutes);
 app.use('/api/orders', orderRoutes);
 app.use('/api/users', userRoutes);
 
+// Root route
+app.get('/', (req, res) => {
+  res.json({
+    message: 'Gleam Candles API',
+    status: 'running',
+    version: '1.0.0',
+    endpoints: {
+      health: '/api/health',
+      auth: '/api/auth',
+      products: '/api/products',
+      orders: '/api/orders',
+      users: '/api/users'
+    }
+  });
+});
+
 // Health check route
 app.get('/api/health', (req, res) => {
-  res.json({ message: 'Gleam API is running...' });
+  res.json({
+    message: 'Gleam API is running...',
+    database: 'connected',
+    allowedOrigins: allowedOrigins
+  });
 });
 
 // Error handler
