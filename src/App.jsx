@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+import { AuthProvider } from './context/AuthContext'
 import Navbar from './components/Navbar'
 import Footer from './components/Footer'
 import CartNotification from './components/CartNotification'
@@ -13,6 +14,7 @@ import LoginPage from './pages/LoginPage'
 import ProfilePage from './pages/ProfilePage'
 import CartPage from './pages/CartPage'
 import FavouritesPage from './pages/FavouritesPage'
+import AdminDashboard from './pages/admin/AdminDashboard'
 
 function App() {
   const [cart, setCart] = useState([]);
@@ -40,25 +42,28 @@ function App() {
   };
 
   return (
-    <Router>
-      <div>
-        <Navbar cartCount={cart.length} favouritesCount={favourites.length} />
-        <CartNotification show={showNotification} />
-        <Routes>
-          <Route path="/" element={<HomePage onAddToCart={handleAddToCart} />} />
-          <Route path="/collections" element={<CollectionsPage />} />
-          <Route path="/products" element={<ProductsPage onAddToCart={handleAddToCart} />} />
-          <Route path="/collection/:slug" element={<CollectionDetailPage onAddToCart={handleAddToCart} />} />
-          <Route path="/about" element={<AboutPage />} />
-          <Route path="/contact" element={<ContactPage />} />
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/profile" element={<ProfilePage />} />
-          <Route path="/cart" element={<CartPage cart={cart} onRemove={handleRemoveFromCart} />} />
-          <Route path="/favourites" element={<FavouritesPage favourites={favourites} onRemove={handleRemoveFromFavourites} onAddToCart={handleAddToCart} />} />
-        </Routes>
-        <Footer />
-      </div>
-    </Router>
+    <AuthProvider>
+      <Router>
+        <div>
+          <Navbar cartCount={cart.length} favouritesCount={favourites.length} />
+          <CartNotification show={showNotification} />
+          <Routes>
+            <Route path="/" element={<HomePage onAddToCart={handleAddToCart} />} />
+            <Route path="/collections" element={<CollectionsPage />} />
+            <Route path="/products" element={<ProductsPage onAddToCart={handleAddToCart} />} />
+            <Route path="/collection/:slug" element={<CollectionDetailPage onAddToCart={handleAddToCart} />} />
+            <Route path="/about" element={<AboutPage />} />
+            <Route path="/contact" element={<ContactPage />} />
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="/profile" element={<ProfilePage />} />
+            <Route path="/cart" element={<CartPage cart={cart} onRemove={handleRemoveFromCart} />} />
+            <Route path="/favourites" element={<FavouritesPage favourites={favourites} onRemove={handleRemoveFromFavourites} onAddToCart={handleAddToCart} />} />
+            <Route path="/admin" element={<AdminDashboard />} />
+          </Routes>
+          <Footer />
+        </div>
+      </Router>
+    </AuthProvider>
   )
 }
 
