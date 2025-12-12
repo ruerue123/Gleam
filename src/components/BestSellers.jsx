@@ -1,9 +1,11 @@
 import { Link } from 'react-router-dom'
+import ProductCard from './ProductCard'
 
-function BestSellers({ onAddToCart }) {
+function BestSellers({ onAddToCart, onAddToFavourites, favourites = [] }) {
   const bestSellers = [
     {
       id: 1,
+      slug: 'blocked-and-blessed',
       name: 'Blocked & Blessed',
       collection: 'Petty Collection',
       description: 'For the nights when you miss them... but not enough to text.',
@@ -12,6 +14,7 @@ function BestSellers({ onAddToCart }) {
     },
     {
       id: 3,
+      slug: 'unbothered',
       name: 'Unbothered',
       collection: 'Mood Collection',
       description: 'Fresh boundaries. High standards. That\'s the mood.',
@@ -20,6 +23,7 @@ function BestSellers({ onAddToCart }) {
     },
     {
       id: 4,
+      slug: 'velvet-smoke',
       name: 'Velvet Smoke',
       collection: 'Luxe Gleam',
       description: 'Quiet opulence. For those who move in silence.',
@@ -28,6 +32,7 @@ function BestSellers({ onAddToCart }) {
     },
     {
       id: 2,
+      slug: 'after-the-cry',
       name: 'After the Cry',
       collection: 'Soft Feelings',
       description: 'Warm. Safe. The scent of healing after letting it all out.',
@@ -75,117 +80,13 @@ function BestSellers({ onAddToCart }) {
         marginTop: '3rem'
       }}>
         {bestSellers.map((product) => (
-          <div
+          <ProductCard
             key={product.id}
-            style={{
-              background: '#ffffff',
-              borderRadius: '4px',
-              overflow: 'hidden',
-              transition: 'all 0.3s ease',
-              border: '1px solid #EDECE4',
-              boxShadow: '0 2px 8px rgba(0, 0, 0, 0.04)'
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.transform = 'translateY(-6px)';
-              e.currentTarget.style.boxShadow = '0 12px 24px rgba(0, 0, 0, 0.08)';
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.transform = 'translateY(0)';
-              e.currentTarget.style.boxShadow = '0 2px 8px rgba(0, 0, 0, 0.04)';
-            }}
-          >
-            <div style={{
-              width: '100%',
-              height: 'clamp(280px, 45vw, 350px)',
-              background: 'linear-gradient(to bottom, #EDECE4 0%, #D8D6CE 100%)',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              fontSize: 'clamp(3rem, 6vw, 3.5rem)'
-            }}>
-              {product.emoji}
-            </div>
-
-            <div style={{ padding: 'clamp(1.5rem, 3vw, 2rem)' }}>
-              <div style={{
-                fontSize: 'clamp(0.75rem, 1.3vw, 0.8rem)',
-                fontFamily: "'Cormorant', serif",
-                textTransform: 'uppercase',
-                letterSpacing: '1.2px',
-                color: '#8B7355',
-                marginBottom: '0.6rem',
-                fontWeight: 500
-              }}>
-                {product.collection}
-              </div>
-
-              <h3 style={{
-                fontFamily: "'Cardo', serif",
-                fontSize: 'clamp(1.3rem, 2.8vw, 1.6rem)',
-                fontWeight: 400,
-                marginBottom: 'clamp(0.5rem, 1vw, 0.7rem)',
-                letterSpacing: '0.3px',
-                color: '#171515'
-              }}>
-                {product.name}
-              </h3>
-
-              <p style={{
-                fontFamily: "'Cormorant', serif",
-                fontSize: 'clamp(0.95rem, 1.6vw, 1.05rem)',
-                fontStyle: 'italic',
-                color: '#171515',
-                opacity: 0.7,
-                marginBottom: 'clamp(1rem, 2vw, 1.3rem)',
-                lineHeight: 1.6,
-                fontWeight: 300
-              }}>
-                {product.description}
-              </p>
-
-              <div style={{
-                fontFamily: "'Cardo', serif",
-                fontSize: 'clamp(1.1rem, 2.2vw, 1.3rem)',
-                fontWeight: 500,
-                marginBottom: 'clamp(1rem, 2vw, 1.2rem)',
-                color: '#171515'
-              }}>
-                ${product.price.toFixed(2)}
-              </div>
-
-              <button
-                onClick={() => onAddToCart(product)}
-                style={{
-                  width: '100%',
-                  padding: 'clamp(0.85rem, 1.8vw, 1rem)',
-                  background: '#8B7355',
-                  color: '#ffffff',
-                  border: '1px solid #8B7355',
-                  borderRadius: '2px',
-                  fontSize: 'clamp(0.9rem, 1.5vw, 0.95rem)',
-                  fontFamily: "'Cormorant', serif",
-                  fontWeight: 500,
-                  letterSpacing: '0.5px',
-                  cursor: 'pointer',
-                  transition: 'all 0.3s ease'
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.background = '#6F5943';
-                  e.currentTarget.style.borderColor = '#6F5943';
-                  e.currentTarget.style.transform = 'translateY(-2px)';
-                  e.currentTarget.style.boxShadow = '0 4px 12px rgba(139, 115, 85, 0.3)';
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.background = '#8B7355';
-                  e.currentTarget.style.borderColor = '#8B7355';
-                  e.currentTarget.style.transform = 'translateY(0)';
-                  e.currentTarget.style.boxShadow = 'none';
-                }}
-              >
-                Add to Cart
-              </button>
-            </div>
-          </div>
+            product={product}
+            onAddToCart={onAddToCart}
+            onAddToFavourites={onAddToFavourites}
+            isFavourite={favourites.some(fav => fav.id === product.id)}
+          />
         ))}
       </div>
 

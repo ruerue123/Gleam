@@ -1,7 +1,10 @@
 import { useState, useEffect } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
+import { useAuth } from '../context/AuthContext'
 
 function Navbar({ cartCount, favouritesCount }) {
+  const { user, logout } = useAuth();
+  const navigate = useNavigate();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
 
@@ -362,6 +365,87 @@ function Navbar({ cartCount, favouritesCount }) {
             >
               Contact
             </Link>
+
+            <div style={{ borderTop: '1px solid #EDECE4', margin: '1rem 0' }} />
+
+            {user ? (
+              <>
+                <Link
+                  to="/profile"
+                  onClick={() => setIsMenuOpen(false)}
+                  style={{
+                    fontFamily: "'Cormorant', serif",
+                    fontSize: '1.4rem',
+                    color: '#171515',
+                    textDecoration: 'none',
+                    fontWeight: 400,
+                    transition: 'color 0.3s'
+                  }}
+                  onMouseEnter={(e) => e.currentTarget.style.color = '#8B7355'}
+                  onMouseLeave={(e) => e.currentTarget.style.color = '#171515'}
+                >
+                  My Account
+                </Link>
+                {user.role === 'admin' && (
+                  <Link
+                    to="/admin"
+                    onClick={() => setIsMenuOpen(false)}
+                    style={{
+                      fontFamily: "'Cormorant', serif",
+                      fontSize: '1.4rem',
+                      color: '#8B7355',
+                      textDecoration: 'none',
+                      fontWeight: 500,
+                      transition: 'color 0.3s'
+                    }}
+                    onMouseEnter={(e) => e.currentTarget.style.color = '#6F5943'}
+                    onMouseLeave={(e) => e.currentTarget.style.color = '#8B7355'}
+                  >
+                    Admin Dashboard
+                  </Link>
+                )}
+                <button
+                  onClick={() => {
+                    logout();
+                    setIsMenuOpen(false);
+                    navigate('/');
+                  }}
+                  style={{
+                    fontFamily: "'Cormorant', serif",
+                    fontSize: '1.4rem',
+                    color: '#171515',
+                    background: 'none',
+                    border: 'none',
+                    padding: 0,
+                    textAlign: 'left',
+                    cursor: 'pointer',
+                    fontWeight: 400,
+                    transition: 'color 0.3s'
+                  }}
+                  onMouseEnter={(e) => e.currentTarget.style.color = '#C53030'}
+                  onMouseLeave={(e) => e.currentTarget.style.color = '#171515'}
+                >
+                  Sign Out
+                </button>
+              </>
+            ) : (
+              <Link
+                to="/login"
+                onClick={() => setIsMenuOpen(false)}
+                style={{
+                  fontFamily: "'Cormorant', serif",
+                  fontSize: '1.4rem',
+                  color: '#8B7355',
+                  textDecoration: 'none',
+                  fontWeight: 500,
+                  transition: 'color 0.3s'
+                }}
+                onMouseEnter={(e) => e.currentTarget.style.color = '#6F5943'}
+                onMouseLeave={(e) => e.currentTarget.style.color = '#8B7355'}
+              >
+                Sign In
+              </Link>
+            )}
           </nav>
         </div>
       </div>

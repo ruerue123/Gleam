@@ -48,10 +48,11 @@ function App() {
           <Navbar cartCount={cart.length} favouritesCount={favourites.length} />
           <CartNotification show={showNotification} />
           <Routes>
-            <Route path="/" element={<HomePage onAddToCart={handleAddToCart} />} />
+            <Route path="/" element={<HomePage onAddToCart={handleAddToCart} onAddToFavourites={handleAddToFavourites} favourites={favourites} />} />
             <Route path="/collections" element={<CollectionsPage />} />
-            <Route path="/products" element={<ProductsPage onAddToCart={handleAddToCart} />} />
-            <Route path="/collection/:slug" element={<CollectionDetailPage onAddToCart={handleAddToCart} />} />
+            <Route path="/products" element={<ProductsPage onAddToCart={handleAddToCart} onAddToFavourites={handleAddToFavourites} favourites={favourites} />} />
+            <Route path="/product/:id" element={<div>Product Detail Page (Coming Soon)</div>} />
+            <Route path="/collection/:slug" element={<CollectionDetailPage onAddToCart={handleAddToCart} onAddToFavourites={handleAddToFavourites} favourites={favourites} />} />
             <Route path="/about" element={<AboutPage />} />
             <Route path="/contact" element={<ContactPage />} />
             <Route path="/login" element={<LoginPage />} />
