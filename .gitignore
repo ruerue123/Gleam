@@ -2,13 +2,13 @@
 node_modules/
 server/node_modules/
 
-# Environment variables
+# Environment variables (frontend .env.production is safe to commit)
 .env
 .env.local
-.env.production
 .env.development
 server/.env
 server/.env.local
+server/.env.production
 
 # Build outputs
 dist/
