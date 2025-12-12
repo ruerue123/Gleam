@@ -25,7 +25,9 @@ app.use(express.urlencoded({ extended: true }));
 // CORS - Allow multiple origins
 const allowedOrigins = [
   'http://localhost:5173',
-  'http://localhost:3000'
+  'http://localhost:3000',
+  'https://gleam.co.zw',
+  'https://www.gleam.co.zw'
 ];
 
 // Add production frontend URL if available
@@ -38,9 +40,11 @@ app.use(cors({
     // Allow requests with no origin (like mobile apps or curl)
     if (!origin) return callback(null, true);
 
-    if (allowedOrigins.indexOf(origin) !== -1) {
+    // Check if origin is in allowed list or matches gleam domain
+    if (allowedOrigins.indexOf(origin) !== -1 || (origin && origin.includes('gleam.co.zw'))) {
       callback(null, true);
     } else {
+      console.log('Blocked origin:', origin);
       callback(new Error('Not allowed by CORS'));
     }
   },
