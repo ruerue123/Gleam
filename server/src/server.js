@@ -88,25 +88,24 @@ app.get('/api/seed', async (req, res) => {
     const User = (await import('./models/User.js')).default;
     const Product = (await import('./models/Product.js')).default;
 
-    // Check if admin exists
-    const adminExists = await User.findOne({ email: 'admin@gleam.com' });
+    // Delete existing admin and recreate with proper password hashing
+    await User.deleteOne({ email: 'admin@gleam.com' });
 
-    if (!adminExists) {
-      await User.create({
-        name: 'Admin',
-        email: 'admin@gleam.com',
-        password: 'admin123',
-        role: 'admin'
-      });
-    }
+    const admin = await User.create({
+      name: 'Admin',
+      email: 'admin@gleam.com',
+      password: 'admin123',
+      role: 'admin'
+    });
 
     // Count products
     const productCount = await Product.countDocuments();
 
     res.json({
       success: true,
-      message: 'Database checked and seeded',
-      adminCreated: !adminExists,
+      message: 'Admin user recreated successfully',
+      adminEmail: admin.email,
+      adminRole: admin.role,
       productCount: productCount
     });
   } catch (error) {
