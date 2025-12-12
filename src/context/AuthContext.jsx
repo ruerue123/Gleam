@@ -59,9 +59,17 @@ export const AuthProvider = ({ children }) => {
 
       localStorage.setItem('token', data.token);
       setToken(data.token);
-      setUser(data.user);
 
-      return { success: true, user: data.user };
+      // Extract user data (backend returns user fields at top level)
+      const userData = {
+        _id: data._id,
+        name: data.name,
+        email: data.email,
+        role: data.role
+      };
+      setUser(userData);
+
+      return { success: true, user: userData };
     } catch (error) {
       return { success: false, error: error.message };
     }
@@ -85,9 +93,17 @@ export const AuthProvider = ({ children }) => {
 
       localStorage.setItem('token', data.token);
       setToken(data.token);
-      setUser(data.user);
 
-      return { success: true, user: data.user };
+      // Extract user data (backend returns user fields at top level)
+      const userData = {
+        _id: data._id,
+        name: data.name,
+        email: data.email,
+        role: data.role
+      };
+      setUser(userData);
+
+      return { success: true, user: userData };
     } catch (error) {
       return { success: false, error: error.message };
     }
@@ -116,8 +132,18 @@ export const AuthProvider = ({ children }) => {
         throw new Error(data.message || 'Update failed');
       }
 
-      setUser(data.user);
-      return { success: true, user: data.user };
+      // Extract user data (backend returns user fields at top level)
+      const userData = {
+        _id: data._id,
+        name: data.name,
+        email: data.email,
+        role: data.role,
+        phone: data.phone,
+        shippingAddress: data.shippingAddress
+      };
+      setUser(userData);
+
+      return { success: true, user: userData };
     } catch (error) {
       return { success: false, error: error.message };
     }
