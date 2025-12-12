@@ -74,7 +74,7 @@ PORT=5000
 MONGODB_URI=mongodb+srv://gleam_admin:Crazie13@gleam.991xcdg.mongodb.net/gleam?retryWrites=true&w=majority&appName=gleam
 JWT_SECRET=your-super-secret-jwt-key-change-this-in-production
 JWT_EXPIRE=7d
-FRONTEND_URL=https://your-vercel-app.vercel.app
+FRONTEND_URL=https://gleam.co.zw
 ```
 
 **IMPORTANT:**
@@ -302,8 +302,8 @@ curl https://gleam-backend.onrender.com/api/health
 ---
 
 **Your Deployment URLs:**
-- Frontend: `https://[your-app].vercel.app`
-- Backend: `https://gleam-backend.onrender.com`
+- Frontend: `https://gleam.co.zw`
+- Backend: `https://gleam-ddh0.onrender.com`
 - Database: MongoDB Atlas (already configured ✅)
 
 Happy deploying! 🚀
