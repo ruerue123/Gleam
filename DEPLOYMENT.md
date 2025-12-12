@@ -72,15 +72,15 @@ Click **"Environment"** and add these variables:
 NODE_ENV=production
 PORT=5000
 MONGODB_URI=mongodb+srv://gleam_admin:Crazie13@gleam.991xcdg.mongodb.net/gleam?retryWrites=true&w=majority&appName=gleam
-JWT_SECRET=your-super-secret-jwt-key-change-this-in-production
+JWT_SECRET=b9b39300c1782162d09d64fcb37ce16b4ca3eb9aa42ac9a515e8b685ca4759dc9d9969276bad8c0935aa3c209fddde20d5c811bff88cb01736abc7426348f9f5
 JWT_EXPIRE=7d
 FRONTEND_URL=https://gleam.co.zw
 ```
 
 **IMPORTANT:**
-- Copy your MongoDB URI from your local `.env` file
-- Change `JWT_SECRET` to a strong random string
-- You'll update `FRONTEND_URL` after deploying to Vercel
+- Use the exact JWT_SECRET shown above (already set in Render)
+- MongoDB URI is already configured
+- FRONTEND_URL is set to your custom domain
 
 ### Step 5: Deploy
 
