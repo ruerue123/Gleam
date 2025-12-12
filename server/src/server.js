@@ -82,6 +82,41 @@ app.get('/api/health', (req, res) => {
   });
 });
 
+// Seed route (TEMPORARY - remove after seeding production)
+app.get('/api/seed', async (req, res) => {
+  try {
+    const User = (await import('./models/User.js')).default;
+    const Product = (await import('./models/Product.js')).default;
+
+    // Check if admin exists
+    const adminExists = await User.findOne({ email: 'admin@gleam.com' });
+
+    if (!adminExists) {
+      await User.create({
+        name: 'Admin',
+        email: 'admin@gleam.com',
+        password: 'admin123',
+        role: 'admin'
+      });
+    }
+
+    // Count products
+    const productCount = await Product.countDocuments();
+
+    res.json({
+      success: true,
+      message: 'Database checked and seeded',
+      adminCreated: !adminExists,
+      productCount: productCount
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message
+    });
+  }
+});
+
 // Error handler
 app.use((err, req, res, next) => {
   const statusCode = res.statusCode === 200 ? 500 : res.statusCode;
