@@ -55,9 +55,9 @@ git push origin main
    - **Name:** `gleam-backend` (or any name you prefer)
    - **Region:** Choose closest to you (e.g., Oregon for US West)
    - **Branch:** `main`
-   - **Root Directory:** `server`
+   - **Root Directory:** `server` ⚠️ **IMPORTANT: Must be "server"**
    - **Runtime:** `Node`
-   - **Build Command:** `npm install`
+   - **Build Command:** `npm install` (NOT `npm install; npm run build`)
    - **Start Command:** `npm start`
 
    **Advanced Settings:**
