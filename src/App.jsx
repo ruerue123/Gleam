@@ -6,6 +6,7 @@ import Footer from './components/Footer'
 import CartNotification from './components/CartNotification'
 import HomePage from './pages/HomePage'
 import ProductsPage from './pages/ProductsPage'
+import ProductDetailPage from './pages/ProductDetailPage'
 import AboutPage from './pages/AboutPage'
 import CollectionDetailPage from './pages/CollectionDetailPage'
 import CollectionsPage from './pages/CollectionsPage'
@@ -51,7 +52,7 @@ function App() {
             <Route path="/" element={<HomePage onAddToCart={handleAddToCart} onAddToFavourites={handleAddToFavourites} favourites={favourites} />} />
             <Route path="/collections" element={<CollectionsPage />} />
             <Route path="/products" element={<ProductsPage onAddToCart={handleAddToCart} onAddToFavourites={handleAddToFavourites} favourites={favourites} />} />
-            <Route path="/product/:id" element={<div>Product Detail Page (Coming Soon)</div>} />
+            <Route path="/product/:id" element={<ProductDetailPage onAddToCart={handleAddToCart} onAddToFavourites={handleAddToFavourites} favourites={favourites} />} />
             <Route path="/collection/:slug" element={<CollectionDetailPage onAddToCart={handleAddToCart} onAddToFavourites={handleAddToFavourites} favourites={favourites} />} />
             <Route path="/about" element={<AboutPage />} />
             <Route path="/contact" element={<ContactPage />} />
