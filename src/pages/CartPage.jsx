@@ -39,7 +39,7 @@ function CartPage({ cart, onUpdateQuantity, onRemove }) {
     message += '_Please provide your delivery address and preferred delivery time._';
 
     // WhatsApp business number - replace with actual number
-    const whatsappNumber = '263772505044'; // Replace with your WhatsApp business number
+    const whatsappNumber = '263718125084'; // Replace with your WhatsApp business number
     const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${message}`;
 
     window.open(whatsappUrl, '_blank');
