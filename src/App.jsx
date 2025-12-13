@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import { AuthProvider } from './context/AuthContext'
 import Navbar from './components/Navbar'
@@ -18,8 +18,18 @@ import FavouritesPage from './pages/FavouritesPage'
 import AdminDashboard from './pages/admin/AdminDashboard'
 
 function App() {
-  const [cart, setCart] = useState([]);
-  const [favourites, setFavourites] = useState([]);
+  // Initialize cart from localStorage
+  const [cart, setCart] = useState(() => {
+    const saved = localStorage.getItem('gleam_cart');
+    return saved ? JSON.parse(saved) : [];
+  });
+
+  // Initialize favourites from localStorage
+  const [favourites, setFavourites] = useState(() => {
+    const saved = localStorage.getItem('gleam_favourites');
+    return saved ? JSON.parse(saved) : [];
+  });
+
   const [showNotification, setShowNotification] = useState(false);
 
   const handleAddToCart = (product) => {
@@ -41,6 +51,16 @@ function App() {
   const handleRemoveFromFavourites = (index) => {
     setFavourites(favourites.filter((_, i) => i !== index));
   };
+
+  // Save cart to localStorage whenever it changes
+  useEffect(() => {
+    localStorage.setItem('gleam_cart', JSON.stringify(cart));
+  }, [cart]);
+
+  // Save favourites to localStorage whenever they change
+  useEffect(() => {
+    localStorage.setItem('gleam_favourites', JSON.stringify(favourites));
+  }, [favourites]);
 
   return (
     <AuthProvider>

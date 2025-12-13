@@ -1,6 +1,8 @@
+import { useState } from 'react'
 import { Link } from 'react-router-dom'
 
 function CartPage({ cart, onUpdateQuantity, onRemove }) {
+  const [showSuccess, setShowSuccess] = useState(false);
   const subtotal = cart.reduce((sum, item) => sum + (item.price * (item.quantity || 1)), 0);
   const shipping = subtotal > 50 ? 0 : 5.99;
   const total = subtotal + shipping;
@@ -41,6 +43,10 @@ function CartPage({ cart, onUpdateQuantity, onRemove }) {
     // WhatsApp business number - replace with actual number
     const whatsappNumber = '263718125084'; // Replace with your WhatsApp business number
     const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${message}`;
+
+    // Show success message
+    setShowSuccess(true);
+    setTimeout(() => setShowSuccess(false), 5000);
 
     window.open(whatsappUrl, '_blank');
   };
@@ -122,6 +128,34 @@ function CartPage({ cart, onUpdateQuantity, onRemove }) {
       background: '#FAFAF8',
       minHeight: '100vh'
     }}>
+      {/* Success Notification */}
+      {showSuccess && (
+        <div style={{
+          position: 'fixed',
+          top: '100px',
+          left: '50%',
+          transform: 'translateX(-50%)',
+          background: '#25D366',
+          color: '#ffffff',
+          padding: 'clamp(1rem, 2.5vw, 1.5rem) clamp(2rem, 5vw, 3rem)',
+          borderRadius: '8px',
+          boxShadow: '0 8px 24px rgba(37, 211, 102, 0.4)',
+          zIndex: 1000,
+          fontFamily: "'Cormorant', serif",
+          fontSize: 'clamp(1.1rem, 2vw, 1.3rem)',
+          fontWeight: 500,
+          textAlign: 'center',
+          animation: 'slideIn 0.3s ease-out',
+          maxWidth: '90%'
+        }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', justifyContent: 'center' }}>
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+              <path d="M20 6L9 17l-5-5"/>
+            </svg>
+            <span>Order sent successfully! We'll contact you on WhatsApp shortly.</span>
+          </div>
+        </div>
+      )}
       <div style={{
         maxWidth: '1200px',
         margin: '0 auto',
