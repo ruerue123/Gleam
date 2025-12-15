@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 
-function CartPage({ cart, onUpdateQuantity, onRemove }) {
+function CartPage({ cart, onUpdateQuantity, onRemove, onClearCart }) {
   const [showSuccess, setShowSuccess] = useState(false);
   const subtotal = cart.reduce((sum, item) => sum + (item.price * (item.quantity || 1)), 0);
   const shipping = subtotal > 50 ? 0 : 5.99;
@@ -44,11 +44,19 @@ function CartPage({ cart, onUpdateQuantity, onRemove }) {
     const whatsappNumber = '263718125084'; // Replace with your WhatsApp business number
     const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${message}`;
 
-    // Show success message
-    setShowSuccess(true);
-    setTimeout(() => setShowSuccess(false), 5000);
-
+    // Open WhatsApp first
     window.open(whatsappUrl, '_blank');
+
+    // Clear the cart after checkout (with small delay to ensure WhatsApp opens first)
+    setTimeout(() => {
+      if (onClearCart) {
+        onClearCart();
+      }
+
+      // Show success message after clearing cart
+      setShowSuccess(true);
+      setTimeout(() => setShowSuccess(false), 5000);
+    }, 100);
   };
 
   if (cart.length === 0) {

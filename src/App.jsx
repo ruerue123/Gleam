@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
-import { AuthProvider } from './context/AuthContext'
+import { AuthProvider, useAuth } from './context/AuthContext'
 import Navbar from './components/Navbar'
 import Footer from './components/Footer'
 import CartNotification from './components/CartNotification'
@@ -17,20 +17,36 @@ import CartPage from './pages/CartPage'
 import FavouritesPage from './pages/FavouritesPage'
 import AdminDashboard from './pages/admin/AdminDashboard'
 
-function App() {
-  // Initialize cart from localStorage
+function AppContent() {
+  const { user } = useAuth();
+
+  // Get user-specific localStorage keys
+  const getStorageKey = (key) => {
+    return user ? `gleam_${key}_${user._id}` : `gleam_${key}_guest`;
+  };
+
+  // Initialize cart from user-specific localStorage
   const [cart, setCart] = useState(() => {
-    const saved = localStorage.getItem('gleam_cart');
+    const saved = localStorage.getItem(getStorageKey('cart'));
     return saved ? JSON.parse(saved) : [];
   });
 
-  // Initialize favourites from localStorage
+  // Initialize favourites from user-specific localStorage
   const [favourites, setFavourites] = useState(() => {
-    const saved = localStorage.getItem('gleam_favourites');
+    const saved = localStorage.getItem(getStorageKey('favourites'));
     return saved ? JSON.parse(saved) : [];
   });
 
   const [showNotification, setShowNotification] = useState(false);
+
+  // Load user-specific cart and favourites when user changes (login/logout)
+  useEffect(() => {
+    const savedCart = localStorage.getItem(getStorageKey('cart'));
+    const savedFavourites = localStorage.getItem(getStorageKey('favourites'));
+
+    setCart(savedCart ? JSON.parse(savedCart) : []);
+    setFavourites(savedFavourites ? JSON.parse(savedFavourites) : []);
+  }, [user]);
 
   const handleAddToCart = (product) => {
     setCart([...cart, product]);
@@ -52,39 +68,49 @@ function App() {
     setFavourites(favourites.filter((_, i) => i !== index));
   };
 
-  // Save cart to localStorage whenever it changes
-  useEffect(() => {
-    localStorage.setItem('gleam_cart', JSON.stringify(cart));
-  }, [cart]);
+  const handleClearCart = () => {
+    setCart([]);
+  };
 
-  // Save favourites to localStorage whenever they change
+  // Save cart to user-specific localStorage whenever it changes
   useEffect(() => {
-    localStorage.setItem('gleam_favourites', JSON.stringify(favourites));
-  }, [favourites]);
+    localStorage.setItem(getStorageKey('cart'), JSON.stringify(cart));
+  }, [cart, user]);
+
+  // Save favourites to user-specific localStorage whenever they change
+  useEffect(() => {
+    localStorage.setItem(getStorageKey('favourites'), JSON.stringify(favourites));
+  }, [favourites, user]);
 
   return (
+    <Router>
+      <div>
+        <Navbar cartCount={cart.length} favouritesCount={favourites.length} />
+        <CartNotification show={showNotification} />
+        <Routes>
+          <Route path="/" element={<HomePage onAddToCart={handleAddToCart} onAddToFavourites={handleAddToFavourites} favourites={favourites} />} />
+          <Route path="/collections" element={<CollectionsPage />} />
+          <Route path="/products" element={<ProductsPage onAddToCart={handleAddToCart} onAddToFavourites={handleAddToFavourites} favourites={favourites} />} />
+          <Route path="/product/:id" element={<ProductDetailPage onAddToCart={handleAddToCart} onAddToFavourites={handleAddToFavourites} favourites={favourites} />} />
+          <Route path="/collection/:slug" element={<CollectionDetailPage onAddToCart={handleAddToCart} onAddToFavourites={handleAddToFavourites} favourites={favourites} />} />
+          <Route path="/about" element={<AboutPage />} />
+          <Route path="/contact" element={<ContactPage />} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/profile" element={<ProfilePage />} />
+          <Route path="/cart" element={<CartPage cart={cart} onRemove={handleRemoveFromCart} onClearCart={handleClearCart} />} />
+          <Route path="/favourites" element={<FavouritesPage favourites={favourites} onRemove={handleRemoveFromFavourites} onAddToCart={handleAddToCart} />} />
+          <Route path="/admin" element={<AdminDashboard />} />
+        </Routes>
+        <Footer />
+      </div>
+    </Router>
+  )
+}
+
+function App() {
+  return (
     <AuthProvider>
-      <Router>
-        <div>
-          <Navbar cartCount={cart.length} favouritesCount={favourites.length} />
-          <CartNotification show={showNotification} />
-          <Routes>
-            <Route path="/" element={<HomePage onAddToCart={handleAddToCart} onAddToFavourites={handleAddToFavourites} favourites={favourites} />} />
-            <Route path="/collections" element={<CollectionsPage />} />
-            <Route path="/products" element={<ProductsPage onAddToCart={handleAddToCart} onAddToFavourites={handleAddToFavourites} favourites={favourites} />} />
-            <Route path="/product/:id" element={<ProductDetailPage onAddToCart={handleAddToCart} onAddToFavourites={handleAddToFavourites} favourites={favourites} />} />
-            <Route path="/collection/:slug" element={<CollectionDetailPage onAddToCart={handleAddToCart} onAddToFavourites={handleAddToFavourites} favourites={favourites} />} />
-            <Route path="/about" element={<AboutPage />} />
-            <Route path="/contact" element={<ContactPage />} />
-            <Route path="/login" element={<LoginPage />} />
-            <Route path="/profile" element={<ProfilePage />} />
-            <Route path="/cart" element={<CartPage cart={cart} onRemove={handleRemoveFromCart} />} />
-            <Route path="/favourites" element={<FavouritesPage favourites={favourites} onRemove={handleRemoveFromFavourites} onAddToCart={handleAddToCart} />} />
-            <Route path="/admin" element={<AdminDashboard />} />
-          </Routes>
-          <Footer />
-        </div>
-      </Router>
+      <AppContent />
     </AuthProvider>
   )
 }
