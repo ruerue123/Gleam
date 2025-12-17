@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 function ProfilePage() {
   return (
     <div style={{
-      paddingTop: 'clamp(90px, 10vw, 110px)',
+      paddingTop: 'clamp(110px, 12vw, 130px)',
       paddingBottom: 'clamp(4rem, 10vw, 8rem)',
       background: '#FAFAF8',
       minHeight: '100vh'
