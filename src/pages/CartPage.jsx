@@ -115,7 +115,7 @@ function CartPage({ cart, onUpdateQuantity, onRemove, onClearCart }) {
   if (cart.length === 0) {
     return (
       <div style={{
-        paddingTop: 'clamp(5rem, 10vw, 7rem)',
+        paddingTop: 'clamp(90px, 10vw, 110px)',
         paddingBottom: 'clamp(4rem, 10vw, 8rem)',
         background: '#FAFAF8',
         minHeight: '100vh',
@@ -184,7 +184,7 @@ function CartPage({ cart, onUpdateQuantity, onRemove, onClearCart }) {
 
   return (
     <div style={{
-      paddingTop: 'clamp(5rem, 10vw, 7rem)',
+      paddingTop: 'clamp(90px, 10vw, 110px)',
       paddingBottom: 'clamp(4rem, 10vw, 8rem)',
       background: '#FAFAF8',
       minHeight: '100vh'

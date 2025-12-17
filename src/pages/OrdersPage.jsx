@@ -57,7 +57,7 @@ function OrdersPage() {
   if (!user) {
     return (
       <div style={{
-        paddingTop: 'clamp(6rem, 12vw, 8rem)',
+        paddingTop: 'clamp(90px, 10vw, 110px)',
         paddingBottom: 'clamp(4rem, 10vw, 8rem)',
         textAlign: 'center'
       }}>
@@ -74,7 +74,7 @@ function OrdersPage() {
   if (loading) {
     return (
       <div style={{
-        paddingTop: 'clamp(6rem, 12vw, 8rem)',
+        paddingTop: 'clamp(90px, 10vw, 110px)',
         paddingBottom: 'clamp(4rem, 10vw, 8rem)',
         textAlign: 'center'
       }}>

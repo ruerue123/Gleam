@@ -38,7 +38,7 @@ function Collections() {
 
   return (
     <section id="collections" style={{
-      padding: 'clamp(4rem, 10vw, 8rem) 5%',
+      padding: 'clamp(2.5rem, 6vw, 8rem) 5%',
       maxWidth: '1400px',
       margin: '0 auto',
       background: '#ffffff'

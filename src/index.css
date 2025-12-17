@@ -6,12 +6,17 @@
   box-sizing: border-box;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   font-family: 'Cormorant', serif;
   background-color: #ffffff;
   color: #171515;
   line-height: 1.7;
   font-weight: 300;
+  overflow-x: hidden;
 }
 
 h1, h2, h3, h4 {

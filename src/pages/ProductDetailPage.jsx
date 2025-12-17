@@ -1,9 +1,8 @@
 import { useState, useEffect } from 'react';
-import { useParams, useNavigate, Link } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 
 function ProductDetailPage({ onAddToCart, onAddToFavourites, favourites = [] }) {
   const { id } = useParams();
-  const navigate = useNavigate();
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
   const [quantity, setQuantity] = useState(1);
@@ -55,7 +54,7 @@ function ProductDetailPage({ onAddToCart, onAddToFavourites, favourites = [] }) 
 
   if (loading) {
     return (
-      <div style={{ paddingTop: 'clamp(6rem, 12vw, 8rem)', paddingBottom: 'clamp(4rem, 10vw, 8rem)', textAlign: 'center' }}>
+      <div style={{ paddingTop: 'clamp(90px, 10vw, 110px)', paddingBottom: 'clamp(4rem, 10vw, 8rem)', textAlign: 'center' }}>
         <div style={{ fontFamily: "'Cormorant', serif", fontSize: '1.2rem', color: '#8B7355' }}>
           Loading product...
         </div>
@@ -65,7 +64,7 @@ function ProductDetailPage({ onAddToCart, onAddToFavourites, favourites = [] }) 
 
   if (!product) {
     return (
-      <div style={{ paddingTop: 'clamp(6rem, 12vw, 8rem)', paddingBottom: 'clamp(4rem, 10vw, 8rem)', textAlign: 'center' }}>
+      <div style={{ paddingTop: 'clamp(90px, 10vw, 110px)', paddingBottom: 'clamp(4rem, 10vw, 8rem)', textAlign: 'center' }}>
         <h1 style={{ fontFamily: "'Cardo', serif", fontSize: 'clamp(2rem, 4vw, 2.5rem)', marginBottom: '1rem' }}>
           Product Not Found
         </h1>
@@ -77,7 +76,7 @@ function ProductDetailPage({ onAddToCart, onAddToFavourites, favourites = [] }) 
   }
 
   return (
-    <div style={{ paddingTop: 'clamp(6rem, 12vw, 8rem)', paddingBottom: 'clamp(4rem, 10vw, 8rem)', background: '#FAFAF8' }}>
+    <div style={{ paddingTop: 'clamp(90px, 10vw, 110px)', paddingBottom: 'clamp(4rem, 10vw, 8rem)', background: '#FAFAF8' }}>
       <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 5%' }}>
         {/* Breadcrumb */}
         <div style={{ marginBottom: '2rem', fontFamily: "'Cormorant', serif", fontSize: '0.95rem', color: '#171515', opacity: 0.7 }}>

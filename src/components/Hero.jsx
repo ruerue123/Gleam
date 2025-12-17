@@ -1,7 +1,7 @@
 function Hero() {
   return (
     <section id="home" style={{
-      marginTop: 'clamp(70px, 12vw, 95px)',
+      marginTop: 'clamp(60px, 8vw, 95px)',
       minHeight: 'clamp(65vh, 80vh, 85vh)',
       backgroundImage: 'url(/images/Hero.png)',
       backgroundSize: 'cover',
