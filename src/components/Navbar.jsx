@@ -386,6 +386,22 @@ function Navbar({ cartCount, favouritesCount }) {
                 >
                   My Account
                 </Link>
+                <Link
+                  to="/orders"
+                  onClick={() => setIsMenuOpen(false)}
+                  style={{
+                    fontFamily: "'Cormorant', serif",
+                    fontSize: '1.4rem',
+                    color: '#171515',
+                    textDecoration: 'none',
+                    fontWeight: 400,
+                    transition: 'color 0.3s'
+                  }}
+                  onMouseEnter={(e) => e.currentTarget.style.color = '#8B7355'}
+                  onMouseLeave={(e) => e.currentTarget.style.color = '#171515'}
+                >
+                  My Orders
+                </Link>
                 {user.role === 'admin' && (
                   <Link
                     to="/admin"

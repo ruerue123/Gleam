@@ -28,32 +28,25 @@ const orderSchema = new mongoose.Schema({
     image: String
   }],
   shippingAddress: {
-    street: {
-      type: String,
-      required: true
-    },
-    city: {
-      type: String,
-      required: true
-    },
-    state: {
-      type: String,
-      required: true
-    },
-    zipCode: {
-      type: String,
-      required: true
-    },
+    street: String,
+    city: String,
+    state: String,
+    zipCode: String,
     country: {
       type: String,
-      required: true,
       default: 'Zimbabwe'
-    }
+    },
+    phone: String,
+    fullAddress: String
   },
   paymentMethod: {
     type: String,
     required: true,
-    default: 'stripe'
+    default: 'whatsapp'
+  },
+  orderNumber: {
+    type: String,
+    unique: true
   },
   paymentResult: {
     id: String,
@@ -100,6 +93,15 @@ const orderSchema = new mongoose.Schema({
   }
 }, {
   timestamps: true
+});
+
+// Generate order number before saving
+orderSchema.pre('save', async function(next) {
+  if (this.isNew && !this.orderNumber) {
+    const count = await mongoose.model('Order').countDocuments();
+    this.orderNumber = `GLEAM-${String(count + 1).padStart(6, '0')}`;
+  }
+  next();
 });
 
 const Order = mongoose.model('Order', orderSchema);

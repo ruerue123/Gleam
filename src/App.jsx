@@ -15,6 +15,7 @@ import LoginPage from './pages/LoginPage'
 import ProfilePage from './pages/ProfilePage'
 import CartPage from './pages/CartPage'
 import FavouritesPage from './pages/FavouritesPage'
+import OrdersPage from './pages/OrdersPage'
 import AdminDashboard from './pages/admin/AdminDashboard'
 
 function AppContent() {
@@ -99,6 +100,7 @@ function AppContent() {
           <Route path="/profile" element={<ProfilePage />} />
           <Route path="/cart" element={<CartPage cart={cart} onRemove={handleRemoveFromCart} onClearCart={handleClearCart} />} />
           <Route path="/favourites" element={<FavouritesPage favourites={favourites} onRemove={handleRemoveFromFavourites} onAddToCart={handleAddToCart} />} />
+          <Route path="/orders" element={<OrdersPage />} />
           <Route path="/admin" element={<AdminDashboard />} />
         </Routes>
         <Footer />
