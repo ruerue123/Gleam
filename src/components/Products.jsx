@@ -217,8 +217,9 @@ function Products({ onAddToCart, onAddToFavourites, favourites = [] }) {
               }}>
                 ${product.price.toFixed(2)}
               </div>
+            </div>
+              </Link>
 
-            </Link>
               <button
                 onClick={(e) => {
                   e.preventDefault();
