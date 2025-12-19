@@ -89,7 +89,7 @@ function AdminDashboard() {
       </div>
 
       {/* Main Content */}
-      <div style={{ flex: 1, padding: 'clamp(2rem, 4vw, 3rem)', paddingTop: 'clamp(130px, 14vw, 150px)' }}>
+      <div style={{ flex: 1, padding: 'clamp(2rem, 4vw, 3rem)', paddingTop: 'clamp(150px, 16vw, 180px)' }}>
         <div style={{ maxWidth: '1400px', margin: '0 auto' }}>
           {activeTab === 'stats' && <AdminStats />}
           {activeTab === 'products' && <AdminProducts />}

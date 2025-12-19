@@ -1,7 +1,7 @@
 function ContactPage() {
   return (
     <div style={{
-      paddingTop: 'clamp(130px, 14vw, 150px)',
+      paddingTop: 'clamp(150px, 16vw, 180px)',
       paddingBottom: 'clamp(4rem, 10vw, 8rem)',
       background: '#ffffff'
     }}>
