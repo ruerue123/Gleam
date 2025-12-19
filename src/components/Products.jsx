@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom'
+import { motion } from 'framer-motion'
 
 function Products({ onAddToCart, onAddToFavourites, favourites = [] }) {
   const products = [
@@ -111,21 +112,30 @@ function Products({ onAddToCart, onAddToFavourites, favourites = [] }) {
         gap: 'clamp(1.5rem, 3vw, 2.5rem)',
         marginTop: '3rem'
       }}>
-        {products.map((product) => {
+        {products.map((product, index) => {
           const isFavourite = favourites.some(fav => fav.id === product.id);
 
           return (
-            <div
+            <motion.div
               key={product.id}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-50px" }}
+              transition={{
+                duration: 0.6,
+                delay: index * 0.1,
+                ease: [0.25, 0.46, 0.45, 0.94]
+              }}
+              whileHover={{
+                y: -8,
+                transition: { duration: 0.3, ease: [0.34, 1.56, 0.64, 1] }
+              }}
               style={{
                 background: '#F6F1EB',
                 borderRadius: '20px',
                 overflow: 'hidden',
-                transition: 'transform 0.3s',
                 position: 'relative'
               }}
-              onMouseEnter={(e) => e.currentTarget.style.transform = 'translateY(-5px)'}
-              onMouseLeave={(e) => e.currentTarget.style.transform = 'translateY(0)'}
             >
               <Link to={`/product/${product.slug}`} style={{ textDecoration: 'none', color: 'inherit' }}>
                 <div style={{
@@ -141,12 +151,18 @@ function Products({ onAddToCart, onAddToFavourites, favourites = [] }) {
                   {product.emoji}
 
                   {/* Wishlist Button */}
-                  <button
+                  <motion.button
                     onClick={(e) => {
                       e.preventDefault();
                       e.stopPropagation();
                       onAddToFavourites(product);
                     }}
+                    whileHover={{ scale: 1.15 }}
+                    whileTap={{ scale: 0.95 }}
+                    animate={isFavourite ? {
+                      scale: [1, 1.2, 1],
+                      transition: { duration: 0.3 }
+                    } : {}}
                     style={{
                       position: 'absolute',
                       top: '1rem',
@@ -160,20 +176,14 @@ function Products({ onAddToCart, onAddToFavourites, favourites = [] }) {
                       alignItems: 'center',
                       justifyContent: 'center',
                       cursor: 'pointer',
-                      transition: 'all 0.3s',
+                      transition: 'background 0.3s',
                       boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)'
-                    }}
-                    onMouseEnter={(e) => {
-                      e.currentTarget.style.transform = 'scale(1.1)';
-                    }}
-                    onMouseLeave={(e) => {
-                      e.currentTarget.style.transform = 'scale(1)';
                     }}
                   >
                     <svg width="20" height="20" viewBox="0 0 24 24" fill={isFavourite ? "#ffffff" : "none"} stroke={isFavourite ? "#ffffff" : "#8B7355"} strokeWidth="2">
                       <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
                     </svg>
-                  </button>
+                  </motion.button>
                 </div>
 
             <div style={{ padding: 'clamp(1rem, 2vw, 1.5rem)' }}>
@@ -220,10 +230,19 @@ function Products({ onAddToCart, onAddToFavourites, favourites = [] }) {
             </div>
               </Link>
 
-              <button
+              <motion.button
                 onClick={(e) => {
                   e.preventDefault();
                   onAddToCart(product);
+                }}
+                whileHover={{
+                  scale: 1.02,
+                  backgroundColor: '#9C7A4E'
+                }}
+                whileTap={{ scale: 0.98 }}
+                transition={{
+                  duration: 0.2,
+                  ease: [0.4, 0.0, 0.2, 1]
                 }}
                 style={{
                   width: 'calc(100% - 3rem)',
@@ -236,21 +255,12 @@ function Products({ onAddToCart, onAddToFavourites, favourites = [] }) {
                   fontSize: 'clamp(0.85rem, 1.5vw, 0.9rem)',
                   letterSpacing: '0.5px',
                   cursor: 'pointer',
-                  transition: 'all 0.3s',
                   fontWeight: 400
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.background = '#9C7A4E';
-                  e.currentTarget.style.transform = 'translateY(-2px)';
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.background = '#111111';
-                  e.currentTarget.style.transform = 'translateY(0)';
                 }}
               >
                 Add to Cart
-              </button>
-            </div>
+              </motion.button>
+            </motion.div>
           );
         })}
       </div>
