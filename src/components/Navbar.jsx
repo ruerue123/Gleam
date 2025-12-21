@@ -145,15 +145,28 @@ function Navbar({ cartCount, favouritesCount }) {
                     transition: 'color 0.3s',
                     textDecoration: 'none',
                     display: 'flex',
-                    alignItems: 'center'
+                    alignItems: 'center',
+                    gap: '0.5rem'
                   }}
-                  onMouseEnter={(e) => e.currentTarget.style.color = hoverColor}
-                  onMouseLeave={(e) => e.currentTarget.style.color = iconColor}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.color = hoverColor;
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.color = iconColor;
+                  }}
                 >
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                     <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
                     <circle cx="12" cy="7" r="4"/>
                   </svg>
+                  <span style={{
+                    fontFamily: "'Cormorant', serif",
+                    fontSize: 'clamp(0.9rem, 1.6vw, 1rem)',
+                    fontWeight: 500,
+                    letterSpacing: '0.3px'
+                  }}>
+                    {user.name?.split(' ')[0] || 'Account'}
+                  </span>
                 </Link>
               ) : (
                 <>
