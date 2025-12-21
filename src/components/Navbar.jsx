@@ -7,6 +7,7 @@ function Navbar({ cartCount, favouritesCount }) {
   const navigate = useNavigate();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [isAccountDropdownOpen, setIsAccountDropdownOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -16,6 +17,18 @@ function Navbar({ cartCount, favouritesCount }) {
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  // Close account dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (isAccountDropdownOpen && !event.target.closest('[data-account-dropdown]')) {
+        setIsAccountDropdownOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, [isAccountDropdownOpen]);
 
   const iconColor = isScrolled ? '#171515' : '#EDECE4';
   const hoverColor = '#8B7355';
@@ -120,23 +133,110 @@ function Navbar({ cartCount, favouritesCount }) {
             alignItems: 'center',
             justifyContent: 'flex-end'
           }}>
-            <Link
-              to="/profile"
-              aria-label="Account"
-              style={{
-                color: iconColor,
-                fontSize: 'clamp(1.1rem, 2vw, 1.3rem)',
-                transition: 'color 0.3s',
-                textDecoration: 'none'
-              }}
-              onMouseEnter={(e) => e.currentTarget.style.color = hoverColor}
-              onMouseLeave={(e) => e.currentTarget.style.color = iconColor}
-            >
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
-                <circle cx="12" cy="7" r="4"/>
-              </svg>
-            </Link>
+            {/* Account Icon with Dropdown */}
+            <div style={{ position: 'relative' }} data-account-dropdown>
+              {user ? (
+                <Link
+                  to="/profile"
+                  aria-label="Account"
+                  style={{
+                    color: iconColor,
+                    fontSize: 'clamp(1.1rem, 2vw, 1.3rem)',
+                    transition: 'color 0.3s',
+                    textDecoration: 'none',
+                    display: 'flex',
+                    alignItems: 'center'
+                  }}
+                  onMouseEnter={(e) => e.currentTarget.style.color = hoverColor}
+                  onMouseLeave={(e) => e.currentTarget.style.color = iconColor}
+                >
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                    <circle cx="12" cy="7" r="4"/>
+                  </svg>
+                </Link>
+              ) : (
+                <>
+                  <button
+                    aria-label="Account"
+                    onClick={() => setIsAccountDropdownOpen(!isAccountDropdownOpen)}
+                    style={{
+                      background: 'none',
+                      border: 'none',
+                      color: iconColor,
+                      fontSize: 'clamp(1.1rem, 2vw, 1.3rem)',
+                      cursor: 'pointer',
+                      padding: 0,
+                      transition: 'color 0.3s',
+                      display: 'flex',
+                      alignItems: 'center'
+                    }}
+                    onMouseEnter={(e) => e.currentTarget.style.color = hoverColor}
+                    onMouseLeave={(e) => e.currentTarget.style.color = iconColor}
+                  >
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                      <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                      <circle cx="12" cy="7" r="4"/>
+                    </svg>
+                  </button>
+
+                  {/* Account Dropdown */}
+                  {isAccountDropdownOpen && (
+                    <div
+                      style={{
+                        position: 'absolute',
+                        top: 'calc(100% + 0.5rem)',
+                        right: 0,
+                        background: '#FAFAF8',
+                        border: '1px solid #EDECE4',
+                        borderRadius: '4px',
+                        boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
+                        padding: '0.5rem 0',
+                        minWidth: '150px',
+                        zIndex: 1002
+                      }}
+                    >
+                      <Link
+                        to="/login"
+                        onClick={() => setIsAccountDropdownOpen(false)}
+                        style={{
+                          display: 'block',
+                          padding: '0.7rem 1.2rem',
+                          fontFamily: "'Cormorant', serif",
+                          fontSize: '1rem',
+                          color: '#171515',
+                          textDecoration: 'none',
+                          transition: 'background 0.2s',
+                          background: 'transparent'
+                        }}
+                        onMouseEnter={(e) => e.currentTarget.style.background = '#EDECE4'}
+                        onMouseLeave={(e) => e.currentTarget.style.background = 'transparent'}
+                      >
+                        Sign In
+                      </Link>
+                      <Link
+                        to="/login?register=true"
+                        onClick={() => setIsAccountDropdownOpen(false)}
+                        style={{
+                          display: 'block',
+                          padding: '0.7rem 1.2rem',
+                          fontFamily: "'Cormorant', serif",
+                          fontSize: '1rem',
+                          color: '#171515',
+                          textDecoration: 'none',
+                          transition: 'background 0.2s',
+                          background: 'transparent'
+                        }}
+                        onMouseEnter={(e) => e.currentTarget.style.background = '#EDECE4'}
+                        onMouseLeave={(e) => e.currentTarget.style.background = 'transparent'}
+                      >
+                        Register
+                      </Link>
+                    </div>
+                  )}
+                </>
+              )}
+            </div>
 
             <Link
               to="/favourites"

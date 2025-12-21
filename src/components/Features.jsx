@@ -80,7 +80,7 @@ function Features() {
   return (
     <section style={{
       background: 'linear-gradient(to bottom, #FAFAF8 0%, #EDECE4 100%)',
-      padding: 'clamp(4rem, 10vw, 8rem) 5%'
+      padding: 'clamp(2rem, 4vw, 3rem) 5%'
     }}>
       <style>{scrollContainerStyle}</style>
       <div className="features-container" style={{
@@ -92,24 +92,28 @@ function Features() {
             key={feature.id}
             style={{
               textAlign: 'center',
-              padding: 'clamp(1.5rem, 3vw, 2rem)'
+              padding: 'clamp(0.8rem, 1.5vw, 1.2rem)'
             }}
           >
             {/* Icon */}
             <div style={{
               display: 'flex',
               justifyContent: 'center',
-              marginBottom: 'clamp(1.5rem, 3vw, 2rem)'
+              marginBottom: 'clamp(0.8rem, 1.5vw, 1.2rem)'
             }}>
-              {feature.icon}
+              <div style={{
+                transform: 'scale(0.75)'
+              }}>
+                {feature.icon}
+              </div>
             </div>
 
             {/* Title */}
             <h3 style={{
               fontFamily: "'Cardo', serif",
-              fontSize: 'clamp(1.3rem, 2.5vw, 1.5rem)',
+              fontSize: 'clamp(0.95rem, 1.8vw, 1.1rem)',
               fontWeight: 400,
-              marginBottom: 'clamp(1rem, 2vw, 1.3rem)',
+              marginBottom: 'clamp(0.5rem, 1vw, 0.7rem)',
               letterSpacing: '0.5px',
               color: '#171515',
               textTransform: 'uppercase',
@@ -121,12 +125,12 @@ function Features() {
             {/* Description */}
             <p style={{
               fontFamily: "'Cormorant', serif",
-              fontSize: 'clamp(1rem, 1.8vw, 1.1rem)',
-              lineHeight: 1.7,
+              fontSize: 'clamp(0.85rem, 1.4vw, 0.95rem)',
+              lineHeight: 1.6,
               color: '#171515',
-              opacity: 0.8,
+              opacity: 0.75,
               fontWeight: 300,
-              maxWidth: '400px',
+              maxWidth: '350px',
               margin: '0 auto'
             }}>
               {feature.description}
