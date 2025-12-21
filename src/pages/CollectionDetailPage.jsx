@@ -164,9 +164,22 @@ function CollectionDetailPage({ onAddToCart }) {
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              fontSize: '3rem'
+              fontSize: '3rem',
+              overflow: 'hidden'
             }}>
-              {product.emoji}
+              {product.images && product.images.length > 0 ? (
+                <img
+                  src={product.images[0]}
+                  alt={product.name}
+                  style={{
+                    width: '100%',
+                    height: '100%',
+                    objectFit: 'cover'
+                  }}
+                />
+              ) : (
+                <div>{product.emoji}</div>
+              )}
             </div>
 
             <div style={{ padding: '1.5rem' }}>

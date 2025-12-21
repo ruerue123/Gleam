@@ -62,7 +62,7 @@ function CartPage({ cart, onUpdateQuantity, onRemove, onClearCart }) {
         name: item.name,
         quantity: item.quantity,
         price: item.price,
-        image: item.emoji
+        image: (item.images && item.images.length > 0) ? item.images[0] : item.emoji
       }));
 
       const orderData = {
@@ -282,9 +282,22 @@ function CartPage({ cart, onUpdateQuantity, onRemove, onClearCart }) {
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  fontSize: '2rem'
+                  fontSize: '2rem',
+                  overflow: 'hidden'
                 }}>
-                  {item.emoji || '🕯️'}
+                  {item.images && item.images.length > 0 ? (
+                    <img
+                      src={item.images[0]}
+                      alt={item.name}
+                      style={{
+                        width: '100%',
+                        height: '100%',
+                        objectFit: 'cover'
+                      }}
+                    />
+                  ) : (
+                    <div>{item.emoji || '🕯️'}</div>
+                  )}
                 </div>
 
                 <div>

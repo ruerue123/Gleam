@@ -88,9 +88,22 @@ function ProductCard({ product, onAddToCart, onAddToFavourites, isFavourite = fa
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          fontSize: 'clamp(3rem, 6vw, 3.5rem)'
+          fontSize: 'clamp(3rem, 6vw, 3.5rem)',
+          overflow: 'hidden'
         }}>
-          {product.emoji || '🕯️'}
+          {product.images && product.images.length > 0 ? (
+            <img
+              src={product.images[0]}
+              alt={product.name}
+              style={{
+                width: '100%',
+                height: '100%',
+                objectFit: 'cover'
+              }}
+            />
+          ) : (
+            <div>{product.emoji || '🕯️'}</div>
+          )}
         </div>
 
         <div style={{ padding: 'clamp(1.5rem, 3vw, 2rem)' }}>

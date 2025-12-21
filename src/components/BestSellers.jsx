@@ -124,11 +124,23 @@ function BestSellers({ onAddToCart, onAddToFavourites, favourites = [] }) {
                 alignItems: 'center',
                 justifyContent: 'center'
               }}>
-                <div style={{
-                  fontSize: 'clamp(2.5rem, 5vw, 3rem)'
-                }}>
-                  {product.emoji || '🕯️'}
-                </div>
+                {product.images && product.images.length > 0 ? (
+                  <img
+                    src={product.images[0]}
+                    alt={product.name}
+                    style={{
+                      width: '100%',
+                      height: '100%',
+                      objectFit: 'cover'
+                    }}
+                  />
+                ) : (
+                  <div style={{
+                    fontSize: 'clamp(2.5rem, 5vw, 3rem)'
+                  }}>
+                    {product.emoji || '🕯️'}
+                  </div>
+                )}
 
                 {/* Wishlist Heart Button */}
                 <motion.button
@@ -468,9 +480,22 @@ function BestSellers({ onAddToCart, onAddToFavourites, favourites = [] }) {
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                fontSize: '4rem'
+                fontSize: '4rem',
+                overflow: 'hidden'
               }}>
-                {quickViewProduct.emoji || '🕯️'}
+                {quickViewProduct.images && quickViewProduct.images.length > 0 ? (
+                  <img
+                    src={quickViewProduct.images[0]}
+                    alt={quickViewProduct.name}
+                    style={{
+                      width: '100%',
+                      height: '100%',
+                      objectFit: 'cover'
+                    }}
+                  />
+                ) : (
+                  <div>{quickViewProduct.emoji || '🕯️'}</div>
+                )}
               </div>
 
               {/* Product Details */}

@@ -167,9 +167,22 @@ function Products({ onAddToCart, onAddToFavourites, favourites = [] }) {
                 alignItems: 'center',
                 justifyContent: 'center',
                 fontSize: 'clamp(2.5rem, 5vw, 3rem)',
-                position: 'relative'
+                position: 'relative',
+                overflow: 'hidden'
               }}>
-                {product.emoji}
+                {product.images && product.images.length > 0 ? (
+                  <img
+                    src={product.images[0]}
+                    alt={product.name}
+                    style={{
+                      width: '100%',
+                      height: '100%',
+                      objectFit: 'cover'
+                    }}
+                  />
+                ) : (
+                  <div>{product.emoji}</div>
+                )}
 
                 {/* Wishlist Button */}
                 <motion.button
@@ -411,9 +424,22 @@ function Products({ onAddToCart, onAddToFavourites, favourites = [] }) {
                 alignItems: 'center',
                 justifyContent: 'center',
                 fontSize: '4rem',
-                borderRadius: '4px'
+                borderRadius: '4px',
+                overflow: 'hidden'
               }}>
-                {quickViewProduct.emoji}
+                {quickViewProduct.images && quickViewProduct.images.length > 0 ? (
+                  <img
+                    src={quickViewProduct.images[0]}
+                    alt={quickViewProduct.name}
+                    style={{
+                      width: '100%',
+                      height: '100%',
+                      objectFit: 'cover'
+                    }}
+                  />
+                ) : (
+                  <div>{quickViewProduct.emoji}</div>
+                )}
               </div>
 
               <div>
