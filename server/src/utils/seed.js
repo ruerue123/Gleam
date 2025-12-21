@@ -19,8 +19,12 @@ const products = [
     burnTime: '45-50 hours',
     size: '8 oz',
     ingredients: ['Soy wax', 'Essential oils', 'Cotton wick'],
-    image: '/images/Petty/blocked-blessed.jpg',
-    images: ['/images/Petty/blocked-blessed.jpg'],
+    colors: ['Sage Green', 'Ivory'],
+    image: 'https://images.unsplash.com/photo-1602874801006-8e0659c4926d?w=800&q=80',
+    images: [
+      'https://images.unsplash.com/photo-1602874801006-8e0659c4926d?w=800&q=80',
+      'https://images.unsplash.com/photo-1603006905003-be475563bc59?w=800&q=80'
+    ],
     emoji: '🚫',
     stock: 50,
     featured: true
@@ -36,8 +40,12 @@ const products = [
     burnTime: '40-45 hours',
     size: '8 oz',
     ingredients: ['Soy wax', 'Essential oils', 'Cotton wick'],
-    image: '/images/Petty/unbothered.jpg',
-    images: ['/images/Petty/unbothered.jpg'],
+    colors: ['Lavender', 'Cream'],
+    image: 'https://images.unsplash.com/photo-1602874801283-6b2d20b8f69a?w=800&q=80',
+    images: [
+      'https://images.unsplash.com/photo-1602874801283-6b2d20b8f69a?w=800&q=80',
+      'https://images.unsplash.com/photo-1608571423902-eed4a5ad8108?w=800&q=80'
+    ],
     emoji: '😌',
     stock: 45,
     featured: false
@@ -55,8 +63,12 @@ const products = [
     burnTime: '50-55 hours',
     size: '8 oz',
     ingredients: ['Soy wax', 'Natural fragrances', 'Cotton wick'],
-    image: '/images/Soft/after-cry.jpg',
-    images: ['/images/Soft/after-cry.jpg'],
+    colors: ['Honey Gold', 'Soft White'],
+    image: 'https://images.unsplash.com/photo-1598511726623-d2e9996892f0?w=800&q=80',
+    images: [
+      'https://images.unsplash.com/photo-1598511726623-d2e9996892f0?w=800&q=80',
+      'https://images.unsplash.com/photo-1603006905003-be475563bc59?w=800&q=80'
+    ],
     emoji: '🤗',
     stock: 40,
     featured: true
@@ -72,8 +84,12 @@ const products = [
     burnTime: '45-50 hours',
     size: '8 oz',
     ingredients: ['Soy wax', 'Essential oils', 'Cotton wick'],
-    image: '/images/Soft/safe-space.jpg',
-    images: ['/images/Soft/safe-space.jpg'],
+    colors: ['Warm Beige', 'Ivory'],
+    image: 'https://images.unsplash.com/photo-1602874801034-4fc207e1d9cc?w=800&q=80',
+    images: [
+      'https://images.unsplash.com/photo-1602874801034-4fc207e1d9cc?w=800&q=80',
+      'https://images.unsplash.com/photo-1603006904222-5d5c8eedcb17?w=800&q=80'
+    ],
     emoji: '🏡',
     stock: 35,
     featured: false
@@ -91,8 +107,12 @@ const products = [
     burnTime: '45-50 hours',
     size: '8 oz',
     ingredients: ['Soy wax', 'Essential oils', 'Cotton wick'],
-    image: '/images/Mood/main-character.jpg',
-    images: ['/images/Mood/main-character.jpg'],
+    colors: ['Citrus Yellow', 'Fresh White'],
+    image: 'https://images.unsplash.com/photo-1603006905003-be475563bc59?w=800&q=80',
+    images: [
+      'https://images.unsplash.com/photo-1603006905003-be475563bc59?w=800&q=80',
+      'https://images.unsplash.com/photo-1602874801283-6b2d20b8f69a?w=800&q=80'
+    ],
     emoji: '✨',
     stock: 42,
     featured: true
@@ -108,8 +128,12 @@ const products = [
     burnTime: '40-45 hours',
     size: '8 oz',
     ingredients: ['Soy wax', 'Essential oils', 'Cotton wick'],
-    image: '/images/Mood/fresh-start.jpg',
-    images: ['/images/Mood/fresh-start.jpg'],
+    colors: ['Mint Green', 'Pure White'],
+    image: 'https://images.unsplash.com/photo-1603006904222-5d5c8eedcb17?w=800&q=80',
+    images: [
+      'https://images.unsplash.com/photo-1603006904222-5d5c8eedcb17?w=800&q=80',
+      'https://images.unsplash.com/photo-1608571423902-eed4a5ad8108?w=800&q=80'
+    ],
     emoji: '🌱',
     stock: 38,
     featured: false
@@ -127,8 +151,12 @@ const products = [
     burnTime: '60-65 hours',
     size: '10 oz',
     ingredients: ['Premium soy blend', 'Fine fragrances', 'Wooden wick'],
-    image: '/images/Luxe/golden-hour.jpg',
-    images: ['/images/Luxe/golden-hour.jpg'],
+    colors: ['Gold', 'Amber'],
+    image: 'https://images.unsplash.com/photo-1602874801006-8e0659c4926d?w=800&q=80',
+    images: [
+      'https://images.unsplash.com/photo-1602874801006-8e0659c4926d?w=800&q=80',
+      'https://images.unsplash.com/photo-1598511726623-d2e9996892f0?w=800&q=80'
+    ],
     emoji: '🌅',
     stock: 30,
     featured: true
@@ -144,8 +172,12 @@ const products = [
     burnTime: '60-65 hours',
     size: '10 oz',
     ingredients: ['Premium soy blend', 'Fine fragrances', 'Wooden wick'],
-    image: '/images/Luxe/royal-treatment.jpg',
-    images: ['/images/Luxe/royal-treatment.jpg'],
+    colors: ['Rose Gold', 'Champagne'],
+    image: 'https://images.unsplash.com/photo-1602874801034-4fc207e1d9cc?w=800&q=80',
+    images: [
+      'https://images.unsplash.com/photo-1602874801034-4fc207e1d9cc?w=800&q=80',
+      'https://images.unsplash.com/photo-1602874801006-8e0659c4926d?w=800&q=80'
+    ],
     emoji: '👑',
     stock: 25,
     featured: false
