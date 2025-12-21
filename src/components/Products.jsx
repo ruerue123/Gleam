@@ -4,6 +4,15 @@ import { useState } from 'react'
 
 function Products({ onAddToCart, onAddToFavourites, favourites = [] }) {
   const [quickViewProduct, setQuickViewProduct] = useState(null);
+
+  // Collection name to slug mapping
+  const collectionSlugMap = {
+    'Petty Collection': 'petty-collection',
+    'Soft Feelings': 'soft-feelings',
+    'Mood Collection': 'mood-collection',
+    'Luxe Gleam': 'luxe-gleam'
+  };
+
   const products = [
     {
       id: 1,
@@ -210,7 +219,7 @@ function Products({ onAddToCart, onAddToFavourites, favourites = [] }) {
               }}>
                 {/* Collection Link */}
                 <Link
-                  to={`/collection/${product.slug.split('-')[0]}-collection`}
+                  to={`/collection/${collectionSlugMap[product.collection]}`}
                   style={{
                     fontSize: 'clamp(0.7rem, 1.2vw, 0.75rem)',
                     textTransform: 'uppercase',

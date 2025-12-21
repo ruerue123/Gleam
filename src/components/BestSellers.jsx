@@ -5,6 +5,14 @@ import { useState } from 'react'
 function BestSellers({ onAddToCart, onAddToFavourites, favourites = [] }) {
   const [quickViewProduct, setQuickViewProduct] = useState(null);
 
+  // Collection name to slug mapping
+  const collectionSlugMap = {
+    'Petty Collection': 'petty-collection',
+    'Soft Feelings': 'soft-feelings',
+    'Mood Collection': 'mood-collection',
+    'Luxe Gleam': 'luxe-gleam'
+  };
+
   const bestSellers = [
     {
       id: 1,
@@ -84,7 +92,6 @@ function BestSellers({ onAddToCart, onAddToFavourites, favourites = [] }) {
       }}>
         {bestSellers.map((product) => {
           const isFavourite = favourites.some(fav => fav.id === product.id);
-          const collectionSlug = product.slug.split('-')[0] + '-collection';
 
           return (
             <motion.div
@@ -175,7 +182,7 @@ function BestSellers({ onAddToCart, onAddToFavourites, favourites = [] }) {
               }}>
                 {/* Collection Link */}
                 <Link
-                  to={`/collection/${collectionSlug}`}
+                  to={`/collection/${collectionSlugMap[product.collection]}`}
                   onClick={(e) => e.stopPropagation()}
                   style={{
                     fontSize: 'clamp(0.75rem, 1.3vw, 0.8rem)',
