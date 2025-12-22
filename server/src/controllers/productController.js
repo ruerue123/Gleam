@@ -5,13 +5,17 @@ import Product from '../models/Product.js';
 // @access  Public
 export const getProducts = async (req, res) => {
   try {
-    const { collection, search, featured } = req.query;
+    const { collection, search, featured, limit } = req.query;
 
     let query = { isActive: true };
 
-    // Filter by collection
+    // Filter by collection (accept both collection name and slug)
     if (collection) {
-      query.collectionSlug = collection;
+      // Check if it's a collection name or slug
+      query.$or = [
+        { collection: collection },
+        { collectionSlug: collection }
+      ];
     }
 
     // Filter by featured
@@ -24,7 +28,14 @@ export const getProducts = async (req, res) => {
       query.$text = { $search: search };
     }
 
-    const products = await Product.find(query);
+    let productsQuery = Product.find(query);
+
+    // Apply limit if specified
+    if (limit) {
+      productsQuery = productsQuery.limit(parseInt(limit));
+    }
+
+    const products = await productsQuery;
 
     res.json({
       success: true,
@@ -37,11 +48,21 @@ export const getProducts = async (req, res) => {
 };
 
 // @desc    Get single product
-// @route   GET /api/products/:slug
+// @route   GET /api/products/:id (accepts both slug and MongoDB ObjectId)
 // @access  Public
 export const getProductBySlug = async (req, res) => {
   try {
-    const product = await Product.findOne({ slug: req.params.slug, isActive: true });
+    const { id } = req.params;
+    let product;
+
+    // Check if it's a valid MongoDB ObjectId
+    if (id.match(/^[0-9a-fA-F]{24}$/)) {
+      // It's an ObjectId, search by _id
+      product = await Product.findById(id);
+    } else {
+      // It's a slug, search by slug
+      product = await Product.findOne({ slug: id, isActive: true });
+    }
 
     if (product) {
       res.json({

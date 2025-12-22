@@ -17,10 +17,8 @@ router.route('/')
 
 router.get('/collection/:slug', getProductsByCollection);
 
-router.route('/:slug')
-  .get(getProductBySlug);
-
-router.route('/admin/:id')
+router.route('/:id')
+  .get(getProductBySlug)
   .put(protect, admin, updateProduct)
   .delete(protect, admin, deleteProduct);
 
