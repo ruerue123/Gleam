@@ -96,30 +96,30 @@ function BestSellers({ onAddToCart, onAddToFavourites, favourites = [] }) {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.4 }}
-              whileHover={{ y: -6 }}
               style={{
-                background: '#FAFAF8',
-                borderRadius: '4px',
+                background: '#F6F1EB',
+                borderRadius: '20px',
                 overflow: 'hidden',
                 position: 'relative',
-                border: '1px solid #EDECE4',
-                boxShadow: '0 2px 8px rgba(0, 0, 0, 0.04)',
-                transition: 'all 0.3s ease',
+                transition: 'transform 0.3s ease',
                 display: 'flex',
                 flexDirection: 'column',
                 height: '100%'
               }}
+              onMouseEnter={(e) => e.currentTarget.style.transform = 'translateY(-5px)'}
+              onMouseLeave={(e) => e.currentTarget.style.transform = 'translateY(0)'}
             >
               {/* Product Image with Wishlist Button */}
               <div style={{
                 width: '100%',
-                height: 'clamp(180px, 30vw, 240px)',
+                height: '320px',
                 position: 'relative',
                 overflow: 'hidden',
-                background: 'linear-gradient(to bottom, #EDECE4 0%, #D8D6CE 100%)',
+                background: '#CFC7BE',
                 display: 'flex',
                 alignItems: 'center',
-                justifyContent: 'center'
+                justifyContent: 'center',
+                fontSize: '3rem'
               }}>
                 {product.images && product.images.length > 0 ? (
                   <img
@@ -183,172 +183,64 @@ function BestSellers({ onAddToCart, onAddToFavourites, favourites = [] }) {
 
               {/* Product Details */}
               <div style={{
-                padding: 'clamp(1.2rem, 2.5vw, 1.6rem)',
-                textAlign: 'center',
-                background: '#ffffff',
-                flex: 1,
-                display: 'flex',
-                flexDirection: 'column'
+                padding: '1.5rem'
               }}>
-                {/* Collection Link */}
-                <Link
-                  to={`/collection/${collectionSlugMap[product.collection]}`}
-                  onClick={(e) => e.stopPropagation()}
-                  style={{
-                    fontSize: 'clamp(0.75rem, 1.3vw, 0.8rem)',
-                    fontFamily: "'Cormorant', serif",
-                    textTransform: 'uppercase',
-                    letterSpacing: '1.2px',
-                    color: '#8B7355',
-                    marginBottom: '0.5rem',
-                    fontWeight: 500,
-                    textDecoration: 'none',
-                    transition: 'opacity 0.2s ease'
-                  }}
-                  onMouseEnter={(e) => e.currentTarget.style.opacity = '0.7'}
-                  onMouseLeave={(e) => e.currentTarget.style.opacity = '1'}
-                >
-                  {product.collection}
-                </Link>
+                <h3 style={{
+                  fontFamily: "'Raleway', sans-serif",
+                  fontSize: 'clamp(1.2rem, 2vw, 1.5rem)',
+                  fontWeight: 400,
+                  marginBottom: '0.5rem',
+                  letterSpacing: '0.5px'
+                }}>
+                  {product.name}
+                </h3>
 
-                {/* Product Name Link */}
-                <Link
-                  to={`/product/${product.slug}`}
-                  onClick={(e) => e.stopPropagation()}
-                  style={{
-                    textDecoration: 'none',
-                    color: 'inherit'
-                  }}
-                >
-                  <h3 style={{
-                    fontFamily: "'Cardo', serif",
-                    fontSize: 'clamp(1.1rem, 2.2vw, 1.3rem)',
-                    fontWeight: 400,
-                    marginBottom: 'clamp(0.4rem, 0.8vw, 0.6rem)',
-                    letterSpacing: '0.3px',
-                    color: '#171515',
-                    transition: 'color 0.2s ease'
-                  }}
-                  onMouseEnter={(e) => e.currentTarget.style.color = '#8B7355'}
-                  onMouseLeave={(e) => e.currentTarget.style.color = '#171515'}
-                  >
-                    {product.name}
-                  </h3>
-                </Link>
-
-                {/* Description */}
                 <p style={{
-                  fontFamily: "'Cormorant', serif",
-                  fontSize: 'clamp(0.85rem, 1.4vw, 0.95rem)',
-                  color: '#171515',
-                  opacity: 0.7,
+                  fontSize: 'clamp(0.85rem, 1.5vw, 0.9rem)',
+                  fontStyle: 'italic',
+                  opacity: 0.6,
+                  marginBottom: '1rem',
                   lineHeight: 1.5,
-                  fontWeight: 300,
-                  marginBottom: 'clamp(0.6rem, 1.2vw, 0.8rem)',
-                  fontStyle: 'italic'
+                  fontWeight: 300
                 }}>
                   {product.description}
                 </p>
 
-                {/* Price */}
                 <div style={{
-                  fontFamily: "'Cardo', serif",
-                  fontSize: 'clamp(1rem, 2vw, 1.2rem)',
+                  fontFamily: "'Raleway', sans-serif",
+                  fontSize: 'clamp(1rem, 2vw, 1.1rem)',
                   fontWeight: 500,
-                  marginBottom: 'clamp(0.8rem, 1.5vw, 1rem)',
-                  color: '#171515'
+                  marginBottom: '1rem'
                 }}>
                   ${product.price.toFixed(2)}
                 </div>
 
-                {/* Action Buttons */}
-                <div style={{
-                  marginTop: 'auto',
-                  display: 'flex',
-                  gap: '0.6rem'
-                }}>
-                  {/* Add to Cart Button */}
-                  <motion.button
-                    onClick={(e) => {
-                      e.preventDefault();
-                      e.stopPropagation();
-                      onAddToCart(product);
-                    }}
-                    whileHover={{ y: -2 }}
-                    whileTap={{ scale: 0.98 }}
-                    style={{
-                      flex: 1,
-                      padding: 'clamp(0.7rem, 1.5vw, 0.85rem)',
-                      background: '#8B7355',
-                      color: '#ffffff',
-                      border: '1px solid #8B7355',
-                      borderRadius: '2px',
-                      fontSize: 'clamp(0.85rem, 1.4vw, 0.9rem)',
-                      fontFamily: "'Cormorant', serif",
-                      fontWeight: 500,
-                      letterSpacing: '0.5px',
-                      cursor: 'pointer',
-                      transition: 'all 0.3s ease'
-                    }}
-                    onMouseEnter={(e) => {
-                      e.currentTarget.style.background = '#6F5943';
-                      e.currentTarget.style.borderColor = '#6F5943';
-                      e.currentTarget.style.boxShadow = '0 4px 12px rgba(139, 115, 85, 0.3)';
-                    }}
-                    onMouseLeave={(e) => {
-                      e.currentTarget.style.background = '#8B7355';
-                      e.currentTarget.style.borderColor = '#8B7355';
-                      e.currentTarget.style.boxShadow = 'none';
-                    }}
-                  >
-                    Add to Cart
-                  </motion.button>
-
-                  {/* Quick View Button */}
-                  <motion.button
-                    onClick={(e) => {
-                      e.preventDefault();
-                      e.stopPropagation();
-                      setQuickViewProduct(product);
-                    }}
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                    style={{
-                      padding: 'clamp(0.7rem, 1.5vw, 0.85rem)',
-                      background: 'transparent',
-                      color: '#8B7355',
-                      border: '1px solid #8B7355',
-                      borderRadius: '2px',
-                      width: '44px',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      cursor: 'pointer',
-                      transition: 'all 0.3s ease'
-                    }}
-                    onMouseEnter={(e) => {
-                      e.currentTarget.style.background = '#8B7355';
-                      e.currentTarget.style.color = '#ffffff';
-                    }}
-                    onMouseLeave={(e) => {
-                      e.currentTarget.style.background = 'transparent';
-                      e.currentTarget.style.color = '#8B7355';
-                    }}
-                    aria-label="Quick View"
-                  >
-                    <svg
-                      width="18"
-                      height="18"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                    >
-                      <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
-                      <circle cx="12" cy="12" r="3"/>
-                    </svg>
-                  </motion.button>
-                </div>
+                <button
+                  onClick={() => onAddToCart(product)}
+                  style={{
+                    width: '100%',
+                    padding: '0.9rem',
+                    background: '#111111',
+                    color: '#F6F1EB',
+                    border: 'none',
+                    borderRadius: '50px',
+                    fontSize: 'clamp(0.85rem, 1.5vw, 0.9rem)',
+                    letterSpacing: '0.5px',
+                    cursor: 'pointer',
+                    transition: 'all 0.3s',
+                    fontWeight: 400
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.background = '#9C7A4E';
+                    e.currentTarget.style.transform = 'translateY(-2px)';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.background = '#111111';
+                    e.currentTarget.style.transform = 'translateY(0)';
+                  }}
+                >
+                  Add to Cart
+                </button>
               </div>
             </motion.div>
           );
