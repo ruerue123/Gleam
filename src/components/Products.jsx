@@ -1,9 +1,13 @@
 import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
-import { useState } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 
 function Products({ onAddToCart, onAddToFavourites, favourites = [] }) {
   const [quickViewProduct, setQuickViewProduct] = useState(null);
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
 
   // Collection name to slug mapping
   const collectionSlugMap = {
@@ -13,80 +17,37 @@ function Products({ onAddToCart, onAddToFavourites, favourites = [] }) {
     'Luxe Gleam': 'luxe-gleam'
   };
 
-  const products = [
-    {
-      id: 1,
-      name: 'Blocked & Blessed',
-      slug: 'blocked-and-blessed',
-      collection: 'Petty Collection',
-      description: 'For the nights when you miss them... but not enough to text.',
-      price: 15.00,
-      emoji: '🕯️'
-    },
-    {
-      id: 2,
-      name: 'After the Cry',
-      slug: 'after-the-cry',
-      collection: 'Soft Feelings',
-      description: 'Warm. Safe. The scent of healing after letting it all out.',
-      price: 15.00,
-      emoji: '🕯️'
-    },
-    {
-      id: 3,
-      name: 'Unbothered',
-      slug: 'unbothered',
-      collection: 'Mood Collection',
-      description: 'Fresh boundaries. High standards. That\'s the mood.',
-      price: 15.00,
-      emoji: '🕯️'
-    },
-    {
-      id: 4,
-      name: 'Velvet Smoke',
-      slug: 'velvet-smoke',
-      collection: 'Luxe Gleam',
-      description: 'Quiet opulence. For those who move in silence.',
-      price: 28.00,
-      emoji: '🕯️'
-    },
-    {
-      id: 5,
-      name: 'I\'m Healed (Mostly)',
-      slug: 'im-healed-mostly',
-      collection: 'Petty Collection',
-      description: 'Growth looks good on you. Even if it\'s still a work in progress.',
-      price: 15.00,
-      emoji: '🕯️'
-    },
-    {
-      id: 6,
-      name: 'Warm Milk & Honey',
-      slug: 'warm-milk-and-honey',
-      collection: 'Soft Feelings',
-      description: 'Comfort in a candle. Like a hug that smells delicious.',
-      price: 15.00,
-      emoji: '🕯️'
-    },
-    {
-      id: 7,
-      name: 'The Reset',
-      slug: 'the-reset',
-      collection: 'Mood Collection',
-      description: 'New chapter. New energy. Same you, better boundaries.',
-      price: 15.00,
-      emoji: '🕯️'
-    },
-    {
-      id: 8,
-      name: 'Quiet Opulence',
-      slug: 'quiet-opulence',
-      collection: 'Luxe Gleam',
-      description: 'Wealth whispers. This is the scent of knowing your worth.',
-      price: 28.00,
-      emoji: '🕯️'
+  const fetchProducts = useCallback(async () => {
+    try {
+      const response = await fetch(`${API_URL}/api/products`);
+      const data = await response.json();
+      if (data.success) {
+        setProducts(data.data);
+      }
+    } catch (error) {
+      console.error('Error fetching products:', error);
+    } finally {
+      setLoading(false);
     }
-  ];
+  }, [API_URL]);
+
+  useEffect(() => {
+    fetchProducts();
+  }, [fetchProducts]);
+
+  if (loading) {
+    return (
+      <section id="shop" style={{
+        background: 'white',
+        padding: 'clamp(3rem, 8vw, 6rem) 5%',
+        textAlign: 'center'
+      }}>
+        <p style={{ fontFamily: "'Cormorant', serif", fontSize: '1.2rem', color: '#8B7355' }}>
+          Loading products...
+        </p>
+      </section>
+    );
+  }
 
   return (
     <section id="shop" style={{
@@ -124,11 +85,11 @@ function Products({ onAddToCart, onAddToFavourites, favourites = [] }) {
         marginTop: '3rem'
       }}>
         {products.map((product, index) => {
-          const isFavourite = favourites.some(fav => fav.id === product.id);
+          const isFavourite = favourites.some(fav => (fav.id || fav._id) === (product.id || product._id));
 
           return (
             <motion.div
-              key={product.id}
+              key={product._id || product.id}
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-50px" }}

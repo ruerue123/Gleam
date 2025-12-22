@@ -1,9 +1,13 @@
 import { Link } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 
 function BestSellers({ onAddToCart, onAddToFavourites, favourites = [] }) {
   const [quickViewProduct, setQuickViewProduct] = useState(null);
+  const [bestSellers, setBestSellers] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
 
   // Collection name to slug mapping
   const collectionSlugMap = {
@@ -13,44 +17,37 @@ function BestSellers({ onAddToCart, onAddToFavourites, favourites = [] }) {
     'Luxe Gleam': 'luxe-gleam'
   };
 
-  const bestSellers = [
-    {
-      id: 1,
-      slug: 'blocked-and-blessed',
-      name: 'Blocked & Blessed',
-      collection: 'Petty Collection',
-      description: 'For the nights when you miss them... but not enough to text.',
-      price: 15.00,
-      emoji: '🕯️'
-    },
-    {
-      id: 3,
-      slug: 'unbothered',
-      name: 'Unbothered',
-      collection: 'Mood Collection',
-      description: 'Fresh boundaries. High standards. That\'s the mood.',
-      price: 15.00,
-      emoji: '🕯️'
-    },
-    {
-      id: 4,
-      slug: 'velvet-smoke',
-      name: 'Velvet Smoke',
-      collection: 'Luxe Gleam',
-      description: 'Quiet opulence. For those who move in silence.',
-      price: 28.00,
-      emoji: '🕯️'
-    },
-    {
-      id: 2,
-      slug: 'after-the-cry',
-      name: 'After the Cry',
-      collection: 'Soft Feelings',
-      description: 'Warm. Safe. The scent of healing after letting it all out.',
-      price: 15.00,
-      emoji: '🕯️'
+  useEffect(() => {
+    fetchBestSellers();
+  }, []);
+
+  const fetchBestSellers = async () => {
+    try {
+      const response = await fetch(`${API_URL}/api/products?featured=true&limit=4`);
+      const data = await response.json();
+      if (data.success) {
+        setBestSellers(data.data);
+      }
+    } catch (error) {
+      console.error('Error fetching bestsellers:', error);
+    } finally {
+      setLoading(false);
     }
-  ];
+  };
+
+  if (loading) {
+    return (
+      <section style={{
+        background: '#FAFAF8',
+        padding: 'clamp(4rem, 10vw, 8rem) 5%',
+        textAlign: 'center'
+      }}>
+        <p style={{ fontFamily: "'Cormorant', serif", fontSize: '1.2rem', color: '#8B7355' }}>
+          Loading bestsellers...
+        </p>
+      </section>
+    );
+  }
 
   return (
     <section style={{
@@ -91,11 +88,11 @@ function BestSellers({ onAddToCart, onAddToFavourites, favourites = [] }) {
         marginTop: '3rem'
       }}>
         {bestSellers.map((product) => {
-          const isFavourite = favourites.some(fav => fav.id === product.id);
+          const isFavourite = favourites.some(fav => (fav.id || fav._id) === (product.id || product._id));
 
           return (
             <motion.div
-              key={product.id}
+              key={product._id || product.id}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.4 }}
