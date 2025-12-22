@@ -98,7 +98,8 @@ function ProductCard({ product, onAddToCart, onAddToFavourites, isFavourite = fa
               style={{
                 width: '100%',
                 height: '100%',
-                objectFit: 'cover'
+                objectFit: 'contain',
+                objectPosition: 'center'
               }}
             />
           ) : (

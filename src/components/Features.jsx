@@ -80,7 +80,7 @@ function Features() {
   return (
     <section style={{
       background: 'linear-gradient(to bottom, #FAFAF8 0%, #EDECE4 100%)',
-      padding: 'clamp(2rem, 4vw, 3rem) 5%'
+      padding: 'clamp(1.5rem, 3vw, 2.5rem) 5%'
     }}>
       <style>{scrollContainerStyle}</style>
       <div className="features-container" style={{
