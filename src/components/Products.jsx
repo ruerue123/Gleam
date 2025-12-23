@@ -4,6 +4,7 @@ import { useState, useEffect, useCallback } from 'react'
 
 function Products({ onAddToCart, onAddToFavourites, favourites = [] }) {
   const [quickViewProduct, setQuickViewProduct] = useState(null);
+  const [selectedImageIndex, setSelectedImageIndex] = useState(0);
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [selectedCollection, setSelectedCollection] = useState('All Products');
@@ -325,7 +326,10 @@ function Products({ onAddToCart, onAddToFavourites, favourites = [] }) {
                   </button>
 
                   <button
-                    onClick={() => setQuickViewProduct(product)}
+                    onClick={() => {
+                      setQuickViewProduct(product);
+                      setSelectedImageIndex(0);
+                    }}
                     style={{
                       padding: '0.9rem',
                       background: 'transparent',
@@ -365,7 +369,10 @@ function Products({ onAddToCart, onAddToFavourites, favourites = [] }) {
       {/* Quick View Modal */}
       {quickViewProduct && (
         <div
-          onClick={() => setQuickViewProduct(null)}
+          onClick={() => {
+            setQuickViewProduct(null);
+            setSelectedImageIndex(0);
+          }}
           style={{
             position: 'fixed',
             top: 0,
@@ -395,7 +402,10 @@ function Products({ onAddToCart, onAddToFavourites, favourites = [] }) {
             }}
           >
             <button
-              onClick={() => setQuickViewProduct(null)}
+              onClick={() => {
+                setQuickViewProduct(null);
+                setSelectedImageIndex(0);
+              }}
               style={{
                 position: 'absolute',
                 top: '1rem',
@@ -424,30 +434,84 @@ function Products({ onAddToCart, onAddToFavourites, favourites = [] }) {
               gap: '2rem',
               padding: '2rem'
             }}>
-              <div style={{
-                width: '100%',
-                height: '300px',
-                background: '#CFC7BE',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                fontSize: '4rem',
-                borderRadius: '4px',
-                overflow: 'hidden'
-              }}>
-                {quickViewProduct.images && quickViewProduct.images.length > 0 ? (
-                  <img
-                    src={quickViewProduct.images[0]}
-                    alt={quickViewProduct.name}
-                    style={{
-                      width: '100%',
-                      height: '100%',
-                      objectFit: 'contain',
-                      objectPosition: 'center'
-                    }}
-                  />
-                ) : (
-                  <div>{quickViewProduct.emoji}</div>
+              <div>
+                {/* Main Image */}
+                <div style={{
+                  width: '100%',
+                  height: '350px',
+                  background: '#CFC7BE',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  fontSize: '4rem',
+                  borderRadius: '4px',
+                  overflow: 'hidden',
+                  marginBottom: '1rem'
+                }}>
+                  {quickViewProduct.images && quickViewProduct.images.length > 0 ? (
+                    <img
+                      src={quickViewProduct.images[selectedImageIndex]}
+                      alt={quickViewProduct.name}
+                      style={{
+                        width: '100%',
+                        height: '100%',
+                        objectFit: 'cover',
+                        objectPosition: 'center'
+                      }}
+                    />
+                  ) : (
+                    <div>{quickViewProduct.emoji}</div>
+                  )}
+                </div>
+
+                {/* Image Thumbnails */}
+                {quickViewProduct.images && quickViewProduct.images.length > 1 && (
+                  <div style={{
+                    display: 'flex',
+                    gap: '0.5rem',
+                    overflowX: 'auto',
+                    padding: '0.5rem 0'
+                  }}>
+                    {quickViewProduct.images.map((image, idx) => (
+                      <button
+                        key={idx}
+                        onClick={() => setSelectedImageIndex(idx)}
+                        style={{
+                          width: '70px',
+                          height: '70px',
+                          padding: 0,
+                          border: idx === selectedImageIndex ? '2px solid #8B7355' : '2px solid transparent',
+                          borderRadius: '4px',
+                          overflow: 'hidden',
+                          cursor: 'pointer',
+                          flexShrink: 0,
+                          background: '#CFC7BE',
+                          transition: 'all 0.2s'
+                        }}
+                        onMouseEnter={(e) => {
+                          if (idx !== selectedImageIndex) {
+                            e.currentTarget.style.borderColor = '#D3C4B4';
+                          }
+                        }}
+                        onMouseLeave={(e) => {
+                          if (idx !== selectedImageIndex) {
+                            e.currentTarget.style.borderColor = 'transparent';
+                          }
+                        }}
+                      >
+                        <img
+                          src={image}
+                          alt={`${quickViewProduct.name} view ${idx + 1}`}
+                          style={{
+                            width: '100%',
+                            height: '100%',
+                            objectFit: 'cover',
+                            objectPosition: 'center'
+                          }}
+                        />
+                      </button>
+                    ))}
+                  </div>
                 )}
               </div>
 

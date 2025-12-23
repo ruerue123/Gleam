@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react'
 
 function BestSellers({ onAddToCart, onAddToFavourites, favourites = [] }) {
   const [quickViewProduct, setQuickViewProduct] = useState(null);
+  const [selectedImageIndex, setSelectedImageIndex] = useState(0);
   const [bestSellers, setBestSellers] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -252,7 +253,10 @@ function BestSellers({ onAddToCart, onAddToFavourites, favourites = [] }) {
                   </button>
 
                   <button
-                    onClick={() => setQuickViewProduct(product)}
+                    onClick={() => {
+                      setQuickViewProduct(product);
+                      setSelectedImageIndex(0);
+                    }}
                     style={{
                       padding: '0.9rem',
                       background: 'transparent',
@@ -333,7 +337,10 @@ function BestSellers({ onAddToCart, onAddToFavourites, favourites = [] }) {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            onClick={() => setQuickViewProduct(null)}
+            onClick={() => {
+              setQuickViewProduct(null);
+              setSelectedImageIndex(0);
+            }}
             style={{
               position: 'fixed',
               top: 0,
@@ -365,7 +372,10 @@ function BestSellers({ onAddToCart, onAddToFavourites, favourites = [] }) {
             >
               {/* Close Button */}
               <button
-                onClick={() => setQuickViewProduct(null)}
+                onClick={() => {
+                  setQuickViewProduct(null);
+                  setSelectedImageIndex(0);
+                }}
                 style={{
                   position: 'absolute',
                   top: '1rem',
@@ -405,29 +415,83 @@ function BestSellers({ onAddToCart, onAddToFavourites, favourites = [] }) {
               </button>
 
               {/* Product Image */}
-              <div style={{
-                width: '100%',
-                height: '300px',
-                background: 'linear-gradient(to bottom, #EDECE4 0%, #D8D6CE 100%)',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                fontSize: '4rem',
-                overflow: 'hidden'
-              }}>
-                {quickViewProduct.images && quickViewProduct.images.length > 0 ? (
-                  <img
-                    src={quickViewProduct.images[0]}
-                    alt={quickViewProduct.name}
-                    style={{
-                      width: '100%',
-                      height: '100%',
-                      objectFit: 'contain',
-                      objectPosition: 'center'
-                    }}
-                  />
-                ) : (
-                  <div>{quickViewProduct.emoji || '🕯️'}</div>
+              <div>
+                {/* Main Image */}
+                <div style={{
+                  width: '100%',
+                  height: '350px',
+                  background: 'linear-gradient(to bottom, #EDECE4 0%, #D8D6CE 100%)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  fontSize: '4rem',
+                  overflow: 'hidden',
+                  marginBottom: '1rem'
+                }}>
+                  {quickViewProduct.images && quickViewProduct.images.length > 0 ? (
+                    <img
+                      src={quickViewProduct.images[selectedImageIndex]}
+                      alt={quickViewProduct.name}
+                      style={{
+                        width: '100%',
+                        height: '100%',
+                        objectFit: 'cover',
+                        objectPosition: 'center'
+                      }}
+                    />
+                  ) : (
+                    <div>{quickViewProduct.emoji || '🕯️'}</div>
+                  )}
+                </div>
+
+                {/* Image Thumbnails */}
+                {quickViewProduct.images && quickViewProduct.images.length > 1 && (
+                  <div style={{
+                    display: 'flex',
+                    gap: '0.5rem',
+                    overflowX: 'auto',
+                    padding: '0.5rem 1rem'
+                  }}>
+                    {quickViewProduct.images.map((image, idx) => (
+                      <button
+                        key={idx}
+                        onClick={() => setSelectedImageIndex(idx)}
+                        style={{
+                          width: '70px',
+                          height: '70px',
+                          padding: 0,
+                          border: idx === selectedImageIndex ? '2px solid #8B7355' : '2px solid transparent',
+                          borderRadius: '4px',
+                          overflow: 'hidden',
+                          cursor: 'pointer',
+                          flexShrink: 0,
+                          background: '#CFC7BE',
+                          transition: 'all 0.2s'
+                        }}
+                        onMouseEnter={(e) => {
+                          if (idx !== selectedImageIndex) {
+                            e.currentTarget.style.borderColor = '#D3C4B4';
+                          }
+                        }}
+                        onMouseLeave={(e) => {
+                          if (idx !== selectedImageIndex) {
+                            e.currentTarget.style.borderColor = 'transparent';
+                          }
+                        }}
+                      >
+                        <img
+                          src={image}
+                          alt={`${quickViewProduct.name} view ${idx + 1}`}
+                          style={{
+                            width: '100%',
+                            height: '100%',
+                            objectFit: 'cover',
+                            objectPosition: 'center'
+                          }}
+                        />
+                      </button>
+                    ))}
+                  </div>
                 )}
               </div>
 
