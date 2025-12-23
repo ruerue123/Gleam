@@ -184,7 +184,10 @@ function BestSellers({ onAddToCart, onAddToFavourites, favourites = [] }) {
 
               {/* Product Details */}
               <div style={{
-                padding: '1.5rem'
+                padding: '1.5rem',
+                display: 'flex',
+                flexDirection: 'column',
+                flex: 1
               }}>
                 <h3 style={{
                   fontFamily: "'Raleway', sans-serif",
@@ -202,7 +205,8 @@ function BestSellers({ onAddToCart, onAddToFavourites, favourites = [] }) {
                   opacity: 0.6,
                   marginBottom: '1rem',
                   lineHeight: 1.5,
-                  fontWeight: 300
+                  fontWeight: 300,
+                  flex: 1
                 }}>
                   {product.description}
                 </p>
@@ -216,32 +220,69 @@ function BestSellers({ onAddToCart, onAddToFavourites, favourites = [] }) {
                   ${product.price.toFixed(2)}
                 </div>
 
-                <button
-                  onClick={() => onAddToCart(product)}
-                  style={{
-                    width: '100%',
-                    padding: '0.9rem',
-                    background: '#111111',
-                    color: '#F6F1EB',
-                    border: 'none',
-                    borderRadius: '50px',
-                    fontSize: 'clamp(0.85rem, 1.5vw, 0.9rem)',
-                    letterSpacing: '0.5px',
-                    cursor: 'pointer',
-                    transition: 'all 0.3s',
-                    fontWeight: 400
-                  }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.background = '#9C7A4E';
-                    e.currentTarget.style.transform = 'translateY(-2px)';
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.background = '#111111';
-                    e.currentTarget.style.transform = 'translateY(0)';
-                  }}
-                >
-                  Add to Cart
-                </button>
+                <div style={{
+                  display: 'flex',
+                  gap: '0.5rem'
+                }}>
+                  <button
+                    onClick={() => onAddToCart(product)}
+                    style={{
+                      flex: 1,
+                      padding: '0.9rem',
+                      background: '#111111',
+                      color: '#F6F1EB',
+                      border: 'none',
+                      borderRadius: '50px',
+                      fontSize: 'clamp(0.85rem, 1.5vw, 0.9rem)',
+                      letterSpacing: '0.5px',
+                      cursor: 'pointer',
+                      transition: 'all 0.3s',
+                      fontWeight: 400
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.background = '#9C7A4E';
+                      e.currentTarget.style.transform = 'translateY(-2px)';
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.background = '#111111';
+                      e.currentTarget.style.transform = 'translateY(0)';
+                    }}
+                  >
+                    Add to Cart
+                  </button>
+
+                  <button
+                    onClick={() => setQuickViewProduct(product)}
+                    style={{
+                      padding: '0.9rem',
+                      background: 'transparent',
+                      color: '#111111',
+                      border: '1px solid #111111',
+                      borderRadius: '50%',
+                      width: '44px',
+                      height: '44px',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      cursor: 'pointer',
+                      transition: 'all 0.3s',
+                      flexShrink: 0
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.background = '#111111';
+                      e.currentTarget.style.color = '#F6F1EB';
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.background = 'transparent';
+                      e.currentTarget.style.color = '#111111';
+                    }}
+                  >
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                      <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                      <circle cx="12" cy="12" r="3"/>
+                    </svg>
+                  </button>
+                </div>
               </div>
             </motion.div>
           );
