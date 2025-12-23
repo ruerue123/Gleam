@@ -83,9 +83,10 @@ function BestSellers({ onAddToCart, onAddToFavourites, favourites = [] }) {
         maxWidth: '1400px',
         margin: '0 auto',
         display: 'grid',
-        gridTemplateColumns: 'repeat(auto-fit, minmax(min(220px, 100%), 1fr))',
-        gap: 'clamp(1rem, 2.5vw, 2rem)',
-        marginTop: '3rem'
+        gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 320px))',
+        gap: 'clamp(1.5rem, 3vw, 2.5rem)',
+        marginTop: '3rem',
+        justifyContent: 'center'
       }}>
         {bestSellers.map((product) => {
           const isFavourite = favourites.some(fav => (fav.id || fav._id) === (product.id || product._id));

@@ -143,8 +143,9 @@ function CollectionDetailPage({ onAddToCart }) {
         margin: '0 auto',
         padding: '0 5%',
         display: 'grid',
-        gridTemplateColumns: 'repeat(auto-fit, minmax(min(280px, 100%), 1fr))',
-        gap: 'clamp(1.5rem, 3vw, 2.5rem)'
+        gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 320px))',
+        gap: 'clamp(1.5rem, 3vw, 2.5rem)',
+        justifyContent: 'center'
       }}>
         {products.map((product) => (
           <div

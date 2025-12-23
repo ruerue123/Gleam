@@ -6,6 +6,7 @@ function Products({ onAddToCart, onAddToFavourites, favourites = [] }) {
   const [quickViewProduct, setQuickViewProduct] = useState(null);
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [selectedCollection, setSelectedCollection] = useState('All Products');
 
   const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
 
@@ -17,9 +18,22 @@ function Products({ onAddToCart, onAddToFavourites, favourites = [] }) {
     'Luxe Gleam': 'luxe-gleam'
   };
 
-  const fetchProducts = useCallback(async () => {
+  const collections = [
+    'All Products',
+    'Petty Collection',
+    'Soft Feelings',
+    'Mood Collection',
+    'Luxe Gleam'
+  ];
+
+  const fetchProducts = useCallback(async (collection) => {
+    setLoading(true);
     try {
-      const response = await fetch(`${API_URL}/api/products`);
+      let url = `${API_URL}/api/products`;
+      if (collection && collection !== 'All Products') {
+        url += `?collection=${encodeURIComponent(collection)}`;
+      }
+      const response = await fetch(url);
       const data = await response.json();
       if (data.success) {
         setProducts(data.data);
@@ -32,8 +46,8 @@ function Products({ onAddToCart, onAddToFavourites, favourites = [] }) {
   }, [API_URL]);
 
   useEffect(() => {
-    fetchProducts();
-  }, [fetchProducts]);
+    fetchProducts(selectedCollection);
+  }, [fetchProducts, selectedCollection]);
 
   if (loading) {
     return (
@@ -69,12 +83,78 @@ function Products({ onAddToCart, onAddToFavourites, favourites = [] }) {
         textAlign: 'center',
         fontSize: 'clamp(1rem, 2vw, 1.1rem)',
         opacity: 0.7,
-        marginBottom: 'clamp(2rem, 5vw, 4rem)',
+        marginBottom: 'clamp(1.5rem, 3vw, 2rem)',
         fontStyle: 'italic',
         fontWeight: 300
       }}>
         Light the feeling
       </p>
+
+      {/* Collection Filter Dropdown */}
+      <div style={{
+        maxWidth: '1400px',
+        margin: '0 auto 2rem',
+        display: 'flex',
+        justifyContent: 'center',
+        padding: '0 5%'
+      }}>
+        <div style={{ position: 'relative', width: '100%', maxWidth: '300px' }}>
+          <select
+            value={selectedCollection}
+            onChange={(e) => setSelectedCollection(e.target.value)}
+            style={{
+              width: '100%',
+              padding: 'clamp(0.7rem, 1.5vw, 0.9rem) clamp(1rem, 2vw, 1.5rem)',
+              fontFamily: "'Raleway', sans-serif",
+              fontSize: 'clamp(0.9rem, 1.6vw, 1rem)',
+              color: '#171515',
+              background: '#FAFAF8',
+              border: '1px solid #EDECE4',
+              borderRadius: '4px',
+              cursor: 'pointer',
+              appearance: 'none',
+              paddingRight: '2.5rem',
+              transition: 'all 0.3s ease',
+              outline: 'none'
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.borderColor = '#8B7355';
+              e.currentTarget.style.boxShadow = '0 2px 8px rgba(139, 115, 85, 0.1)';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.borderColor = '#EDECE4';
+              e.currentTarget.style.boxShadow = 'none';
+            }}
+            onFocus={(e) => {
+              e.currentTarget.style.borderColor = '#8B7355';
+              e.currentTarget.style.boxShadow = '0 2px 8px rgba(139, 115, 85, 0.15)';
+            }}
+            onBlur={(e) => {
+              e.currentTarget.style.borderColor = '#EDECE4';
+              e.currentTarget.style.boxShadow = 'none';
+            }}
+          >
+            {collections.map((collection) => (
+              <option key={collection} value={collection}>
+                {collection}
+              </option>
+            ))}
+          </select>
+          {/* Custom Dropdown Arrow */}
+          <div style={{
+            position: 'absolute',
+            right: '1rem',
+            top: '50%',
+            transform: 'translateY(-50%)',
+            pointerEvents: 'none',
+            color: '#8B7355'
+          }}>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </div>
+        </div>
+      </div>
 
       <div style={{
         maxWidth: '1400px',
@@ -82,7 +162,7 @@ function Products({ onAddToCart, onAddToFavourites, favourites = [] }) {
         display: 'grid',
         gridTemplateColumns: 'repeat(auto-fit, minmax(min(220px, 100%), 1fr))',
         gap: 'clamp(1rem, 2.5vw, 2rem)',
-        marginTop: '3rem'
+        marginTop: '1rem'
       }}>
         {products.map((product, index) => {
           const isFavourite = favourites.some(fav => (fav.id || fav._id) === (product.id || product._id));
