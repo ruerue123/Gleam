@@ -52,7 +52,7 @@ function Collections() {
         letterSpacing: '0.5px',
         color: '#171515'
       }}>
-        Our Collections
+        Shop by Scents
       </h2>
 
       <p style={{
@@ -65,7 +65,7 @@ function Collections() {
         fontStyle: 'italic',
         fontWeight: 300
       }}>
-        Four moods. Infinite feelings.
+        Discover our hand-poured candles, each crafted with intention.
       </p>
 
       <div style={{
