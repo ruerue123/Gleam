@@ -1,38 +1,36 @@
 function Features() {
   const scrollContainerStyle = `
     .features-container {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr));
-      gap: clamp(3rem, 6vw, 5rem);
+      display: flex;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      gap: 2rem;
+      padding-bottom: 1rem;
+      -webkit-overflow-scrolling: touch;
     }
 
-    @media (max-width: 768px) {
-      .features-container {
-        display: flex;
-        overflow-x: auto;
-        scroll-snap-type: x mandatory;
-        gap: 2rem;
-        padding-bottom: 1rem;
-        -webkit-overflow-scrolling: touch;
-      }
+    .features-container > div {
+      flex: 0 0 300px;
+      scroll-snap-align: center;
+    }
 
+    .features-container::-webkit-scrollbar {
+      height: 6px;
+    }
+
+    .features-container::-webkit-scrollbar-track {
+      background: rgba(23, 21, 21, 0.1);
+      border-radius: 3px;
+    }
+
+    .features-container::-webkit-scrollbar-thumb {
+      background: #8B7355;
+      border-radius: 3px;
+    }
+
+    @media (min-width: 1200px) {
       .features-container > div {
-        flex: 0 0 85%;
-        scroll-snap-align: center;
-      }
-
-      .features-container::-webkit-scrollbar {
-        height: 6px;
-      }
-
-      .features-container::-webkit-scrollbar-track {
-        background: rgba(23, 21, 21, 0.1);
-        border-radius: 3px;
-      }
-
-      .features-container::-webkit-scrollbar-thumb {
-        background: #8B7355;
-        border-radius: 3px;
+        flex: 0 0 280px;
       }
     }
   `;
@@ -40,84 +38,76 @@ function Features() {
   const features = [
     {
       id: 1,
-      icon: (
-        <svg width="60" height="60" viewBox="0 0 100 100" fill="none" stroke="#B89968" strokeWidth="2.5">
-          <path d="M50 20 L30 35 L30 25 L50 10 L70 25 L70 35 Z" />
-          <path d="M45 40 Q50 30 55 40" />
-          <ellipse cx="50" cy="50" rx="15" ry="20" />
-          <path d="M35 70 Q50 80 65 70" />
-        </svg>
-      ),
-      title: 'Handmade & Hand-Poured',
-      description: 'Designed with integrity and durably crafted for everyday use.'
+      title: 'Hand-poured',
+      description: 'Every candle is carefully crafted by hand with attention to detail.'
     },
     {
       id: 2,
-      icon: (
-        <svg width="60" height="60" viewBox="0 0 100 100" fill="none" stroke="#B89968" strokeWidth="2.5">
-          <path d="M30 50 Q30 30 50 25 Q70 30 70 50" />
-          <path d="M40 55 L45 50 L50 58 L60 40" strokeLinecap="round" />
-          <ellipse cx="50" cy="65" rx="20" ry="15" />
-          <path d="M45 45 Q48 40 51 45" />
-        </svg>
-      ),
-      title: 'Eco-Friendly Shipping',
-      description: 'Our environment-friendly packaging creates a delightful unboxing experience that\'s not harmful to the planet.'
+      title: 'Clean-burning wax',
+      description: 'Made with quality ingredients that burn evenly and safely.'
     },
     {
       id: 3,
-      icon: (
-        <svg width="60" height="60" viewBox="0 0 100 100" fill="none" stroke="#B89968" strokeWidth="2.5">
-          <path d="M50 25 Q35 35 35 50 Q35 65 50 75 Q65 65 65 50 Q65 35 50 25 Z" />
-          <path d="M42 48 L47 53 L58 42" strokeLinecap="round" strokeLinejoin="round" />
-        </svg>
-      ),
-      title: 'Happiness Guarantee',
-      description: 'If you are unhappy with your order, please reach out to us within 30 days, and we will provide further details for returns.'
+      title: 'Designed for real life, not just shelves',
+      description: 'Created to bring warmth and calm to your everyday moments.'
+    },
+    {
+      id: 4,
+      title: 'Made with intention',
+      description: 'Each scent is thoughtfully developed to create a meaningful experience.'
+    },
+    {
+      id: 5,
+      title: 'Made for moments that matter',
+      description: 'Perfect for evenings that stretch, mornings that need gentleness, and spaces that deserve care.'
     }
   ];
 
   return (
     <section style={{
       background: 'linear-gradient(to bottom, #FAFAF8 0%, #EDECE4 100%)',
-      padding: 'clamp(1.5rem, 3vw, 2.5rem) 5%'
+      padding: 'clamp(2.5rem, 5vw, 4rem) 5%'
     }}>
       <style>{scrollContainerStyle}</style>
+
+      {/* Section Heading */}
+      <h2 style={{
+        fontFamily: "'Cardo', serif",
+        fontSize: 'clamp(2rem, 4vw, 3rem)',
+        fontWeight: 400,
+        textAlign: 'center',
+        marginBottom: 'clamp(2rem, 4vw, 3rem)',
+        color: '#171515',
+        letterSpacing: '0.5px'
+      }}>
+        The Gleam Promise
+      </h2>
+
       <div className="features-container" style={{
         maxWidth: '1400px',
-        margin: '0 auto'
+        margin: '0 auto',
+        paddingLeft: '1rem',
+        paddingRight: '1rem'
       }}>
         {features.map((feature) => (
           <div
             key={feature.id}
             style={{
               textAlign: 'center',
-              padding: 'clamp(0.8rem, 1.5vw, 1.2rem)'
+              padding: 'clamp(1.5rem, 2vw, 2rem)',
+              background: 'rgba(255, 255, 255, 0.5)',
+              borderRadius: '4px',
+              border: '1px solid rgba(139, 115, 85, 0.1)'
             }}
           >
-            {/* Icon */}
-            <div style={{
-              display: 'flex',
-              justifyContent: 'center',
-              marginBottom: 'clamp(0.8rem, 1.5vw, 1.2rem)'
-            }}>
-              <div style={{
-                transform: 'scale(0.75)'
-              }}>
-                {feature.icon}
-              </div>
-            </div>
-
             {/* Title */}
             <h3 style={{
               fontFamily: "'Cardo', serif",
-              fontSize: 'clamp(0.95rem, 1.8vw, 1.1rem)',
+              fontSize: 'clamp(1rem, 1.8vw, 1.2rem)',
               fontWeight: 400,
-              marginBottom: 'clamp(0.5rem, 1vw, 0.7rem)',
+              marginBottom: 'clamp(0.75rem, 1.5vw, 1rem)',
               letterSpacing: '0.5px',
-              color: '#171515',
-              textTransform: 'uppercase',
-              letterSpacing: '1px'
+              color: '#171515'
             }}>
               {feature.title}
             </h3>
@@ -125,13 +115,12 @@ function Features() {
             {/* Description */}
             <p style={{
               fontFamily: "'Cormorant', serif",
-              fontSize: 'clamp(0.85rem, 1.4vw, 0.95rem)',
+              fontSize: 'clamp(0.9rem, 1.4vw, 1rem)',
               lineHeight: 1.6,
               color: '#171515',
               opacity: 0.75,
               fontWeight: 300,
-              maxWidth: '350px',
-              margin: '0 auto'
+              fontStyle: 'italic'
             }}>
               {feature.description}
             </p>
