@@ -1,9 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Cormorant:wght@300;400;500;600&family=Cardo:wght@400;700&display=swap');
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
 :root {
   /* Custom easing functions for luxury feel */
   --ease-gentle: cubic-bezier(0.25, 0.46, 0.45, 0.94);
