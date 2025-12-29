@@ -1,17 +1,30 @@
-import Hero from '../components/Hero'
-import Collections from '../components/Collections'
-import BestSellers from '../components/BestSellers'
-import Features from '../components/Features'
-import WelcomeModal from '../components/WelcomeModal'
+import HeroSection from '../components/redesign/HeroSection'
+import ProductGrid from '../components/redesign/ProductGrid'
+import BestsellersSection from '../components/redesign/BestsellersSection'
+import BrandPromise from '../components/redesign/BrandPromise'
+import LifestyleSection from '../components/redesign/LifestyleSection'
+import ComingSoon from '../components/redesign/ComingSoon'
 
-function HomePage({ onAddToCart, onAddToFavourites, favourites }) {
+function HomePage() {
   return (
-    <div>
-      <WelcomeModal />
-      <Hero />
-      <Features />
-      <Collections />
-      <BestSellers onAddToCart={onAddToCart} onAddToFavourites={onAddToFavourites} favourites={favourites} />
+    <div className="overflow-x-hidden">
+      {/* Hero Section */}
+      <HeroSection />
+
+      {/* Shop by Scent Section */}
+      <ProductGrid />
+
+      {/* Most Loved Section */}
+      <BestsellersSection />
+
+      {/* Brand Promise Section */}
+      <BrandPromise />
+
+      {/* Lifestyle / Emotion Section */}
+      <LifestyleSection />
+
+      {/* Coming Soon Section */}
+      <ComingSoon />
     </div>
   )
 }
