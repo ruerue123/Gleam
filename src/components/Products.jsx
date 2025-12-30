@@ -153,10 +153,9 @@ function Products({ onAddToCart, onAddToFavourites, favourites = [] }) {
         maxWidth: '1400px',
         margin: '0 auto',
         display: 'grid',
-        gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 320px))',
-        gap: 'clamp(1.5rem, 3vw, 2.5rem)',
-        marginTop: '1rem',
-        justifyContent: 'center'
+        gridTemplateColumns: 'repeat(auto-fill, minmax(140px, 1fr))',
+        gap: 'clamp(1rem, 3vw, 2.5rem)',
+        marginTop: '1rem'
       }}>
         {products.map((product) => {
           const isFavourite = favourites.some(fav => (fav.id || fav._id) === (product.id || product._id));
