@@ -16,7 +16,44 @@ function Footer() {
       color: '#EDECE4',
       padding: 'clamp(2rem, 4vw, 3rem) 5% clamp(1.5rem, 3vw, 2rem)'
     }}>
-      <div style={{
+      <style>{`
+        @media (max-width: 768px) {
+          .footer-grid {
+            grid-template-columns: 1fr !important;
+            gap: 1.5rem !important;
+          }
+          .footer-brand h3 {
+            font-size: 1rem !important;
+          }
+          .footer-brand p {
+            font-size: 0.8rem !important;
+          }
+          .footer-section h4 {
+            font-size: 0.9rem !important;
+            margin-bottom: 0.5rem !important;
+          }
+          .footer-section ul li {
+            margin-bottom: 0.3rem !important;
+          }
+          .footer-section ul li a,
+          .footer-section ul li span {
+            font-size: 0.75rem !important;
+          }
+          .footer-newsletter input {
+            font-size: 0.8rem !important;
+            padding: 0.6rem !important;
+          }
+          .footer-newsletter button {
+            font-size: 0.8rem !important;
+            padding: 0.6rem 1rem !important;
+          }
+          .footer-bottom {
+            font-size: 0.7rem !important;
+            padding-top: 1rem !important;
+          }
+        }
+      `}</style>
+      <div className="footer-grid" style={{
         maxWidth: '1400px',
         margin: '0 auto',
         display: 'grid',
@@ -25,7 +62,7 @@ function Footer() {
         marginBottom: 'clamp(1.5rem, 3vw, 2rem)'
       }}>
         {/* Brand Section */}
-        <div>
+        <div className="footer-brand">
           <h3 style={{
             fontFamily: "'Cardo', serif",
             fontSize: 'clamp(1.1rem, 2vw, 1.3rem)',
@@ -49,7 +86,7 @@ function Footer() {
         </div>
 
         {/* Shop Links */}
-        <div>
+        <div className="footer-section">
           <h4 style={{
             fontFamily: "'Cardo', serif",
             fontSize: 'clamp(0.95rem, 1.6vw, 1.05rem)',
@@ -129,7 +166,7 @@ function Footer() {
         </div>
 
         {/* Company Links */}
-        <div>
+        <div className="footer-section">
           <h4 style={{
             fontFamily: "'Cardo', serif",
             fontSize: 'clamp(0.95rem, 1.6vw, 1.05rem)',
@@ -193,7 +230,7 @@ function Footer() {
         </div>
 
         {/* Newsletter */}
-        <div>
+        <div className="footer-section footer-newsletter">
           <h4 style={{
             fontFamily: "'Cardo', serif",
             fontSize: 'clamp(0.95rem, 1.6vw, 1.05rem)',
@@ -266,7 +303,7 @@ function Footer() {
       </div>
 
       {/* Footer Bottom */}
-      <div style={{
+      <div className="footer-bottom" style={{
         textAlign: 'center',
         paddingTop: 'clamp(1rem, 2vw, 1.5rem)',
         borderTop: '1px solid rgba(237, 236, 228, 0.15)',

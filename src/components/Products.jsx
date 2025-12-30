@@ -126,8 +126,54 @@ function Products({ onAddToCart, onAddToFavourites, favourites = [] }) {
           .products-main-content {
             grid-template-columns: 1fr !important;
           }
+          .mobile-scent-filters {
+            display: flex !important;
+          }
+          .products-grid {
+            grid-template-columns: repeat(2, 1fr) !important;
+            gap: 1rem !important;
+          }
+        }
+        @media (min-width: 969px) {
+          .mobile-scent-filters {
+            display: none !important;
+          }
         }
       `}</style>
+
+      {/* Mobile Scent Filters */}
+      <div className="mobile-scent-filters" style={{
+        display: 'none',
+        overflowX: 'auto',
+        padding: '1rem 5%',
+        gap: '0.5rem',
+        WebkitOverflowScrolling: 'touch',
+        scrollbarWidth: 'none',
+        msOverflowStyle: 'none'
+      }}>
+        {scents.map((scent) => (
+          <button
+            key={scent.value}
+            onClick={() => setSelectedScent(scent.value)}
+            style={{
+              padding: '0.6rem 1.2rem',
+              background: selectedScent === scent.value ? '#8B7355' : '#ffffff',
+              color: selectedScent === scent.value ? '#ffffff' : '#171515',
+              border: selectedScent === scent.value ? 'none' : '1px solid #EDECE4',
+              borderRadius: '50px',
+              fontSize: '0.85rem',
+              fontFamily: "'Raleway', sans-serif",
+              fontWeight: 500,
+              cursor: 'pointer',
+              whiteSpace: 'nowrap',
+              transition: 'all 0.3s ease',
+              letterSpacing: '0.3px'
+            }}
+          >
+            {scent.label}
+          </button>
+        ))}
+      </div>
 
       <div className="products-main-content" style={{
         maxWidth: '1600px',
@@ -325,7 +371,7 @@ function Products({ onAddToCart, onAddToFavourites, favourites = [] }) {
           </h2>
 
           {/* Products Grid */}
-          <div style={{
+          <div className="products-grid" style={{
             display: 'grid',
             gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))',
             gap: 'clamp(1.5rem, 3vw, 2.5rem)',
