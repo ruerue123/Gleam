@@ -1,10 +1,13 @@
 import { Link } from 'react-router-dom'
+import { motion } from 'framer-motion'
 import { useState, useEffect, useCallback } from 'react'
 
-function Products({ onAddToCart }) {
+function Products({ onAddToCart, onAddToFavourites, favourites = [] }) {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [selectedCollection, setSelectedCollection] = useState('All');
+  const [quickViewProduct, setQuickViewProduct] = useState(null);
+  const [selectedImageIndex, setSelectedImageIndex] = useState(0);
 
   const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
 
@@ -214,152 +217,405 @@ function Products({ onAddToCart }) {
             gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))',
             gap: 'clamp(1.5rem, 3vw, 2.5rem)'
           }}>
-            {products.map((product) => (
-              <Link
-                key={product._id || product.id}
-                to={`/product/${product.slug}`}
-                style={{
-                  textDecoration: 'none',
-                  color: 'inherit',
-                  background: '#ffffff',
-                  borderRadius: '4px',
-                  overflow: 'hidden',
-                  transition: 'all 0.3s ease',
-                  display: 'block',
-                  border: '1px solid rgba(139, 115, 85, 0.1)'
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.transform = 'translateY(-5px)';
-                  e.currentTarget.style.boxShadow = '0 8px 24px rgba(0, 0, 0, 0.1)';
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.transform = 'translateY(0)';
-                  e.currentTarget.style.boxShadow = 'none';
-                }}
-              >
-                {/* Product Image */}
-                <div style={{
-                  width: '100%',
-                  height: '300px',
-                  background: 'linear-gradient(to bottom, #F6F1EB 0%, #EDECE4 100%)',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  overflow: 'hidden'
-                }}>
-                  {product.images && product.images.length > 0 ? (
-                    <img
-                      src={product.images[0]}
-                      alt={product.name}
+            {products.map((product) => {
+              const isFavourite = favourites.some(fav => (fav.id || fav._id) === (product.id || product._id));
+
+              return (
+                <motion.div
+                  key={product._id || product.id}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.4 }}
+                  style={{
+                    background: '#F6F1EB',
+                    borderRadius: '20px',
+                    overflow: 'hidden',
+                    position: 'relative',
+                    transition: 'transform 0.3s ease',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    height: '100%'
+                  }}
+                  onMouseEnter={(e) => e.currentTarget.style.transform = 'translateY(-5px)'}
+                  onMouseLeave={(e) => e.currentTarget.style.transform = 'translateY(0)'}
+                >
+                  {/* Product Image */}
+                  <Link to={`/product/${product.slug}`} style={{ textDecoration: 'none', color: 'inherit' }}>
+                    <div
+                      className="product-image-container"
                       style={{
                         width: '100%',
-                        height: '100%',
-                        objectFit: 'cover',
-                        objectPosition: 'center'
+                        height: '320px',
+                        position: 'relative',
+                        overflow: 'hidden',
+                        background: '#CFC7BE',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        fontSize: '3rem'
                       }}
-                    />
-                  ) : (
-                    <div style={{ fontSize: '3rem' }}>
-                      {product.emoji || '🕯️'}
+                    >
+                      {product.images && product.images.length > 0 ? (
+                        <img
+                          src={product.images[0]}
+                          alt={product.name}
+                          style={{
+                            width: '100%',
+                            height: '100%',
+                            objectFit: 'cover',
+                            objectPosition: 'center'
+                          }}
+                        />
+                      ) : (
+                        <div>{product.emoji || '🕯️'}</div>
+                      )}
+
+                      {/* Quick View Overlay */}
+                      <button
+                        className="quick-view-overlay"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          e.stopPropagation();
+                          setQuickViewProduct(product);
+                          setSelectedImageIndex(0);
+                        }}
+                        style={{
+                          position: 'absolute',
+                          bottom: '0.8rem',
+                          left: '50%',
+                          transform: 'translateX(-50%)',
+                          padding: '0.7rem 1.5rem',
+                          background: 'rgba(17, 17, 17, 0.9)',
+                          color: '#F6F1EB',
+                          border: 'none',
+                          borderRadius: '50px',
+                          fontSize: '0.85rem',
+                          letterSpacing: '0.5px',
+                          cursor: 'pointer',
+                          transition: 'all 0.3s ease',
+                          fontWeight: 400,
+                          opacity: 0,
+                          zIndex: 2,
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: '0.5rem'
+                        }}
+                        onMouseEnter={(e) => {
+                          e.currentTarget.style.background = 'rgba(156, 122, 78, 0.95)';
+                        }}
+                        onMouseLeave={(e) => {
+                          e.currentTarget.style.background = 'rgba(17, 17, 17, 0.9)';
+                        }}
+                      >
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                          <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                          <circle cx="12" cy="12" r="3"/>
+                        </svg>
+                        Quick View
+                      </button>
                     </div>
-                  )}
-                </div>
+                  </Link>
 
-                {/* Product Details */}
-                <div style={{
-                  padding: '1.5rem',
-                  textAlign: 'center'
-                }}>
-                  {/* Collection Badge */}
-                  {product.collection && (
-                    <div style={{
-                      fontSize: '0.75rem',
-                      fontFamily: "'Raleway', sans-serif",
-                      textTransform: 'uppercase',
-                      letterSpacing: '0.8px',
-                      color: '#8B7355',
-                      marginBottom: '0.5rem',
-                      fontWeight: 500
-                    }}>
-                      {product.collection}
-                    </div>
-                  )}
+                  <style>{`
+                    .product-image-container:hover .quick-view-overlay {
+                      opacity: 1;
+                    }
+                  `}</style>
 
-                  {/* Product Name */}
-                  <h3 style={{
-                    fontFamily: "'Cardo', serif",
-                    fontSize: 'clamp(1.1rem, 2vw, 1.3rem)',
-                    fontWeight: 400,
-                    marginBottom: '0.5rem',
-                    letterSpacing: '0.5px',
-                    color: '#171515'
-                  }}>
-                    {product.name}
-                  </h3>
-
-                  {/* Colors Available */}
-                  {product.colors && product.colors.length > 0 && (
-                    <div style={{
-                      fontSize: '0.8rem',
-                      fontFamily: "'Raleway', sans-serif",
-                      color: '#171515',
-                      opacity: 0.6,
-                      marginBottom: '0.8rem'
-                    }}>
-                      {product.colors.length} Colours
-                    </div>
-                  )}
-
-                  {/* Price */}
-                  <div style={{
-                    fontFamily: "'Raleway', sans-serif",
-                    fontSize: 'clamp(1rem, 1.8vw, 1.1rem)',
-                    fontWeight: 500,
-                    marginBottom: '1rem',
-                    color: '#171515'
-                  }}>
-                    ${product.price.toFixed(2)}
-                  </div>
-
-                  {/* Select Options Button */}
-                  <button
+                  {/* Wishlist Heart Button */}
+                  <motion.button
                     onClick={(e) => {
                       e.preventDefault();
                       e.stopPropagation();
-                      onAddToCart(product);
+                      onAddToFavourites(product);
                     }}
+                    whileHover={{ scale: 1.1 }}
+                    whileTap={{ scale: 0.95 }}
                     style={{
-                      width: '100%',
-                      padding: '0.9rem',
-                      background: 'transparent',
-                      color: '#8B7355',
-                      border: '1px solid #8B7355',
-                      borderRadius: '2px',
-                      fontSize: 'clamp(0.85rem, 1.5vw, 0.9rem)',
-                      letterSpacing: '0.5px',
+                      position: 'absolute',
+                      top: '0.8rem',
+                      right: '0.8rem',
+                      background: isFavourite ? '#8B7355' : 'rgba(255, 255, 255, 0.95)',
+                      border: '1px solid #EDECE4',
+                      borderRadius: '50%',
+                      width: '36px',
+                      height: '36px',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
                       cursor: 'pointer',
-                      transition: 'all 0.3s',
-                      fontWeight: 500,
-                      fontFamily: "'Raleway', sans-serif",
-                      textTransform: 'uppercase'
-                    }}
-                    onMouseEnter={(e) => {
-                      e.currentTarget.style.background = '#8B7355';
-                      e.currentTarget.style.color = '#ffffff';
-                    }}
-                    onMouseLeave={(e) => {
-                      e.currentTarget.style.background = 'transparent';
-                      e.currentTarget.style.color = '#8B7355';
+                      transition: 'all 0.3s ease',
+                      zIndex: 3,
+                      boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)'
                     }}
                   >
-                    Select Options
-                  </button>
-                </div>
-              </Link>
-            ))}
+                    <svg
+                      width="18"
+                      height="18"
+                      viewBox="0 0 24 24"
+                      fill={isFavourite ? "#ffffff" : "none"}
+                      stroke={isFavourite ? "#ffffff" : "#8B7355"}
+                      strokeWidth="2"
+                    >
+                      <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+                    </svg>
+                  </motion.button>
+
+                  {/* Product Details */}
+                  <div style={{
+                    padding: '1.5rem',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    flex: 1
+                  }}>
+                    <Link to={`/product/${product.slug}`} style={{ textDecoration: 'none', color: 'inherit' }}>
+                      <h3 style={{
+                        fontFamily: "'Raleway', sans-serif",
+                        fontSize: 'clamp(1.2rem, 2vw, 1.5rem)',
+                        fontWeight: 400,
+                        marginBottom: '0.5rem',
+                        letterSpacing: '0.5px'
+                      }}>
+                        {product.name}
+                      </h3>
+                    </Link>
+
+                    <p style={{
+                      fontSize: 'clamp(0.85rem, 1.5vw, 0.9rem)',
+                      fontStyle: 'italic',
+                      opacity: 0.6,
+                      marginBottom: '1rem',
+                      lineHeight: 1.5,
+                      fontWeight: 300,
+                      flex: 1
+                    }}>
+                      {product.description}
+                    </p>
+
+                    <div style={{
+                      fontFamily: "'Raleway', sans-serif",
+                      fontSize: 'clamp(1rem, 2vw, 1.1rem)',
+                      fontWeight: 500,
+                      marginBottom: '1rem'
+                    }}>
+                      ${product.price.toFixed(2)}
+                    </div>
+
+                    <button
+                      onClick={() => onAddToCart(product)}
+                      style={{
+                        width: '100%',
+                        padding: '0.9rem',
+                        background: '#111111',
+                        color: '#F6F1EB',
+                        border: 'none',
+                        borderRadius: '50px',
+                        fontSize: 'clamp(0.85rem, 1.5vw, 0.9rem)',
+                        letterSpacing: '0.5px',
+                        cursor: 'pointer',
+                        transition: 'all 0.3s',
+                        fontWeight: 400
+                      }}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.background = '#9C7A4E';
+                        e.currentTarget.style.transform = 'translateY(-2px)';
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.background = '#111111';
+                        e.currentTarget.style.transform = 'translateY(0)';
+                      }}
+                    >
+                      Add to Cart
+                    </button>
+                  </div>
+                </motion.div>
+              );
+            })}
           </div>
         </div>
       </div>
+
+      {/* Quick View Modal */}
+      {quickViewProduct && (
+        <div
+          onClick={() => {
+            setQuickViewProduct(null);
+            setSelectedImageIndex(0);
+          }}
+          style={{
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            width: '100%',
+            height: '100%',
+            background: 'rgba(0, 0, 0, 0.6)',
+            zIndex: 1000,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            padding: '2rem'
+          }}
+        >
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            onClick={(e) => e.stopPropagation()}
+            style={{
+              background: '#ffffff',
+              borderRadius: '8px',
+              maxWidth: '600px',
+              width: '100%',
+              maxHeight: '80vh',
+              overflow: 'auto',
+              position: 'relative'
+            }}
+          >
+            <button
+              onClick={() => {
+                setQuickViewProduct(null);
+                setSelectedImageIndex(0);
+              }}
+              style={{
+                position: 'absolute',
+                top: '1rem',
+                right: '1rem',
+                background: '#ffffff',
+                border: 'none',
+                borderRadius: '50%',
+                width: '32px',
+                height: '32px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                cursor: 'pointer',
+                fontSize: '1.5rem',
+                color: '#171515',
+                boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)',
+                zIndex: 1
+              }}
+            >
+              ×
+            </button>
+
+            <div style={{ padding: '2rem' }}>
+              <div style={{
+                width: '100%',
+                height: '350px',
+                background: '#CFC7BE',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                fontSize: '4rem',
+                borderRadius: '4px',
+                overflow: 'hidden',
+                marginBottom: '1rem'
+              }}>
+                {quickViewProduct.images && quickViewProduct.images.length > 0 ? (
+                  <img
+                    src={quickViewProduct.images[selectedImageIndex]}
+                    alt={quickViewProduct.name}
+                    style={{
+                      width: '100%',
+                      height: '100%',
+                      objectFit: 'cover',
+                      objectPosition: 'center'
+                    }}
+                  />
+                ) : (
+                  <div>{quickViewProduct.emoji}</div>
+                )}
+              </div>
+
+              <h2 style={{
+                fontFamily: "'Cardo', serif",
+                fontSize: '2rem',
+                fontWeight: 400,
+                marginBottom: '1rem',
+                color: '#171515'
+              }}>
+                {quickViewProduct.name}
+              </h2>
+
+              <p style={{
+                fontFamily: "'Cormorant', serif",
+                fontSize: '1.1rem',
+                fontStyle: 'italic',
+                color: '#171515',
+                opacity: 0.7,
+                marginBottom: '1.5rem',
+                lineHeight: 1.6
+              }}>
+                {quickViewProduct.description}
+              </p>
+
+              <div style={{
+                fontFamily: "'Cardo', serif",
+                fontSize: '1.5rem',
+                fontWeight: 500,
+                color: '#171515',
+                marginBottom: '1.5rem'
+              }}>
+                ${quickViewProduct.price.toFixed(2)}
+              </div>
+
+              <div style={{ display: 'flex', gap: '1rem' }}>
+                <button
+                  onClick={() => {
+                    onAddToCart(quickViewProduct);
+                    setQuickViewProduct(null);
+                  }}
+                  style={{
+                    flex: 1,
+                    padding: '1rem 2rem',
+                    background: '#8B7355',
+                    color: '#ffffff',
+                    border: 'none',
+                    borderRadius: '2px',
+                    fontSize: '1rem',
+                    fontFamily: "'Cormorant', serif",
+                    fontWeight: 500,
+                    cursor: 'pointer',
+                    transition: 'background 0.3s'
+                  }}
+                  onMouseEnter={(e) => e.currentTarget.style.background = '#6F5943'}
+                  onMouseLeave={(e) => e.currentTarget.style.background = '#8B7355'}
+                >
+                  Add to Cart
+                </button>
+
+                <Link
+                  to={`/product/${quickViewProduct.slug}`}
+                  style={{
+                    padding: '1rem 2rem',
+                    background: 'transparent',
+                    color: '#8B7355',
+                    border: '1px solid #8B7355',
+                    borderRadius: '2px',
+                    fontSize: '1rem',
+                    fontFamily: "'Cormorant', serif",
+                    fontWeight: 500,
+                    cursor: 'pointer',
+                    transition: 'all 0.3s',
+                    textDecoration: 'none',
+                    display: 'inline-block',
+                    textAlign: 'center'
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.background = '#8B7355';
+                    e.currentTarget.style.color = '#ffffff';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.background = 'transparent';
+                    e.currentTarget.style.color = '#8B7355';
+                  }}
+                >
+                  View Details
+                </Link>
+              </div>
+            </div>
+          </motion.div>
+        </div>
+      )}
 
       <style>{`
         @media (max-width: 968px) {
