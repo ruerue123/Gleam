@@ -99,6 +99,8 @@ function BestSellers({ onAddToCart, onAddToFavourites, favourites = [] }) {
           overflow: hidden;
           position: relative;
           transition: transform 0.3s ease, box-shadow 0.3s ease;
+          display: flex;
+          flex-direction: column;
         }
 
         .bestseller-card:hover {
@@ -213,7 +215,7 @@ function BestSellers({ onAddToCart, onAddToFavourites, favourites = [] }) {
 
               <Link
                 to={`/product/${product.slug}`}
-                style={{ textDecoration: 'none', color: 'inherit', display: 'block' }}
+                style={{ textDecoration: 'none', color: 'inherit', display: 'flex', flexDirection: 'column', flex: 1 }}
               >
                 {/* Product Image with Quick View */}
                 <div className="bestseller-image-container">
@@ -262,7 +264,10 @@ function BestSellers({ onAddToCart, onAddToFavourites, favourites = [] }) {
                 {/* Product Details */}
                 <div style={{
                   padding: 'clamp(1rem, 2vw, 1.5rem)',
-                  textAlign: 'center'
+                  textAlign: 'center',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  flex: 1
                 }}>
                   <h3 style={{
                     fontFamily: "'Raleway', sans-serif",
@@ -282,7 +287,8 @@ function BestSellers({ onAddToCart, onAddToFavourites, favourites = [] }) {
                     marginBottom: '0.8rem',
                     lineHeight: 1.4,
                     fontWeight: 300,
-                    fontFamily: "'Cormorant', serif"
+                    fontFamily: "'Cormorant', serif",
+                    flex: 1
                   }}>
                     {product.description}
                   </p>
@@ -292,7 +298,8 @@ function BestSellers({ onAddToCart, onAddToFavourites, favourites = [] }) {
                     fontSize: 'clamp(0.95rem, 1.8vw, 1.05rem)',
                     fontWeight: 500,
                     marginBottom: '0.8rem',
-                    color: '#171515'
+                    color: '#171515',
+                    marginTop: 'auto'
                   }}>
                     ${product.price.toFixed(2)}
                   </div>

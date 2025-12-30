@@ -496,7 +496,9 @@ function Products({ onAddToCart, onAddToFavourites, favourites = [] }) {
                     overflow: 'hidden',
                     position: 'relative',
                     boxShadow: '0 2px 8px rgba(0, 0, 0, 0.05)',
-                    transition: 'box-shadow 0.3s ease'
+                    transition: 'box-shadow 0.3s ease',
+                    display: 'flex',
+                    flexDirection: 'column'
                   }}
                   onMouseEnter={(e) => {
                     e.currentTarget.style.boxShadow = '0 8px 24px rgba(0, 0, 0, 0.12)';
@@ -548,7 +550,7 @@ function Products({ onAddToCart, onAddToFavourites, favourites = [] }) {
 
                   <Link
                     to={`/product/${product.slug}`}
-                    style={{ textDecoration: 'none', color: 'inherit', display: 'block' }}
+                    style={{ textDecoration: 'none', color: 'inherit', display: 'flex', flexDirection: 'column', flex: 1 }}
                   >
                     {/* Product Image with Quick View */}
                     <div className="product-image-container" style={{
@@ -625,7 +627,10 @@ function Products({ onAddToCart, onAddToFavourites, favourites = [] }) {
                     {/* Product Details */}
                     <div style={{
                       padding: 'clamp(1.2rem, 2vw, 1.5rem)',
-                      textAlign: 'center'
+                      textAlign: 'center',
+                      display: 'flex',
+                      flexDirection: 'column',
+                      flex: 1
                     }}>
                       <h3 style={{
                         fontFamily: "'Raleway', sans-serif",
@@ -645,7 +650,8 @@ function Products({ onAddToCart, onAddToFavourites, favourites = [] }) {
                         marginBottom: '1rem',
                         lineHeight: 1.5,
                         fontWeight: 300,
-                        fontFamily: "'Cormorant', serif"
+                        fontFamily: "'Cormorant', serif",
+                        flex: 1
                       }}>
                         {product.description}
                       </p>
@@ -655,7 +661,8 @@ function Products({ onAddToCart, onAddToFavourites, favourites = [] }) {
                         fontSize: 'clamp(1rem, 1.8vw, 1.15rem)',
                         fontWeight: 500,
                         marginBottom: '1rem',
-                        color: '#171515'
+                        color: '#171515',
+                        marginTop: 'auto'
                       }}>
                         ${product.price.toFixed(2)}
                       </div>

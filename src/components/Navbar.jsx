@@ -53,7 +53,7 @@ function Navbar({ cartCount, favouritesCount }) {
         width: '100%',
         background: bgColor,
         zIndex: 1000,
-        padding: 'clamp(0.8rem, 2vw, 1.5rem) clamp(1rem, 3vw, 4rem)',
+        padding: 'clamp(0.5rem, 1.5vw, 0.8rem) clamp(1rem, 3vw, 4rem)',
         borderBottom: `1px solid ${borderColor}`,
         transition: 'background 0.3s ease, border-color 0.3s ease'
       }}>
@@ -128,7 +128,7 @@ function Navbar({ cartCount, favouritesCount }) {
               src={isScrolled ? '/logo2.svg' : '/logo.svg'}
               alt="gleam"
               style={{
-                height: 'clamp(90px, 17vw, 140px)',
+                height: 'clamp(60px, 12vw, 90px)',
                 width: 'auto',
                 objectFit: 'contain',
                 transition: 'opacity 0.3s ease'
