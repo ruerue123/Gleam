@@ -38,7 +38,7 @@ function Collections() {
 
   return (
     <section id="scents" style={{
-      padding: 'clamp(2.5rem, 6vw, 8rem) 5%',
+      padding: 'clamp(2rem, 4vw, 4rem) 5%',
       maxWidth: '1400px',
       margin: '0 auto',
       background: '#ffffff'
@@ -61,7 +61,7 @@ function Collections() {
         fontSize: 'clamp(1.1rem, 2vw, 1.3rem)',
         color: '#171515',
         opacity: 0.75,
-        marginBottom: 'clamp(3rem, 6vw, 5rem)',
+        marginBottom: 'clamp(2rem, 4vw, 3rem)',
         fontStyle: 'italic',
         fontWeight: 300
       }}>

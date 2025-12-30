@@ -53,7 +53,7 @@ function BestSellers({ onAddToCart, onAddToFavourites, favourites = [] }) {
   return (
     <section style={{
       background: '#FAFAF8',
-      padding: 'clamp(4rem, 10vw, 8rem) 5%'
+      padding: 'clamp(2rem, 4vw, 4rem) 5%'
     }}>
       <h2 style={{
         fontFamily: "'Cardo', serif",
@@ -73,7 +73,7 @@ function BestSellers({ onAddToCart, onAddToFavourites, favourites = [] }) {
         fontSize: 'clamp(1.1rem, 2vw, 1.3rem)',
         color: '#171515',
         opacity: 0.75,
-        marginBottom: 'clamp(3rem, 6vw, 5rem)',
+        marginBottom: 'clamp(2rem, 4vw, 3rem)',
         fontStyle: 'italic',
         fontWeight: 300
       }}>
