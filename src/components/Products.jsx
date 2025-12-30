@@ -130,13 +130,14 @@ function Products({ onAddToCart, onAddToFavourites, favourites = [] }) {
           }
           .products-main-content {
             grid-template-columns: 1fr !important;
+            padding: 0 3% !important;
           }
           .mobile-scent-filters {
             display: flex !important;
           }
           .products-grid {
             grid-template-columns: repeat(2, 1fr) !important;
-            gap: 1rem !important;
+            gap: 0.8rem !important;
           }
         }
         @media (min-width: 969px) {

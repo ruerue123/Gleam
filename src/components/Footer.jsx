@@ -19,37 +19,49 @@ function Footer() {
       <style>{`
         @media (max-width: 768px) {
           .footer-grid {
-            grid-template-columns: 1fr !important;
-            gap: 1.5rem !important;
+            grid-template-columns: repeat(2, 1fr) !important;
+            gap: 1rem !important;
+          }
+          .footer-brand {
+            grid-column: 1 / -1 !important;
+          }
+          .footer-newsletter {
+            grid-column: 1 / -1 !important;
           }
           .footer-brand h3 {
-            font-size: 1rem !important;
+            font-size: 0.95rem !important;
           }
           .footer-brand p {
-            font-size: 0.8rem !important;
+            font-size: 0.75rem !important;
           }
           .footer-section h4 {
-            font-size: 0.9rem !important;
-            margin-bottom: 0.5rem !important;
+            font-size: 0.85rem !important;
+            margin-bottom: 0.4rem !important;
           }
           .footer-section ul li {
-            margin-bottom: 0.3rem !important;
+            margin-bottom: 0.25rem !important;
           }
           .footer-section ul li a,
           .footer-section ul li span {
-            font-size: 0.75rem !important;
+            font-size: 0.7rem !important;
+          }
+          .footer-newsletter h4 {
+            font-size: 0.85rem !important;
+          }
+          .footer-newsletter p {
+            font-size: 0.7rem !important;
           }
           .footer-newsletter input {
-            font-size: 0.8rem !important;
-            padding: 0.6rem !important;
+            font-size: 0.75rem !important;
+            padding: 0.5rem !important;
           }
           .footer-newsletter button {
-            font-size: 0.8rem !important;
-            padding: 0.6rem 1rem !important;
+            font-size: 0.75rem !important;
+            padding: 0.5rem 0.8rem !important;
           }
           .footer-bottom {
-            font-size: 0.7rem !important;
-            padding-top: 1rem !important;
+            font-size: 0.65rem !important;
+            padding-top: 0.8rem !important;
           }
         }
       `}</style>
@@ -313,7 +325,24 @@ function Footer() {
         opacity: 0.6,
         fontWeight: 300
       }}>
-        <p>&copy; 2024 Gleam. Made with intention in Harare, Zimbabwe.</p>
+        <p>
+          &copy; 2025 gleam. All rights reserved. Website design by{' '}
+          <a
+            href="https://www.cresciotech.co.zw"
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{
+              color: '#EDECE4',
+              textDecoration: 'underline',
+              opacity: 0.8,
+              transition: 'opacity 0.3s'
+            }}
+            onMouseEnter={(e) => e.currentTarget.style.opacity = '1'}
+            onMouseLeave={(e) => e.currentTarget.style.opacity = '0.8'}
+          >
+            Crescio Technology
+          </a>.
+        </p>
       </div>
     </footer>
   );
