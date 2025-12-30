@@ -58,11 +58,11 @@ function Footer() {
             letterSpacing: '0.5px',
             color: '#EDECE4'
           }}>
-            Collections
+            Scents
           </h4>
           <ul style={{ listStyle: 'none' }}>
             <li style={{ marginBottom: 'clamp(0.4rem, 0.8vw, 0.5rem)' }}>
-              <Link to="/collection/petty-collection" style={{
+              <Link to="/scent/ember" style={{
                 fontFamily: "'Cormorant', serif",
                 fontSize: 'clamp(0.8rem, 1.3vw, 0.9rem)',
                 color: '#EDECE4',
@@ -74,11 +74,11 @@ function Footer() {
               onMouseEnter={(e) => e.target.style.opacity = '1'}
               onMouseLeave={(e) => e.target.style.opacity = '0.7'}
               >
-                Petty Collection
+                Ember
               </Link>
             </li>
             <li style={{ marginBottom: 'clamp(0.4rem, 0.8vw, 0.5rem)' }}>
-              <Link to="/collection/soft-feelings" style={{
+              <Link to="/scent/zest" style={{
                 fontFamily: "'Cormorant', serif",
                 fontSize: 'clamp(0.8rem, 1.3vw, 0.9rem)',
                 color: '#EDECE4',
@@ -90,11 +90,11 @@ function Footer() {
               onMouseEnter={(e) => e.target.style.opacity = '1'}
               onMouseLeave={(e) => e.target.style.opacity = '0.7'}
               >
-                Soft Feelings
+                Zest
               </Link>
             </li>
             <li style={{ marginBottom: 'clamp(0.4rem, 0.8vw, 0.5rem)' }}>
-              <Link to="/collection/mood-collection" style={{
+              <Link to="/scent/serene" style={{
                 fontFamily: "'Cormorant', serif",
                 fontSize: 'clamp(0.8rem, 1.3vw, 0.9rem)',
                 color: '#EDECE4',
@@ -106,11 +106,11 @@ function Footer() {
               onMouseEnter={(e) => e.target.style.opacity = '1'}
               onMouseLeave={(e) => e.target.style.opacity = '0.7'}
               >
-                Mood Collection
+                Serene
               </Link>
             </li>
             <li style={{ marginBottom: 'clamp(0.4rem, 0.8vw, 0.5rem)' }}>
-              <Link to="/collection/luxe-gleam" style={{
+              <Link to="/scent/root" style={{
                 fontFamily: "'Cormorant', serif",
                 fontSize: 'clamp(0.8rem, 1.3vw, 0.9rem)',
                 color: '#EDECE4',
@@ -122,7 +122,7 @@ function Footer() {
               onMouseEnter={(e) => e.target.style.opacity = '1'}
               onMouseLeave={(e) => e.target.style.opacity = '0.7'}
               >
-                Luxe Gleam
+                Root
               </Link>
             </li>
           </ul>

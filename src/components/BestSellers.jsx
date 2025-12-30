@@ -249,6 +249,25 @@ function BestSellers({ onAddToCart, onAddToFavourites, favourites = [] }) {
                   .button-container-desktop {
                     display: none !important;
                   }
+                  .product-card-content {
+                    padding: 1rem !important;
+                  }
+                  .product-card-content h3 {
+                    font-size: 0.95rem !important;
+                    margin-bottom: 0.4rem !important;
+                  }
+                  .product-card-content p {
+                    font-size: 0.75rem !important;
+                    margin-bottom: 0.6rem !important;
+                  }
+                  .product-card-content .price {
+                    font-size: 0.9rem !important;
+                    margin-bottom: 0.8rem !important;
+                  }
+                  .button-container-mobile {
+                    padding: 0.8rem !important;
+                    font-size: 0.85rem !important;
+                  }
                 }
 
                 @media (min-width: 769px) {
@@ -265,7 +284,7 @@ function BestSellers({ onAddToCart, onAddToFavourites, favourites = [] }) {
               `}</style>
 
               {/* Product Details */}
-              <div style={{
+              <div className="product-card-content" style={{
                 padding: '1.5rem',
                 display: 'flex',
                 flexDirection: 'column',
@@ -293,7 +312,41 @@ function BestSellers({ onAddToCart, onAddToFavourites, favourites = [] }) {
                   {product.description}
                 </p>
 
-                <div style={{
+                {/* Scent Family & Best For Tags */}
+                {(product.scentFamily || product.bestFor) && (
+                  <div style={{
+                    marginBottom: '1rem',
+                    padding: '0.8rem',
+                    background: 'rgba(139, 115, 85, 0.08)',
+                    borderRadius: '8px',
+                    borderLeft: '3px solid #8B7355'
+                  }}>
+                    {product.scentFamily && (
+                      <div style={{
+                        fontSize: 'clamp(0.75rem, 1.3vw, 0.85rem)',
+                        marginBottom: product.bestFor ? '0.4rem' : '0',
+                        fontFamily: "'Raleway', sans-serif"
+                      }}>
+                        <span style={{ fontWeight: 500, color: '#8B7355' }}>Scent Family:</span>{' '}
+                        <span style={{ color: '#171515', opacity: 0.8 }}>
+                          {product.scentFamily}
+                          {product.scentFamilyDescription && ` - ${product.scentFamilyDescription}`}
+                        </span>
+                      </div>
+                    )}
+                    {product.bestFor && (
+                      <div style={{
+                        fontSize: 'clamp(0.75rem, 1.3vw, 0.85rem)',
+                        fontFamily: "'Raleway', sans-serif"
+                      }}>
+                        <span style={{ fontWeight: 500, color: '#8B7355' }}>Best For:</span>{' '}
+                        <span style={{ color: '#171515', opacity: 0.8 }}>{product.bestFor}</span>
+                      </div>
+                    )}
+                  </div>
+                )}
+
+                <div className="price" style={{
                   fontFamily: "'Raleway', sans-serif",
                   fontSize: 'clamp(1rem, 2vw, 1.1rem)',
                   fontWeight: 500,

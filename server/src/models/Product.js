@@ -38,6 +38,19 @@ const productSchema = new mongoose.Schema({
     type: String,
     required: true
   },
+  scentFamily: {
+    type: String,
+    enum: ['EMBER', 'ZEST', 'SERENE', 'ROOT'],
+    required: false
+  },
+  scentFamilyDescription: {
+    type: String,
+    required: false
+  },
+  bestFor: {
+    type: String,
+    required: false
+  },
   burnTime: {
     type: String,
     default: '40-50 hours'

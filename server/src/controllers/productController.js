@@ -5,9 +5,14 @@ import Product from '../models/Product.js';
 // @access  Public
 export const getProducts = async (req, res) => {
   try {
-    const { collection, search, featured, limit } = req.query;
+    const { collection, scentFamily, search, featured, limit } = req.query;
 
     let query = { isActive: true };
+
+    // Filter by scent family
+    if (scentFamily) {
+      query.scentFamily = scentFamily;
+    }
 
     // Filter by collection (accept both collection name and slug)
     if (collection) {

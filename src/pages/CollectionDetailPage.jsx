@@ -8,62 +8,62 @@ function CollectionDetailPage({ onAddToCart }) {
 
   const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000'
 
-  const collections = {
-    'petty-collection': {
-      name: 'Petty Collection',
-      emoji: '🖤',
-      description: 'For your quiet revenge. Emotional release wrapped in wit and warmth.',
+  const scents = {
+    'ember': {
+      name: 'EMBER',
+      image: '/images/Petty.png',
+      description: 'Warm notes that wrap your space in calm and comfort',
       color: 'linear-gradient(135deg, #A96A7B 0%, rgba(169, 106, 123, 0.7) 100%)'
     },
-    'soft-feelings': {
-      name: 'Soft Feelings',
-      emoji: '🤍',
-      description: 'Tender moments. Late nights. The scent of safety and self-care.',
-      color: 'linear-gradient(135deg, #E7CFC3 0%, rgba(231, 207, 195, 0.7) 100%)'
-    },
-    'mood-collection': {
-      name: 'Mood Collection',
-      emoji: '🔥',
-      description: 'Main character energy. Fresh starts and quiet power.',
+    'zest': {
+      name: 'ZEST',
+      image: '/images/Mood.png',
+      description: 'Clean, vibrant fragrances that brighten your space and mood.',
       color: 'linear-gradient(135deg, #9C7A4E 0%, rgba(156, 122, 78, 0.7) 100%)'
     },
-    'luxe-gleam': {
-      name: 'Luxe Gleam',
-      emoji: '✨',
-      description: 'Quiet opulence. The premium line for those who know their worth.',
+    'serene': {
+      name: 'SERENE',
+      image: '/images/Soft.png',
+      description: 'Soft, therapeutic blends designed for peace and relaxation.',
+      color: 'linear-gradient(135deg, #E7CFC3 0%, rgba(231, 207, 195, 0.7) 100%)'
+    },
+    'root': {
+      name: 'ROOT',
+      image: '/images/Luxe.png',
+      description: 'Rich aromas that ground your space and linger beautifully.',
       color: 'linear-gradient(135deg, #C6A75E 0%, rgba(198, 167, 94, 0.7) 100%)'
     }
   }
 
-  const collection = collections[slug]
+  const scent = scents[slug]
 
-  const fetchCollectionProducts = useCallback(async () => {
-    if (!collection) {
+  const fetchScentProducts = useCallback(async () => {
+    if (!scent) {
       setLoading(false)
       return
     }
 
     try {
-      const response = await fetch(`${API_URL}/api/products?collection=${encodeURIComponent(collection.name)}`)
+      const response = await fetch(`${API_URL}/api/products?scentFamily=${encodeURIComponent(scent.name)}`)
       const data = await response.json()
       if (data.success) {
         setProducts(data.data)
       }
     } catch (error) {
-      console.error('Error fetching collection products:', error)
+      console.error('Error fetching scent products:', error)
     } finally {
       setLoading(false)
     }
-  }, [API_URL, collection])
+  }, [API_URL, scent])
 
   useEffect(() => {
-    fetchCollectionProducts()
-  }, [fetchCollectionProducts])
+    fetchScentProducts()
+  }, [fetchScentProducts])
 
-  if (!collection) {
+  if (!scent) {
     return (
       <div style={{ minHeight: '100vh', paddingTop: '120px', textAlign: 'center' }}>
-        <h1>Collection not found</h1>
+        <h1>Scent family not found</h1>
         <Link to="/">Return Home</Link>
       </div>
     )
@@ -73,30 +73,53 @@ function CollectionDetailPage({ onAddToCart }) {
     return (
       <div style={{ minHeight: '100vh', paddingTop: '100px', paddingBottom: '4rem' }}>
         <div style={{
-          background: collection.color,
+          background: scent.color,
           padding: '4rem 5%',
           textAlign: 'center',
-          marginBottom: '4rem'
+          marginBottom: '4rem',
+          position: 'relative',
+          overflow: 'hidden'
         }}>
-          <div style={{ fontSize: '5rem', marginBottom: '1rem' }}>{collection.emoji}</div>
-          <h1 style={{
-            fontFamily: "'Raleway', sans-serif",
-            fontSize: 'clamp(2rem, 5vw, 3.5rem)',
-            fontWeight: 300,
-            letterSpacing: '2px',
-            marginBottom: '1rem',
-            color: '#111'
+          <div style={{
+            width: '100%',
+            maxWidth: '300px',
+            height: '300px',
+            margin: '0 auto 2rem',
+            borderRadius: '50%',
+            overflow: 'hidden',
+            boxShadow: '0 8px 24px rgba(0, 0, 0, 0.15)'
           }}>
-            {collection.name}
+            <img
+              src={scent.image}
+              alt={scent.name}
+              style={{
+                width: '100%',
+                height: '100%',
+                objectFit: 'cover',
+                objectPosition: 'center'
+              }}
+            />
+          </div>
+          <h1 style={{
+            fontFamily: "'Cardo', serif",
+            fontSize: 'clamp(2rem, 5vw, 3.5rem)',
+            fontWeight: 400,
+            letterSpacing: '0.5px',
+            marginBottom: '1rem',
+            color: '#171515'
+          }}>
+            {scent.name}
           </h1>
           <p style={{
+            fontFamily: "'Cormorant', serif",
             fontSize: 'clamp(1rem, 2vw, 1.2rem)',
             opacity: 0.8,
             maxWidth: '600px',
             margin: '0 auto',
-            fontStyle: 'italic'
+            fontStyle: 'italic',
+            fontWeight: 300
           }}>
-            {collection.description}
+            {scent.description}
           </p>
         </div>
         <div style={{ textAlign: 'center', fontFamily: "'Cormorant', serif", fontSize: '1.2rem', color: '#8B7355' }}>
@@ -110,30 +133,51 @@ function CollectionDetailPage({ onAddToCart }) {
     <div style={{ minHeight: '100vh', paddingTop: '100px', paddingBottom: '4rem' }}>
       {/* Hero Section */}
       <div style={{
-        background: collection.color,
+        background: scent.color,
         padding: '4rem 5%',
         textAlign: 'center',
         marginBottom: '4rem'
       }}>
-        <div style={{ fontSize: '5rem', marginBottom: '1rem' }}>{collection.emoji}</div>
-        <h1 style={{
-          fontFamily: "'Raleway', sans-serif",
-          fontSize: 'clamp(2rem, 5vw, 3.5rem)',
-          fontWeight: 300,
-          letterSpacing: '2px',
-          marginBottom: '1rem',
-          color: '#111'
+        <div style={{
+          width: '100%',
+          maxWidth: '300px',
+          height: '300px',
+          margin: '0 auto 2rem',
+          borderRadius: '50%',
+          overflow: 'hidden',
+          boxShadow: '0 8px 24px rgba(0, 0, 0, 0.15)'
         }}>
-          {collection.name}
+          <img
+            src={scent.image}
+            alt={scent.name}
+            style={{
+              width: '100%',
+              height: '100%',
+              objectFit: 'cover',
+              objectPosition: 'center'
+            }}
+          />
+        </div>
+        <h1 style={{
+          fontFamily: "'Cardo', serif",
+          fontSize: 'clamp(2rem, 5vw, 3.5rem)',
+          fontWeight: 400,
+          letterSpacing: '0.5px',
+          marginBottom: '1rem',
+          color: '#171515'
+        }}>
+          {scent.name}
         </h1>
         <p style={{
+          fontFamily: "'Cormorant', serif",
           fontSize: 'clamp(1rem, 2vw, 1.2rem)',
           opacity: 0.8,
           maxWidth: '600px',
           margin: '0 auto',
-          fontStyle: 'italic'
+          fontStyle: 'italic',
+          fontWeight: 300
         }}>
-          {collection.description}
+          {scent.description}
         </p>
       </div>
 
