@@ -110,18 +110,21 @@ function BestSellers({ onAddToCart, onAddToFavourites, favourites = [] }) {
               onMouseEnter={(e) => e.currentTarget.style.transform = 'translateY(-5px)'}
               onMouseLeave={(e) => e.currentTarget.style.transform = 'translateY(0)'}
             >
-              {/* Product Image with Wishlist Button */}
-              <div style={{
-                width: '100%',
-                height: '320px',
-                position: 'relative',
-                overflow: 'hidden',
-                background: '#CFC7BE',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                fontSize: '3rem'
-              }}>
+              {/* Product Image with Wishlist and Quick View */}
+              <div
+                className="product-image-container"
+                style={{
+                  width: '100%',
+                  height: '220px',
+                  position: 'relative',
+                  overflow: 'hidden',
+                  background: '#CFC7BE',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  fontSize: '3rem'
+                }}
+              >
                 {product.images && product.images.length > 0 ? (
                   <img
                     src={product.images[0]}
@@ -164,7 +167,7 @@ function BestSellers({ onAddToCart, onAddToFavourites, favourites = [] }) {
                     justifyContent: 'center',
                     cursor: 'pointer',
                     transition: 'all 0.3s ease',
-                    zIndex: 2,
+                    zIndex: 3,
                     boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)'
                   }}
                   aria-label={isFavourite ? "Remove from favourites" : "Add to favourites"}
@@ -180,7 +183,56 @@ function BestSellers({ onAddToCart, onAddToFavourites, favourites = [] }) {
                     <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
                   </svg>
                 </motion.button>
+
+                {/* Quick View Button - Hover Overlay */}
+                <button
+                  className="quick-view-overlay"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    setQuickViewProduct(product);
+                    setSelectedImageIndex(0);
+                  }}
+                  style={{
+                    position: 'absolute',
+                    bottom: '0.8rem',
+                    left: '50%',
+                    transform: 'translateX(-50%)',
+                    padding: '0.7rem 1.5rem',
+                    background: 'rgba(17, 17, 17, 0.9)',
+                    color: '#F6F1EB',
+                    border: 'none',
+                    borderRadius: '50px',
+                    fontSize: '0.85rem',
+                    letterSpacing: '0.5px',
+                    cursor: 'pointer',
+                    transition: 'all 0.3s ease',
+                    fontWeight: 400,
+                    opacity: 0,
+                    zIndex: 2,
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '0.5rem'
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.background = 'rgba(156, 122, 78, 0.95)';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.background = 'rgba(17, 17, 17, 0.9)';
+                  }}
+                >
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                    <circle cx="12" cy="12" r="3"/>
+                  </svg>
+                  Quick View
+                </button>
               </div>
+              <style>{`
+                .product-image-container:hover .quick-view-overlay {
+                  opacity: 1;
+                }
+              `}</style>
 
               {/* Product Details */}
               <div style={{
@@ -220,72 +272,32 @@ function BestSellers({ onAddToCart, onAddToFavourites, favourites = [] }) {
                   ${product.price.toFixed(2)}
                 </div>
 
-                <div style={{
-                  display: 'flex',
-                  gap: '0.5rem'
-                }}>
-                  <button
-                    onClick={() => onAddToCart(product)}
-                    style={{
-                      flex: 1,
-                      padding: '0.9rem',
-                      background: '#111111',
-                      color: '#F6F1EB',
-                      border: 'none',
-                      borderRadius: '50px',
-                      fontSize: 'clamp(0.85rem, 1.5vw, 0.9rem)',
-                      letterSpacing: '0.5px',
-                      cursor: 'pointer',
-                      transition: 'all 0.3s',
-                      fontWeight: 400
-                    }}
-                    onMouseEnter={(e) => {
-                      e.currentTarget.style.background = '#9C7A4E';
-                      e.currentTarget.style.transform = 'translateY(-2px)';
-                    }}
-                    onMouseLeave={(e) => {
-                      e.currentTarget.style.background = '#111111';
-                      e.currentTarget.style.transform = 'translateY(0)';
-                    }}
-                  >
-                    Add to Cart
-                  </button>
-
-                  <button
-                    onClick={() => {
-                      setQuickViewProduct(product);
-                      setSelectedImageIndex(0);
-                    }}
-                    style={{
-                      padding: '0.9rem',
-                      background: 'transparent',
-                      color: '#111111',
-                      border: '1px solid #111111',
-                      borderRadius: '50%',
-                      width: '44px',
-                      height: '44px',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      cursor: 'pointer',
-                      transition: 'all 0.3s',
-                      flexShrink: 0
-                    }}
-                    onMouseEnter={(e) => {
-                      e.currentTarget.style.background = '#111111';
-                      e.currentTarget.style.color = '#F6F1EB';
-                    }}
-                    onMouseLeave={(e) => {
-                      e.currentTarget.style.background = 'transparent';
-                      e.currentTarget.style.color = '#111111';
-                    }}
-                  >
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                      <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
-                      <circle cx="12" cy="12" r="3"/>
-                    </svg>
-                  </button>
-                </div>
+                <button
+                  onClick={() => onAddToCart(product)}
+                  style={{
+                    width: '100%',
+                    padding: '1rem',
+                    background: '#111111',
+                    color: '#F6F1EB',
+                    border: 'none',
+                    borderRadius: '50px',
+                    fontSize: 'clamp(0.9rem, 1.5vw, 1rem)',
+                    letterSpacing: '0.5px',
+                    cursor: 'pointer',
+                    transition: 'all 0.3s',
+                    fontWeight: 400
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.background = '#9C7A4E';
+                    e.currentTarget.style.transform = 'translateY(-2px)';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.background = '#111111';
+                    e.currentTarget.style.transform = 'translateY(0)';
+                  }}
+                >
+                  Add to Cart
+                </button>
               </div>
             </motion.div>
           );
