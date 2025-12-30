@@ -10,7 +10,7 @@ import ProductsPage from './pages/ProductsPage'
 import ProductDetailPage from './pages/ProductDetailPage'
 import AboutPage from './pages/AboutPage'
 import CollectionDetailPage from './pages/CollectionDetailPage'
-import CollectionsPage from './pages/CollectionsPage'
+import ScentsPage from './pages/CollectionsPage'
 import ContactPage from './pages/ContactPage'
 import LoginPage from './pages/LoginPage'
 import ProfilePage from './pages/ProfilePage'
@@ -141,7 +141,7 @@ function AnimatedRoutes({ handleAddToCart, handleAddToFavourites, handleRemoveFr
             <HomePage onAddToCart={handleAddToCart} onAddToFavourites={handleAddToFavourites} favourites={favourites} />
           </motion.div>
         } />
-        <Route path="/collections" element={
+        <Route path="/scents" element={
           <motion.div
             initial="initial"
             animate="animate"
@@ -149,7 +149,7 @@ function AnimatedRoutes({ handleAddToCart, handleAddToFavourites, handleRemoveFr
             variants={pageVariants}
             transition={pageTransition}
           >
-            <CollectionsPage />
+            <ScentsPage />
           </motion.div>
         } />
         <Route path="/products" element={
@@ -174,7 +174,7 @@ function AnimatedRoutes({ handleAddToCart, handleAddToFavourites, handleRemoveFr
             <ProductDetailPage onAddToCart={handleAddToCart} onAddToFavourites={handleAddToFavourites} favourites={favourites} />
           </motion.div>
         } />
-        <Route path="/collection/:slug" element={
+        <Route path="/scent/:slug" element={
           <motion.div
             initial="initial"
             animate="animate"

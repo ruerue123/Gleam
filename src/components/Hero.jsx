@@ -57,7 +57,7 @@ function Hero() {
           Luxury candles for people who heal softly, feel deeply, and embrace their quiet power
         </p>
 
-        <a href="#collections" style={{
+        <a href="#scents" style={{
           display: 'inline-block',
           padding: 'clamp(0.9rem, 2vw, 1.1rem) clamp(2.2rem, 5vw, 3rem)',
           background: '#8B7355',
@@ -85,7 +85,7 @@ function Hero() {
           e.currentTarget.style.boxShadow = 'none';
         }}
         >
-          Explore Collections
+          Explore Scents
         </a>
       </div>
     </section>

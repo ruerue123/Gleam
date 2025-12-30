@@ -1,43 +1,43 @@
 import { Link } from 'react-router-dom'
 
 function Collections() {
-  const collections = [
+  const scents = [
     {
       id: 1,
-      name: 'Petty Collection',
-      slug: 'petty-collection',
+      name: 'EMBER',
+      slug: 'ember',
       image: '/images/Petty.png',
-      description: 'For your quiet revenge. Emotional release wrapped in wit and warmth.',
+      description: 'Warm & comforting',
       color: 'linear-gradient(135deg, #A96A7B 0%, rgba(169, 106, 123, 0.7) 100%)'
     },
     {
       id: 2,
-      name: 'Soft Feelings',
-      slug: 'soft-feelings',
-      image: '/images/Soft.png',
-      description: 'Tender moments. Late nights. The scent of safety and self-care.',
-      color: 'linear-gradient(135deg, #E7CFC3 0%, rgba(231, 207, 195, 0.7) 100%)'
-    },
-    {
-      id: 3,
-      name: 'Mood Collection',
-      slug: 'mood-collection',
+      name: 'ZEST',
+      slug: 'zest',
       image: '/images/Mood.png',
-      description: 'Main character energy. Fresh starts and quiet power.',
+      description: 'Fresh & uplifting',
       color: 'linear-gradient(135deg, #9C7A4E 0%, rgba(156, 122, 78, 0.7) 100%)'
     },
     {
+      id: 3,
+      name: 'SERENE',
+      slug: 'serene',
+      image: '/images/Soft.png',
+      description: 'Calm & self-care',
+      color: 'linear-gradient(135deg, #E7CFC3 0%, rgba(231, 207, 195, 0.7) 100%)'
+    },
+    {
       id: 4,
-      name: 'Luxe Gleam',
-      slug: 'luxe-gleam',
+      name: 'ROOT',
+      slug: 'root',
       image: '/images/Luxe.png',
-      description: 'Quiet opulence. The premium line for those who know their worth.',
+      description: 'Earthy & grounded',
       color: 'linear-gradient(135deg, #C6A75E 0%, rgba(198, 167, 94, 0.7) 100%)'
     }
   ];
 
   return (
-    <section id="collections" style={{
+    <section id="scents" style={{
       padding: 'clamp(2.5rem, 6vw, 8rem) 5%',
       maxWidth: '1400px',
       margin: '0 auto',
@@ -74,13 +74,13 @@ function Collections() {
         gap: 'clamp(1rem, 2.5vw, 2rem)',
         marginTop: '3rem'
       }}>
-        {collections.map((collection) => (
+        {scents.map((scent) => (
           <Link
-            key={collection.id}
-            to={`/collection/${collection.slug}`}
+            key={scent.id}
+            to={`/scent/${scent.slug}`}
             style={{
               background: '#FAFAF8',
-              borderRadius: '4px',
+              borderRadius: '12px',
               overflow: 'hidden',
               transition: 'all 0.3s ease',
               cursor: 'pointer',
@@ -106,8 +106,8 @@ function Collections() {
               overflow: 'hidden'
             }}>
               <img
-                src={collection.image}
-                alt={collection.name}
+                src={scent.image}
+                alt={scent.name}
                 style={{
                   width: '100%',
                   height: '100%',
@@ -130,7 +130,7 @@ function Collections() {
                 letterSpacing: '0.3px',
                 color: '#171515'
               }}>
-                {collection.name}
+                {scent.name}
               </h3>
               <p style={{
                 fontFamily: "'Cormorant', serif",
@@ -138,9 +138,10 @@ function Collections() {
                 color: '#171515',
                 opacity: 0.7,
                 lineHeight: 1.5,
-                fontWeight: 300
+                fontWeight: 300,
+                fontStyle: 'italic'
               }}>
-                {collection.description}
+                {scent.description}
               </p>
             </div>
           </Link>

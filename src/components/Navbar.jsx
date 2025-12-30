@@ -412,7 +412,7 @@ function Navbar({ cartCount, favouritesCount }) {
             </Link>
 
             <Link
-              to="/collections"
+              to="/scents"
               onClick={() => setIsMenuOpen(false)}
               style={{
                 fontFamily: "'Cormorant', serif",
@@ -425,7 +425,7 @@ function Navbar({ cartCount, favouritesCount }) {
               onMouseEnter={(e) => e.currentTarget.style.color = '#8B7355'}
               onMouseLeave={(e) => e.currentTarget.style.color = '#171515'}
             >
-              Collections
+              Scents
             </Link>
 
             <Link
