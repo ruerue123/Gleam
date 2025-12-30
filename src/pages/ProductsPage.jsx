@@ -1,9 +1,9 @@
 import Products from '../components/Products'
 
-function ProductsPage({ onAddToCart, onAddToFavourites, favourites }) {
+function ProductsPage({ onAddToCart }) {
   return (
-    <div style={{ minHeight: '100vh', paddingTop: 'clamp(90px, 10vw, 110px)', paddingBottom: '3rem' }}>
-      <Products onAddToCart={onAddToCart} onAddToFavourites={onAddToFavourites} favourites={favourites} />
+    <div style={{ minHeight: '100vh', paddingTop: 'clamp(90px, 10vw, 110px)', background: '#FAFAF8' }}>
+      <Products onAddToCart={onAddToCart} />
     </div>
   )
 }
