@@ -9,7 +9,6 @@ import HomePage from './pages/HomePage'
 import ProductsPage from './pages/ProductsPage'
 import ProductDetailPage from './pages/ProductDetailPage'
 import AboutPage from './pages/AboutPage'
-import CollectionDetailPage from './pages/CollectionDetailPage'
 import ScentsPage from './pages/CollectionsPage'
 import ContactPage from './pages/ContactPage'
 import LoginPage from './pages/LoginPage'
@@ -172,17 +171,6 @@ function AnimatedRoutes({ handleAddToCart, handleAddToFavourites, handleRemoveFr
             transition={pageTransition}
           >
             <ProductDetailPage onAddToCart={handleAddToCart} onAddToFavourites={handleAddToFavourites} favourites={favourites} />
-          </motion.div>
-        } />
-        <Route path="/scent/:slug" element={
-          <motion.div
-            initial="initial"
-            animate="animate"
-            exit="exit"
-            variants={pageVariants}
-            transition={pageTransition}
-          >
-            <CollectionDetailPage onAddToCart={handleAddToCart} onAddToFavourites={handleAddToFavourites} favourites={favourites} />
           </motion.div>
         } />
         <Route path="/about" element={

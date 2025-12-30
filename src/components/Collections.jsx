@@ -77,7 +77,7 @@ function Collections() {
         {scents.map((scent) => (
           <Link
             key={scent.id}
-            to={`/scent/${scent.slug}`}
+            to={`/products?scent=${scent.name}`}
             style={{
               background: '#FAFAF8',
               borderRadius: '12px',

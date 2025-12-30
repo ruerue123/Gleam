@@ -388,7 +388,7 @@ function BestSellers({ onAddToCart, onAddToFavourites, favourites = [] }) {
             alignItems: 'center',
             justifyContent: 'center',
             zIndex: 1000,
-            padding: '1rem'
+            padding: 'clamp(0.5rem, 2vw, 1rem)'
           }}
         >
           <motion.div
@@ -409,18 +409,18 @@ function BestSellers({ onAddToCart, onAddToFavourites, favourites = [] }) {
               onClick={() => setQuickViewProduct(null)}
               style={{
                 position: 'absolute',
-                top: '1rem',
-                right: '1rem',
+                top: 'clamp(0.5rem, 2vw, 1rem)',
+                right: 'clamp(0.5rem, 2vw, 1rem)',
                 background: 'rgba(255, 255, 255, 0.95)',
                 border: 'none',
                 borderRadius: '50%',
-                width: '36px',
-                height: '36px',
+                width: 'clamp(30px, 8vw, 36px)',
+                height: 'clamp(30px, 8vw, 36px)',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
                 cursor: 'pointer',
-                fontSize: '1.5rem',
+                fontSize: 'clamp(1.2rem, 4vw, 1.5rem)',
                 color: '#171515',
                 zIndex: 10,
                 boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)'
@@ -429,9 +429,9 @@ function BestSellers({ onAddToCart, onAddToFavourites, favourites = [] }) {
               ×
             </button>
 
-            <div style={{ padding: '2rem' }}>
+            <div style={{ padding: 'clamp(1rem, 4vw, 2rem)' }}>
               <div style={{
-                marginBottom: '1.5rem',
+                marginBottom: 'clamp(1rem, 3vw, 1.5rem)',
                 borderRadius: '8px',
                 overflow: 'hidden',
                 background: '#F6F1EB'
@@ -443,18 +443,18 @@ function BestSellers({ onAddToCart, onAddToFavourites, favourites = [] }) {
                     style={{
                       width: '100%',
                       height: 'auto',
-                      maxHeight: '400px',
+                      maxHeight: 'clamp(250px, 50vw, 400px)',
                       objectFit: 'cover'
                     }}
                   />
                 ) : (
                   <div style={{
                     width: '100%',
-                    height: '300px',
+                    height: 'clamp(200px, 40vw, 300px)',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    fontSize: '4rem'
+                    fontSize: 'clamp(2.5rem, 8vw, 4rem)'
                   }}>
                     {quickViewProduct.emoji || '🕯️'}
                   </div>
@@ -464,17 +464,18 @@ function BestSellers({ onAddToCart, onAddToFavourites, favourites = [] }) {
               {quickViewProduct.images && quickViewProduct.images.length > 1 && (
                 <div style={{
                   display: 'flex',
-                  gap: '0.5rem',
-                  marginBottom: '1.5rem',
-                  justifyContent: 'center'
+                  gap: 'clamp(0.3rem, 1vw, 0.5rem)',
+                  marginBottom: 'clamp(1rem, 3vw, 1.5rem)',
+                  justifyContent: 'center',
+                  flexWrap: 'wrap'
                 }}>
                   {quickViewProduct.images.map((image, index) => (
                     <button
                       key={index}
                       onClick={() => setSelectedImageIndex(index)}
                       style={{
-                        width: '60px',
-                        height: '60px',
+                        width: 'clamp(45px, 12vw, 60px)',
+                        height: 'clamp(45px, 12vw, 60px)',
                         border: selectedImageIndex === index ? '2px solid #8B7355' : '2px solid #EDECE4',
                         borderRadius: '4px',
                         overflow: 'hidden',
@@ -499,9 +500,9 @@ function BestSellers({ onAddToCart, onAddToFavourites, favourites = [] }) {
 
               <h2 style={{
                 fontFamily: "'Raleway', sans-serif",
-                fontSize: 'clamp(1.3rem, 3vw, 1.8rem)',
+                fontSize: 'clamp(1.1rem, 4vw, 1.8rem)',
                 fontWeight: 400,
-                marginBottom: '0.5rem',
+                marginBottom: 'clamp(0.3rem, 1vw, 0.5rem)',
                 color: '#171515',
                 letterSpacing: '0.5px'
               }}>
@@ -510,10 +511,10 @@ function BestSellers({ onAddToCart, onAddToFavourites, favourites = [] }) {
 
               <p style={{
                 fontFamily: "'Cormorant', serif",
-                fontSize: 'clamp(0.95rem, 1.8vw, 1.1rem)',
+                fontSize: 'clamp(0.85rem, 2.5vw, 1.1rem)',
                 fontStyle: 'italic',
                 opacity: 0.7,
-                marginBottom: '1rem',
+                marginBottom: 'clamp(0.8rem, 2vw, 1rem)',
                 lineHeight: 1.6
               }}>
                 {quickViewProduct.description}
@@ -521,9 +522,9 @@ function BestSellers({ onAddToCart, onAddToFavourites, favourites = [] }) {
 
               <div style={{
                 fontFamily: "'Raleway', sans-serif",
-                fontSize: 'clamp(1.2rem, 2.5vw, 1.5rem)',
+                fontSize: 'clamp(1.1rem, 3.5vw, 1.5rem)',
                 fontWeight: 600,
-                marginBottom: '1.5rem',
+                marginBottom: 'clamp(1rem, 3vw, 1.5rem)',
                 color: '#171515'
               }}>
                 ${quickViewProduct.price.toFixed(2)}
@@ -531,7 +532,7 @@ function BestSellers({ onAddToCart, onAddToFavourites, favourites = [] }) {
 
               <div style={{
                 display: 'flex',
-                gap: '1rem',
+                gap: 'clamp(0.6rem, 2vw, 1rem)',
                 flexWrap: 'wrap'
               }}>
                 <button
@@ -541,13 +542,13 @@ function BestSellers({ onAddToCart, onAddToFavourites, favourites = [] }) {
                   }}
                   style={{
                     flex: 1,
-                    minWidth: '150px',
-                    padding: '1rem',
+                    minWidth: 'clamp(120px, 30vw, 150px)',
+                    padding: 'clamp(0.8rem, 2.5vw, 1rem)',
                     background: '#111111',
                     color: '#ffffff',
                     border: 'none',
                     borderRadius: '50px',
-                    fontSize: 'clamp(0.9rem, 1.6vw, 1rem)',
+                    fontSize: 'clamp(0.8rem, 2.2vw, 1rem)',
                     fontFamily: "'Raleway', sans-serif",
                     fontWeight: 500,
                     letterSpacing: '0.5px',
@@ -568,13 +569,13 @@ function BestSellers({ onAddToCart, onAddToFavourites, favourites = [] }) {
                   to={`/product/${quickViewProduct.slug}`}
                   style={{
                     flex: 1,
-                    minWidth: '150px',
-                    padding: '1rem',
+                    minWidth: 'clamp(120px, 30vw, 150px)',
+                    padding: 'clamp(0.8rem, 2.5vw, 1rem)',
                     background: 'transparent',
                     color: '#171515',
                     border: '2px solid #171515',
                     borderRadius: '50px',
-                    fontSize: 'clamp(0.9rem, 1.6vw, 1rem)',
+                    fontSize: 'clamp(0.8rem, 2.2vw, 1rem)',
                     fontFamily: "'Raleway', sans-serif",
                     fontWeight: 500,
                     letterSpacing: '0.5px',

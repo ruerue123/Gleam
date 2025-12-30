@@ -62,7 +62,7 @@ function Footer() {
           </h4>
           <ul style={{ listStyle: 'none' }}>
             <li style={{ marginBottom: 'clamp(0.4rem, 0.8vw, 0.5rem)' }}>
-              <Link to="/scent/ember" style={{
+              <Link to="/products?scent=EMBER" style={{
                 fontFamily: "'Cormorant', serif",
                 fontSize: 'clamp(0.8rem, 1.3vw, 0.9rem)',
                 color: '#EDECE4',
@@ -78,7 +78,7 @@ function Footer() {
               </Link>
             </li>
             <li style={{ marginBottom: 'clamp(0.4rem, 0.8vw, 0.5rem)' }}>
-              <Link to="/scent/zest" style={{
+              <Link to="/products?scent=ZEST" style={{
                 fontFamily: "'Cormorant', serif",
                 fontSize: 'clamp(0.8rem, 1.3vw, 0.9rem)',
                 color: '#EDECE4',
@@ -94,7 +94,7 @@ function Footer() {
               </Link>
             </li>
             <li style={{ marginBottom: 'clamp(0.4rem, 0.8vw, 0.5rem)' }}>
-              <Link to="/scent/serene" style={{
+              <Link to="/products?scent=SERENE" style={{
                 fontFamily: "'Cormorant', serif",
                 fontSize: 'clamp(0.8rem, 1.3vw, 0.9rem)',
                 color: '#EDECE4',
@@ -110,7 +110,7 @@ function Footer() {
               </Link>
             </li>
             <li style={{ marginBottom: 'clamp(0.4rem, 0.8vw, 0.5rem)' }}>
-              <Link to="/scent/root" style={{
+              <Link to="/products?scent=ROOT" style={{
                 fontFamily: "'Cormorant', serif",
                 fontSize: 'clamp(0.8rem, 1.3vw, 0.9rem)',
                 color: '#EDECE4',
