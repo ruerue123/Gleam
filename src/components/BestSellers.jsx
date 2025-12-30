@@ -369,7 +369,7 @@ function BestSellers({ onAddToCart, onAddToFavourites, favourites = [] }) {
             e.currentTarget.style.boxShadow = 'none';
           }}
         >
-          SHOP ALL BEST SELLERS
+          SHOP ALL 
         </Link>
       </div>
 

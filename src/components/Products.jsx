@@ -12,6 +12,11 @@ function Products({ onAddToCart, onAddToFavourites, favourites = [] }) {
   const [selectedAvailability, setSelectedAvailability] = useState('All');
   const [quickViewProduct, setQuickViewProduct] = useState(null);
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
+  const [expandedSections, setExpandedSections] = useState({
+    scent: true,
+    price: false,
+    availability: false
+  });
 
   const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
 
@@ -192,168 +197,267 @@ function Products({ onAddToCart, onAddToFavourites, favourites = [] }) {
           height: 'fit-content'
         }}>
           {/* Scent Families */}
-          <div style={{ marginBottom: '2.5rem' }}>
-            <h3 style={{
-              fontFamily: "'Cardo', serif",
-              fontSize: 'clamp(1.1rem, 2vw, 1.3rem)',
-              fontWeight: 400,
-              marginBottom: '1.2rem',
-              letterSpacing: '0.5px',
-              color: '#171515',
-              textTransform: 'uppercase'
-            }}>
-              Scent Family
-            </h3>
-            <ul style={{
-              listStyle: 'none',
-              padding: 0,
-              margin: 0
-            }}>
-              {scents.map((scent) => (
-                <li key={scent.value} style={{ marginBottom: '0.8rem' }}>
-                  <button
-                    onClick={() => setSelectedScent(scent.value)}
-                    style={{
-                      background: 'none',
-                      border: 'none',
-                      padding: '0.5rem 0',
-                      cursor: 'pointer',
-                      fontFamily: "'Raleway', sans-serif",
-                      fontSize: 'clamp(0.9rem, 1.5vw, 1rem)',
-                      color: selectedScent === scent.value ? '#8B7355' : '#171515',
-                      opacity: selectedScent === scent.value ? 1 : 0.7,
-                      fontWeight: selectedScent === scent.value ? 500 : 400,
-                      letterSpacing: '0.3px',
-                      transition: 'all 0.3s ease',
-                      textAlign: 'left',
-                      width: '100%'
-                    }}
-                    onMouseEnter={(e) => {
-                      e.currentTarget.style.opacity = '1';
-                      e.currentTarget.style.color = '#8B7355';
-                    }}
-                    onMouseLeave={(e) => {
-                      if (selectedScent !== scent.value) {
-                        e.currentTarget.style.opacity = '0.7';
-                        e.currentTarget.style.color = '#171515';
-                      }
-                    }}
-                  >
-                    {scent.label}
-                  </button>
-                </li>
-              ))}
-            </ul>
+          <div style={{ marginBottom: '1.5rem', borderBottom: '1px solid #EDECE4', paddingBottom: '1rem' }}>
+            <button
+              onClick={() => setExpandedSections(prev => ({ ...prev, scent: !prev.scent }))}
+              style={{
+                width: '100%',
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                background: 'none',
+                border: 'none',
+                padding: '0.5rem 0',
+                cursor: 'pointer'
+              }}
+            >
+              <h3 style={{
+                fontFamily: "'Cardo', serif",
+                fontSize: 'clamp(1.1rem, 2vw, 1.3rem)',
+                fontWeight: 400,
+                letterSpacing: '0.5px',
+                color: '#171515',
+                textTransform: 'uppercase',
+                margin: 0
+              }}>
+                Scent Family
+              </h3>
+              <svg
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="#171515"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                style={{
+                  transform: expandedSections.scent ? 'rotate(180deg)' : 'rotate(0deg)',
+                  transition: 'transform 0.3s ease'
+                }}
+              >
+                <polyline points="6 9 12 15 18 9" />
+              </svg>
+            </button>
+
+            {expandedSections.scent && (
+              <ul style={{
+                listStyle: 'none',
+                padding: 0,
+                margin: '1rem 0 0 0'
+              }}>
+                {scents.map((scent) => (
+                  <li key={scent.value} style={{ marginBottom: '0.8rem' }}>
+                    <button
+                      onClick={() => setSelectedScent(scent.value)}
+                      style={{
+                        background: 'none',
+                        border: 'none',
+                        padding: '0.5rem 0',
+                        cursor: 'pointer',
+                        fontFamily: "'Raleway', sans-serif",
+                        fontSize: 'clamp(0.9rem, 1.5vw, 1rem)',
+                        color: selectedScent === scent.value ? '#8B7355' : '#171515',
+                        opacity: selectedScent === scent.value ? 1 : 0.7,
+                        fontWeight: selectedScent === scent.value ? 500 : 400,
+                        letterSpacing: '0.3px',
+                        transition: 'all 0.3s ease',
+                        textAlign: 'left',
+                        width: '100%'
+                      }}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.opacity = '1';
+                        e.currentTarget.style.color = '#8B7355';
+                      }}
+                      onMouseLeave={(e) => {
+                        if (selectedScent !== scent.value) {
+                          e.currentTarget.style.opacity = '0.7';
+                          e.currentTarget.style.color = '#171515';
+                        }
+                      }}
+                    >
+                      {scent.label}
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            )}
           </div>
 
           {/* Price Range */}
-          <div style={{ marginBottom: '2.5rem' }}>
-            <h3 style={{
-              fontFamily: "'Cardo', serif",
-              fontSize: 'clamp(1.1rem, 2vw, 1.3rem)',
-              fontWeight: 400,
-              marginBottom: '1.2rem',
-              letterSpacing: '0.5px',
-              color: '#171515',
-              textTransform: 'uppercase'
-            }}>
-              Price
-            </h3>
-            <ul style={{
-              listStyle: 'none',
-              padding: 0,
-              margin: 0
-            }}>
-              {priceRanges.map((range) => (
-                <li key={range.value} style={{ marginBottom: '0.8rem' }}>
-                  <button
-                    onClick={() => setSelectedPrice(range.value)}
-                    style={{
-                      background: 'none',
-                      border: 'none',
-                      padding: '0.5rem 0',
-                      cursor: 'pointer',
-                      fontFamily: "'Raleway', sans-serif",
-                      fontSize: 'clamp(0.9rem, 1.5vw, 1rem)',
-                      color: selectedPrice === range.value ? '#8B7355' : '#171515',
-                      opacity: selectedPrice === range.value ? 1 : 0.7,
-                      fontWeight: selectedPrice === range.value ? 500 : 400,
-                      letterSpacing: '0.3px',
-                      transition: 'all 0.3s ease',
-                      textAlign: 'left',
-                      width: '100%'
-                    }}
-                    onMouseEnter={(e) => {
-                      e.currentTarget.style.opacity = '1';
-                      e.currentTarget.style.color = '#8B7355';
-                    }}
-                    onMouseLeave={(e) => {
-                      if (selectedPrice !== range.value) {
-                        e.currentTarget.style.opacity = '0.7';
-                        e.currentTarget.style.color = '#171515';
-                      }
-                    }}
-                  >
-                    {range.label}
-                  </button>
-                </li>
-              ))}
-            </ul>
+          <div style={{ marginBottom: '1.5rem', borderBottom: '1px solid #EDECE4', paddingBottom: '1rem' }}>
+            <button
+              onClick={() => setExpandedSections(prev => ({ ...prev, price: !prev.price }))}
+              style={{
+                width: '100%',
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                background: 'none',
+                border: 'none',
+                padding: '0.5rem 0',
+                cursor: 'pointer'
+              }}
+            >
+              <h3 style={{
+                fontFamily: "'Cardo', serif",
+                fontSize: 'clamp(1.1rem, 2vw, 1.3rem)',
+                fontWeight: 400,
+                letterSpacing: '0.5px',
+                color: '#171515',
+                textTransform: 'uppercase',
+                margin: 0
+              }}>
+                Price
+              </h3>
+              <svg
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="#171515"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                style={{
+                  transform: expandedSections.price ? 'rotate(180deg)' : 'rotate(0deg)',
+                  transition: 'transform 0.3s ease'
+                }}
+              >
+                <polyline points="6 9 12 15 18 9" />
+              </svg>
+            </button>
+
+            {expandedSections.price && (
+              <ul style={{
+                listStyle: 'none',
+                padding: 0,
+                margin: '1rem 0 0 0'
+              }}>
+                {priceRanges.map((range) => (
+                  <li key={range.value} style={{ marginBottom: '0.8rem' }}>
+                    <button
+                      onClick={() => setSelectedPrice(range.value)}
+                      style={{
+                        background: 'none',
+                        border: 'none',
+                        padding: '0.5rem 0',
+                        cursor: 'pointer',
+                        fontFamily: "'Raleway', sans-serif",
+                        fontSize: 'clamp(0.9rem, 1.5vw, 1rem)',
+                        color: selectedPrice === range.value ? '#8B7355' : '#171515',
+                        opacity: selectedPrice === range.value ? 1 : 0.7,
+                        fontWeight: selectedPrice === range.value ? 500 : 400,
+                        letterSpacing: '0.3px',
+                        transition: 'all 0.3s ease',
+                        textAlign: 'left',
+                        width: '100%'
+                      }}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.opacity = '1';
+                        e.currentTarget.style.color = '#8B7355';
+                      }}
+                      onMouseLeave={(e) => {
+                        if (selectedPrice !== range.value) {
+                          e.currentTarget.style.opacity = '0.7';
+                          e.currentTarget.style.color = '#171515';
+                        }
+                      }}
+                    >
+                      {range.label}
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            )}
           </div>
 
           {/* Availability */}
-          <div style={{ marginBottom: '2.5rem' }}>
-            <h3 style={{
-              fontFamily: "'Cardo', serif",
-              fontSize: 'clamp(1.1rem, 2vw, 1.3rem)',
-              fontWeight: 400,
-              marginBottom: '1.2rem',
-              letterSpacing: '0.5px',
-              color: '#171515',
-              textTransform: 'uppercase'
-            }}>
-              Availability
-            </h3>
-            <ul style={{
-              listStyle: 'none',
-              padding: 0,
-              margin: 0
-            }}>
-              {availabilityOptions.map((option) => (
-                <li key={option.value} style={{ marginBottom: '0.8rem' }}>
-                  <button
-                    onClick={() => setSelectedAvailability(option.value)}
-                    style={{
-                      background: 'none',
-                      border: 'none',
-                      padding: '0.5rem 0',
-                      cursor: 'pointer',
-                      fontFamily: "'Raleway', sans-serif",
-                      fontSize: 'clamp(0.9rem, 1.5vw, 1rem)',
-                      color: selectedAvailability === option.value ? '#8B7355' : '#171515',
-                      opacity: selectedAvailability === option.value ? 1 : 0.7,
-                      fontWeight: selectedAvailability === option.value ? 500 : 400,
-                      letterSpacing: '0.3px',
-                      transition: 'all 0.3s ease',
-                      textAlign: 'left',
-                      width: '100%'
-                    }}
-                    onMouseEnter={(e) => {
-                      e.currentTarget.style.opacity = '1';
-                      e.currentTarget.style.color = '#8B7355';
-                    }}
-                    onMouseLeave={(e) => {
-                      if (selectedAvailability !== option.value) {
-                        e.currentTarget.style.opacity = '0.7';
-                        e.currentTarget.style.color = '#171515';
-                      }
-                    }}
-                  >
-                    {option.label}
-                  </button>
-                </li>
-              ))}
-            </ul>
+          <div style={{ marginBottom: '1.5rem' }}>
+            <button
+              onClick={() => setExpandedSections(prev => ({ ...prev, availability: !prev.availability }))}
+              style={{
+                width: '100%',
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                background: 'none',
+                border: 'none',
+                padding: '0.5rem 0',
+                cursor: 'pointer'
+              }}
+            >
+              <h3 style={{
+                fontFamily: "'Cardo', serif",
+                fontSize: 'clamp(1.1rem, 2vw, 1.3rem)',
+                fontWeight: 400,
+                letterSpacing: '0.5px',
+                color: '#171515',
+                textTransform: 'uppercase',
+                margin: 0
+              }}>
+                Availability
+              </h3>
+              <svg
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="#171515"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                style={{
+                  transform: expandedSections.availability ? 'rotate(180deg)' : 'rotate(0deg)',
+                  transition: 'transform 0.3s ease'
+                }}
+              >
+                <polyline points="6 9 12 15 18 9" />
+              </svg>
+            </button>
+
+            {expandedSections.availability && (
+              <ul style={{
+                listStyle: 'none',
+                padding: 0,
+                margin: '1rem 0 0 0'
+              }}>
+                {availabilityOptions.map((option) => (
+                  <li key={option.value} style={{ marginBottom: '0.8rem' }}>
+                    <button
+                      onClick={() => setSelectedAvailability(option.value)}
+                      style={{
+                        background: 'none',
+                        border: 'none',
+                        padding: '0.5rem 0',
+                        cursor: 'pointer',
+                        fontFamily: "'Raleway', sans-serif",
+                        fontSize: 'clamp(0.9rem, 1.5vw, 1rem)',
+                        color: selectedAvailability === option.value ? '#8B7355' : '#171515',
+                        opacity: selectedAvailability === option.value ? 1 : 0.7,
+                        fontWeight: selectedAvailability === option.value ? 500 : 400,
+                        letterSpacing: '0.3px',
+                        transition: 'all 0.3s ease',
+                        textAlign: 'left',
+                        width: '100%'
+                      }}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.opacity = '1';
+                        e.currentTarget.style.color = '#8B7355';
+                      }}
+                      onMouseLeave={(e) => {
+                        if (selectedAvailability !== option.value) {
+                          e.currentTarget.style.opacity = '0.7';
+                          e.currentTarget.style.color = '#171515';
+                        }
+                      }}
+                    >
+                      {option.label}
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            )}
           </div>
         </aside>
 

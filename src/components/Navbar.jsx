@@ -37,6 +37,16 @@ function Navbar({ cartCount, favouritesCount }) {
 
   return (
     <>
+      <style>{`
+        @media (max-width: 768px) {
+          .navbar-social-icons {
+            gap: 0.5rem !important;
+          }
+          .navbar-utility-icons {
+            gap: 0.6rem !important;
+          }
+        }
+      `}</style>
       <nav style={{
         position: 'fixed',
         top: 0,
@@ -54,7 +64,7 @@ function Navbar({ cartCount, favouritesCount }) {
           gap: '2rem'
         }}>
           {/* Left - Social Icons */}
-          <div style={{
+          <div className="navbar-social-icons" style={{
             display: 'flex',
             gap: 'clamp(1rem, 2vw, 1.5rem)',
             alignItems: 'center'
@@ -127,7 +137,7 @@ function Navbar({ cartCount, favouritesCount }) {
           </Link>
 
           {/* Right - Utility Icons */}
-          <div style={{
+          <div className="navbar-utility-icons" style={{
             display: 'flex',
             gap: 'clamp(1rem, 2vw, 1.5rem)',
             alignItems: 'center',
