@@ -115,7 +115,7 @@ function BestSellers({ onAddToCart, onAddToFavourites, favourites = [] }) {
                 className="product-image-container"
                 style={{
                   width: '100%',
-                  height: '220px',
+                  height: '320px',
                   position: 'relative',
                   overflow: 'hidden',
                   background: '#CFC7BE',
@@ -232,6 +232,33 @@ function BestSellers({ onAddToCart, onAddToFavourites, favourites = [] }) {
                 .product-image-container:hover .quick-view-overlay {
                   opacity: 1;
                 }
+
+                @media (max-width: 768px) {
+                  .product-image-container {
+                    height: 220px !important;
+                  }
+                  .quick-view-btn-desktop {
+                    display: none !important;
+                  }
+                  .button-container-mobile {
+                    display: block !important;
+                  }
+                  .button-container-desktop {
+                    display: none !important;
+                  }
+                }
+
+                @media (min-width: 769px) {
+                  .quick-view-overlay {
+                    display: none !important;
+                  }
+                  .button-container-mobile {
+                    display: none !important;
+                  }
+                  .button-container-desktop {
+                    display: flex !important;
+                  }
+                }
               `}</style>
 
               {/* Product Details */}
@@ -272,7 +299,9 @@ function BestSellers({ onAddToCart, onAddToFavourites, favourites = [] }) {
                   ${product.price.toFixed(2)}
                 </div>
 
+                {/* Mobile: Full-width Add to Cart */}
                 <button
+                  className="button-container-mobile"
                   onClick={() => onAddToCart(product)}
                   style={{
                     width: '100%',
@@ -285,7 +314,8 @@ function BestSellers({ onAddToCart, onAddToFavourites, favourites = [] }) {
                     letterSpacing: '0.5px',
                     cursor: 'pointer',
                     transition: 'all 0.3s',
-                    fontWeight: 400
+                    fontWeight: 400,
+                    display: 'none'
                   }}
                   onMouseEnter={(e) => {
                     e.currentTarget.style.background = '#9C7A4E';
@@ -298,6 +328,75 @@ function BestSellers({ onAddToCart, onAddToFavourites, favourites = [] }) {
                 >
                   Add to Cart
                 </button>
+
+                {/* Desktop: Add to Cart + Quick View */}
+                <div className="button-container-desktop" style={{
+                  display: 'flex',
+                  gap: '0.5rem'
+                }}>
+                  <button
+                    onClick={() => onAddToCart(product)}
+                    style={{
+                      flex: 1,
+                      padding: '0.9rem',
+                      background: '#111111',
+                      color: '#F6F1EB',
+                      border: 'none',
+                      borderRadius: '50px',
+                      fontSize: 'clamp(0.85rem, 1.5vw, 0.9rem)',
+                      letterSpacing: '0.5px',
+                      cursor: 'pointer',
+                      transition: 'all 0.3s',
+                      fontWeight: 400
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.background = '#9C7A4E';
+                      e.currentTarget.style.transform = 'translateY(-2px)';
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.background = '#111111';
+                      e.currentTarget.style.transform = 'translateY(0)';
+                    }}
+                  >
+                    Add to Cart
+                  </button>
+
+                  <button
+                    className="quick-view-btn-desktop"
+                    onClick={() => {
+                      setQuickViewProduct(product);
+                      setSelectedImageIndex(0);
+                    }}
+                    style={{
+                      padding: '0.9rem',
+                      background: 'transparent',
+                      color: '#111111',
+                      border: '1px solid #111111',
+                      borderRadius: '50%',
+                      width: '44px',
+                      height: '44px',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      cursor: 'pointer',
+                      transition: 'all 0.3s',
+                      flexShrink: 0
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.background = '#111111';
+                      e.currentTarget.style.color = '#F6F1EB';
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.background = 'transparent';
+                      e.currentTarget.style.color = '#111111';
+                    }}
+                  >
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                      <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                      <circle cx="12" cy="12" r="3"/>
+                    </svg>
+                  </button>
+                </div>
               </div>
             </motion.div>
           );

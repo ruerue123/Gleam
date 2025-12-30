@@ -185,7 +185,7 @@ function Products({ onAddToCart, onAddToFavourites, favourites = [] }) {
                   className="product-image-container"
                   style={{
                     width: '100%',
-                    height: '220px',
+                    height: '320px',
                     position: 'relative',
                     overflow: 'hidden',
                     background: '#CFC7BE',
@@ -262,6 +262,33 @@ function Products({ onAddToCart, onAddToFavourites, favourites = [] }) {
               <style>{`
                 .product-image-container:hover .quick-view-overlay {
                   opacity: 1;
+                }
+
+                @media (max-width: 768px) {
+                  .product-image-container {
+                    height: 220px !important;
+                  }
+                  .quick-view-btn-desktop {
+                    display: none !important;
+                  }
+                  .button-container-mobile {
+                    display: block !important;
+                  }
+                  .button-container-desktop {
+                    display: none !important;
+                  }
+                }
+
+                @media (min-width: 769px) {
+                  .quick-view-overlay {
+                    display: none !important;
+                  }
+                  .button-container-mobile {
+                    display: none !important;
+                  }
+                  .button-container-desktop {
+                    display: flex !important;
+                  }
                 }
               `}</style>
 
@@ -345,7 +372,9 @@ function Products({ onAddToCart, onAddToFavourites, favourites = [] }) {
                   ${product.price.toFixed(2)}
                 </div>
 
+                {/* Mobile: Full-width Add to Cart */}
                 <button
+                  className="button-container-mobile"
                   onClick={() => onAddToCart(product)}
                   style={{
                     width: '100%',
@@ -358,7 +387,8 @@ function Products({ onAddToCart, onAddToFavourites, favourites = [] }) {
                     letterSpacing: '0.5px',
                     cursor: 'pointer',
                     transition: 'all 0.3s',
-                    fontWeight: 400
+                    fontWeight: 400,
+                    display: 'none'
                   }}
                   onMouseEnter={(e) => {
                     e.currentTarget.style.background = '#9C7A4E';
@@ -371,6 +401,79 @@ function Products({ onAddToCart, onAddToFavourites, favourites = [] }) {
                 >
                   Add to Cart
                 </button>
+
+                {/* Desktop: Add to Cart + Quick View */}
+                <div className="button-container-desktop" style={{
+                  display: 'flex',
+                  gap: '0.5rem'
+                }}>
+                  <button
+                    onClick={() => onAddToCart(product)}
+                    style={{
+                      flex: 1,
+                      padding: '1rem',
+                      background: '#111111',
+                      color: '#F6F1EB',
+                      border: 'none',
+                      borderRadius: '50px',
+                      fontSize: 'clamp(0.9rem, 1.5vw, 1rem)',
+                      letterSpacing: '0.5px',
+                      cursor: 'pointer',
+                      transition: 'all 0.3s',
+                      fontWeight: 400
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.background = '#9C7A4E';
+                      e.currentTarget.style.transform = 'translateY(-2px)';
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.background = '#111111';
+                      e.currentTarget.style.transform = 'translateY(0)';
+                    }}
+                  >
+                    Add to Cart
+                  </button>
+                  <button
+                    className="quick-view-btn-desktop"
+                    onClick={() => {
+                      setQuickViewProduct(product);
+                      setSelectedImageIndex(0);
+                    }}
+                    style={{
+                      width: '48px',
+                      height: '48px',
+                      background: '#F6F1EB',
+                      border: '1px solid #EDECE4',
+                      borderRadius: '50%',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      cursor: 'pointer',
+                      transition: 'all 0.3s',
+                      flexShrink: 0
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.background = '#9C7A4E';
+                      e.currentTarget.style.borderColor = '#9C7A4E';
+                      e.currentTarget.style.transform = 'translateY(-2px)';
+                      const svg = e.currentTarget.querySelector('svg');
+                      if (svg) svg.style.stroke = '#ffffff';
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.background = '#F6F1EB';
+                      e.currentTarget.style.borderColor = '#EDECE4';
+                      e.currentTarget.style.transform = 'translateY(0)';
+                      const svg = e.currentTarget.querySelector('svg');
+                      if (svg) svg.style.stroke = '#171515';
+                    }}
+                    aria-label="Quick View"
+                  >
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#171515" strokeWidth="2" style={{ transition: 'stroke 0.3s' }}>
+                      <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                      <circle cx="12" cy="12" r="3"/>
+                    </svg>
+                  </button>
+                </div>
               </div>
             </motion.div>
           );
