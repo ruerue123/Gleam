@@ -1,22 +1,34 @@
 function Hero() {
   return (
-    <section id="home" style={{
-      marginTop: 'clamp(60px, 8vw, 95px)',
-      minHeight: 'clamp(65vh, 80vh, 85vh)',
-      backgroundImage: 'url(/images/Hero.png)',
-      backgroundSize: 'cover',
-      backgroundPosition: 'center',
-      backgroundRepeat: 'no-repeat',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      textAlign: 'center',
-      position: 'relative'
-    }}>
-      <div style={{
-        padding: 'clamp(2rem, 5vw, 4rem)',
-        maxWidth: '900px'
+    <>
+      <style>{`
+        @media (max-width: 768px) {
+          #home {
+            min-height: 50vh !important;
+            margin-top: 60px !important;
+          }
+          #home > div {
+            padding: 1.5rem !important;
+          }
+        }
+      `}</style>
+      <section id="home" style={{
+        marginTop: 'clamp(60px, 8vw, 95px)',
+        minHeight: 'clamp(65vh, 80vh, 85vh)',
+        backgroundImage: 'url(/images/Hero.png)',
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        textAlign: 'center',
+        position: 'relative'
       }}>
+        <div style={{
+          padding: 'clamp(2rem, 5vw, 4rem)',
+          maxWidth: '900px'
+        }}>
         <p style={{
           fontFamily: "'Cormorant', serif",
           fontSize: 'clamp(1rem, 2vw, 1.2rem)',
@@ -89,6 +101,7 @@ function Hero() {
         </a>
       </div>
     </section>
+    </>
   );
 }
 
