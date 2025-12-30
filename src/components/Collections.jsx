@@ -7,7 +7,7 @@ function Collections() {
       name: 'EMBER',
       slug: 'ember',
       image: '/images/Petty.png',
-      description: 'Warm & comforting',
+      description: 'Warm notes that wrap your space in calm and comfort',
       color: 'linear-gradient(135deg, #A96A7B 0%, rgba(169, 106, 123, 0.7) 100%)'
     },
     {
@@ -15,7 +15,7 @@ function Collections() {
       name: 'ZEST',
       slug: 'zest',
       image: '/images/Mood.png',
-      description: 'Fresh & uplifting',
+      description: 'Clean, vibrant fragrances that brighten your space and mood.',
       color: 'linear-gradient(135deg, #9C7A4E 0%, rgba(156, 122, 78, 0.7) 100%)'
     },
     {
@@ -23,7 +23,7 @@ function Collections() {
       name: 'SERENE',
       slug: 'serene',
       image: '/images/Soft.png',
-      description: 'Calm & self-care',
+      description: 'Soft, therapeutic blends designed for peace and relaxation.',
       color: 'linear-gradient(135deg, #E7CFC3 0%, rgba(231, 207, 195, 0.7) 100%)'
     },
     {
@@ -31,7 +31,7 @@ function Collections() {
       name: 'ROOT',
       slug: 'root',
       image: '/images/Luxe.png',
-      description: 'Earthy & grounded',
+      description: 'Rich aromas that ground your space and linger beautifully.',
       color: 'linear-gradient(135deg, #C6A75E 0%, rgba(198, 167, 94, 0.7) 100%)'
     }
   ];

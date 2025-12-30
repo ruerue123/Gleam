@@ -10,8 +10,8 @@ function HomePage({ onAddToCart, onAddToFavourites, favourites }) {
       <WelcomeModal />
       <Hero />
       <Features />
-      <BestSellers onAddToCart={onAddToCart} onAddToFavourites={onAddToFavourites} favourites={favourites} />
       <Collections />
+      <BestSellers onAddToCart={onAddToCart} onAddToFavourites={onAddToFavourites} favourites={favourites} />
     </div>
   )
 }

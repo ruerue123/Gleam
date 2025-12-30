@@ -84,7 +84,7 @@ function BestSellers({ onAddToCart, onAddToFavourites, favourites = [] }) {
         maxWidth: '1400px',
         margin: '0 auto',
         display: 'grid',
-        gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 320px))',
+        gridTemplateColumns: 'repeat(auto-fill, minmax(min(150px, 100%), 320px))',
         gap: 'clamp(1.5rem, 3vw, 2.5rem)',
         marginTop: '3rem',
         justifyContent: 'center'
