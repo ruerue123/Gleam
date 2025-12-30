@@ -80,11 +80,11 @@ function BestSellers({ onAddToCart, onAddToFavourites, favourites = [] }) {
         Light the feeling
       </p>
 
-      <div style={{
+      <div className="bestsellers-grid" style={{
         maxWidth: '1400px',
         margin: '0 auto',
         display: 'grid',
-        gridTemplateColumns: 'repeat(auto-fill, minmax(140px, 1fr))',
+        gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 320px))',
         gap: 'clamp(1rem, 3vw, 2.5rem)',
         marginTop: '3rem'
       }}>
@@ -234,6 +234,9 @@ function BestSellers({ onAddToCart, onAddToFavourites, favourites = [] }) {
                 }
 
                 @media (max-width: 768px) {
+                  .bestsellers-grid {
+                    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)) !important;
+                  }
                   .product-image-container {
                     height: 220px !important;
                   }

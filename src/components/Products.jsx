@@ -149,11 +149,11 @@ function Products({ onAddToCart, onAddToFavourites, favourites = [] }) {
         </div>
       </div>
 
-      <div style={{
+      <div className="products-grid" style={{
         maxWidth: '1400px',
         margin: '0 auto',
         display: 'grid',
-        gridTemplateColumns: 'repeat(auto-fill, minmax(140px, 1fr))',
+        gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 320px))',
         gap: 'clamp(1rem, 3vw, 2.5rem)',
         marginTop: '1rem'
       }}>
@@ -265,6 +265,9 @@ function Products({ onAddToCart, onAddToFavourites, favourites = [] }) {
                 }
 
                 @media (max-width: 768px) {
+                  .products-grid {
+                    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)) !important;
+                  }
                   .product-image-container {
                     height: 220px !important;
                   }
