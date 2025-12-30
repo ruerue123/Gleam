@@ -11,7 +11,7 @@ function HomePage({ onAddToCart, onAddToFavourites, favourites }) {
       <Hero />
       <Features />
       <Collections />
-      <BestSellers onAddToCart={onAddToCart} />
+      <BestSellers onAddToCart={onAddToCart} onAddToFavourites={onAddToFavourites} favourites={favourites} />
     </div>
   )
 }
