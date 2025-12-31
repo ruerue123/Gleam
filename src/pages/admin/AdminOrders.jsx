@@ -132,7 +132,7 @@ function AdminOrders() {
                     ))}
                   </select>
                   <div style={{ fontFamily: "'Cardo', serif", fontSize: '1.2rem', fontWeight: 600, color: '#8B7355' }}>
-                    ${order.totalPrice.toFixed(2)}
+                    ${(order.totalPrice || 0).toFixed(2)}
                   </div>
                 </div>
               </div>
@@ -163,7 +163,7 @@ function AdminOrders() {
                       {item.name} × {item.quantity}
                     </div>
                     <div style={{ fontFamily: "'Cormorant', serif", fontSize: '0.95rem', color: '#171515', fontWeight: 600 }}>
-                      ${(item.price * item.quantity).toFixed(2)}
+                      ${((item.price || 0) * (item.quantity || 0)).toFixed(2)}
                     </div>
                   </div>
                 ))}

@@ -7,6 +7,7 @@ function AdminProducts() {
   const [loading, setLoading] = useState(true);
   const [showAddModal, setShowAddModal] = useState(false);
   const [editingProduct, setEditingProduct] = useState(null);
+  const [uploadingImages, setUploadingImages] = useState(false);
   const { token } = useAuth();
 
   const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
@@ -16,16 +17,20 @@ function AdminProducts() {
     name: '',
     slug: '',
     description: '',
-    collection: 'Ember',
+    scentFamily: 'EMBER',
     price: '',
-    stock: '',
-    emoji: '🕯️',
+    countInStock: '',
     scent: '',
+    burnTime: '',
+    size: '',
     colors: [''],
-    images: ['']
+    images: []
   });
 
-  const collections = ['Ember', 'Serene', 'Zest', 'Root'];
+  const [imageFiles, setImageFiles] = useState([]);
+  const [imagePreviews, setImagePreviews] = useState([]);
+
+  const scentFamilies = ['EMBER', 'ZEST', 'SERENE', 'ROOT'];
 
   useEffect(() => {
     fetchProducts();
@@ -67,18 +72,62 @@ function AdminProducts() {
     setFormData(prev => ({ ...prev, colors: prev.colors.filter((_, i) => i !== index) }));
   };
 
-  const handleImageChange = (index, value) => {
-    const newImages = [...formData.images];
-    newImages[index] = value;
-    setFormData(prev => ({ ...prev, images: newImages }));
+  const handleImageUpload = (e) => {
+    const files = Array.from(e.target.files);
+
+    // Create preview URLs
+    const newPreviews = files.map(file => URL.createObjectURL(file));
+    setImagePreviews(prev => [...prev, ...newPreviews]);
+    setImageFiles(prev => [...prev, ...files]);
   };
 
-  const addImageField = () => {
-    setFormData(prev => ({ ...prev, images: [...prev.images, ''] }));
+  const removeImage = (index) => {
+    // Revoke the URL to free up memory
+    URL.revokeObjectURL(imagePreviews[index]);
+
+    setImagePreviews(prev => prev.filter((_, i) => i !== index));
+    setImageFiles(prev => prev.filter((_, i) => i !== index));
+
+    // Also remove from uploaded images if editing
+    if (formData.images[index]) {
+      setFormData(prev => ({
+        ...prev,
+        images: prev.images.filter((_, i) => i !== index)
+      }));
+    }
   };
 
-  const removeImageField = (index) => {
-    setFormData(prev => ({ ...prev, images: prev.images.filter((_, i) => i !== index) }));
+  const uploadImages = async () => {
+    if (imageFiles.length === 0) return formData.images;
+
+    setUploadingImages(true);
+    const uploadedUrls = [...formData.images];
+
+    try {
+      for (const file of imageFiles) {
+        const formDataImg = new FormData();
+        formDataImg.append('image', file);
+
+        const response = await fetch(`${API_URL}/api/upload`, {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${token}`
+          },
+          body: formDataImg
+        });
+
+        if (response.ok) {
+          const data = await response.json();
+          uploadedUrls.push(data.url);
+        }
+      }
+    } catch (error) {
+      console.error('Error uploading images:', error);
+    } finally {
+      setUploadingImages(false);
+    }
+
+    return uploadedUrls;
   };
 
   const resetForm = () => {
@@ -86,26 +135,32 @@ function AdminProducts() {
       name: '',
       slug: '',
       description: '',
-      collection: 'Petty Collection',
+      scentFamily: 'EMBER',
       price: '',
-      stock: '',
-      emoji: '🕯️',
+      countInStock: '',
       scent: '',
+      burnTime: '',
+      size: '',
       colors: [''],
-      images: ['']
+      images: []
     });
+    setImageFiles([]);
+    setImagePreviews([]);
     setEditingProduct(null);
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    // Upload images first
+    const imageUrls = await uploadImages();
+
     const productData = {
       ...formData,
       price: parseFloat(formData.price),
-      stock: parseInt(formData.stock),
+      countInStock: parseInt(formData.countInStock),
       colors: formData.colors.filter(c => c.trim() !== ''),
-      images: formData.images.filter(img => img.trim() !== '')
+      images: imageUrls
     };
 
     try {
@@ -139,14 +194,21 @@ function AdminProducts() {
       name: product.name || '',
       slug: product.slug || '',
       description: product.description || '',
-      collection: product.collection || 'Petty Collection',
+      scentFamily: product.scentFamily || 'EMBER',
       price: product.price || '',
-      stock: product.stock || '',
-      emoji: product.emoji || '🕯️',
+      countInStock: product.countInStock || '',
       scent: product.scent || '',
+      burnTime: product.burnTime || '',
+      size: product.size || '',
       colors: product.colors && product.colors.length > 0 ? product.colors : [''],
-      images: product.images && product.images.length > 0 ? product.images : ['']
+      images: product.images || []
     });
+
+    // Set existing images as previews
+    if (product.images && product.images.length > 0) {
+      setImagePreviews(product.images);
+    }
+
     setEditingProduct(product._id);
     setShowAddModal(true);
   };
@@ -257,12 +319,12 @@ function AdminProducts() {
                   style={{
                     width: '100%',
                     height: '100%',
-                    objectFit: 'contain',
+                    objectFit: 'cover',
                     objectPosition: 'center'
                   }}
                 />
               ) : (
-                <div>{product.emoji || '🕯️'}</div>
+                <div style={{ fontSize: '4rem' }}>🕯️</div>
               )}
 
               {/* Stock Badge */}
@@ -275,10 +337,10 @@ function AdminProducts() {
                 fontSize: '0.75rem',
                 fontFamily: "'Cormorant', serif",
                 fontWeight: 500,
-                background: product.stock > 0 ? '#D4EDDA' : '#F8D7DA',
-                color: product.stock > 0 ? '#155724' : '#721C24'
+                background: product.countInStock > 0 ? '#D4EDDA' : '#F8D7DA',
+                color: product.countInStock > 0 ? '#155724' : '#721C24'
               }}>
-                {product.stock > 0 ? `${product.stock} in stock` : 'Out of stock'}
+                {product.countInStock > 0 ? `${product.countInStock} in stock` : 'Out of stock'}
               </div>
             </div>
 
@@ -293,7 +355,7 @@ function AdminProducts() {
                 marginBottom: '0.5rem',
                 fontWeight: 500
               }}>
-                {product.collection}
+                {product.scentFamily || 'No Family'}
               </div>
 
               <h3 style={{
@@ -330,35 +392,27 @@ function AdminProducts() {
                 </div>
               )}
 
-              {product.colors && product.colors.length > 0 && (
-                <div style={{ marginBottom: '1rem' }}>
-                  <div style={{
-                    fontSize: '0.85rem',
-                    fontFamily: "'Cormorant', serif",
-                    color: '#171515',
-                    opacity: 0.7,
-                    marginBottom: '0.5rem'
-                  }}>
-                    Colors:
-                  </div>
-                  <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
-                    {product.colors.map((color, idx) => (
-                      <span
-                        key={idx}
-                        style={{
-                          padding: '0.25rem 0.75rem',
-                          background: '#FAFAF8',
-                          border: '1px solid #EDECE4',
-                          borderRadius: '12px',
-                          fontSize: '0.85rem',
-                          fontFamily: "'Cormorant', serif",
-                          color: '#171515'
-                        }}
-                      >
-                        {color}
-                      </span>
-                    ))}
-                  </div>
+              {product.burnTime && (
+                <div style={{
+                  fontSize: '0.9rem',
+                  fontFamily: "'Cormorant', serif",
+                  color: '#171515',
+                  opacity: 0.8,
+                  marginBottom: '0.5rem'
+                }}>
+                  Burn Time: {product.burnTime}
+                </div>
+              )}
+
+              {product.size && (
+                <div style={{
+                  fontSize: '0.9rem',
+                  fontFamily: "'Cormorant', serif",
+                  color: '#171515',
+                  opacity: 0.8,
+                  marginBottom: '0.5rem'
+                }}>
+                  Size: {product.size}
                 </div>
               )}
 
@@ -367,7 +421,8 @@ function AdminProducts() {
                 fontSize: '1.5rem',
                 color: '#171515',
                 fontWeight: 500,
-                marginBottom: '1rem'
+                marginBottom: '1rem',
+                marginTop: '1rem'
               }}>
                 ${product.price.toFixed(2)}
               </div>
@@ -459,7 +514,7 @@ function AdminProducts() {
               style={{
                 background: '#fff',
                 borderRadius: '8px',
-                maxWidth: '700px',
+                maxWidth: '800px',
                 width: '100%',
                 maxHeight: '90vh',
                 overflow: 'auto',
@@ -506,7 +561,7 @@ function AdminProducts() {
                       value={formData.name}
                       onChange={handleInputChange}
                       required
-                      placeholder="e.g., Blocked & Blessed"
+                      placeholder="e.g., Lavender Dreams"
                       style={{
                         width: '100%',
                         padding: '0.75rem',
@@ -539,7 +594,7 @@ function AdminProducts() {
                       name="slug"
                       value={formData.slug}
                       onChange={handleInputChange}
-                      placeholder="blocked-and-blessed"
+                      placeholder="lavender-dreams"
                       style={{
                         width: '100%',
                         padding: '0.75rem',
@@ -570,7 +625,7 @@ function AdminProducts() {
                       onChange={handleInputChange}
                       required
                       rows="3"
-                      placeholder="For the nights when you miss them... but not enough to text."
+                      placeholder="A soothing blend of lavender and vanilla..."
                       style={{
                         width: '100%',
                         padding: '0.75rem',
@@ -587,7 +642,7 @@ function AdminProducts() {
                     />
                   </div>
 
-                  {/* Collection */}
+                  {/* Scent Family */}
                   <div>
                     <label style={{
                       display: 'block',
@@ -597,11 +652,11 @@ function AdminProducts() {
                       marginBottom: '0.5rem',
                       fontWeight: 500
                     }}>
-                      Collection *
+                      Scent Family *
                     </label>
                     <select
-                      name="collection"
-                      value={formData.collection}
+                      name="scentFamily"
+                      value={formData.scentFamily}
                       onChange={handleInputChange}
                       required
                       style={{
@@ -615,8 +670,8 @@ function AdminProducts() {
                         cursor: 'pointer'
                       }}
                     >
-                      {collections.map(collection => (
-                        <option key={collection} value={collection}>{collection}</option>
+                      {scentFamilies.map(family => (
+                        <option key={family} value={family}>{family}</option>
                       ))}
                     </select>
                   </div>
@@ -642,7 +697,7 @@ function AdminProducts() {
                         required
                         step="0.01"
                         min="0"
-                        placeholder="15.00"
+                        placeholder="28.99"
                         style={{
                           width: '100%',
                           padding: '0.75rem',
@@ -666,12 +721,12 @@ function AdminProducts() {
                         marginBottom: '0.5rem',
                         fontWeight: 500
                       }}>
-                        Stock *
+                        Stock Quantity *
                       </label>
                       <input
                         type="number"
-                        name="stock"
-                        value={formData.stock}
+                        name="countInStock"
+                        value={formData.countInStock}
                         onChange={handleInputChange}
                         required
                         min="0"
@@ -691,8 +746,8 @@ function AdminProducts() {
                     </div>
                   </div>
 
-                  {/* Emoji and Scent */}
-                  <div style={{ display: 'grid', gridTemplateColumns: '100px 1fr', gap: '1rem' }}>
+                  {/* Scent, Burn Time, and Size */}
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '1rem' }}>
                     <div>
                       <label style={{
                         display: 'block',
@@ -702,22 +757,21 @@ function AdminProducts() {
                         marginBottom: '0.5rem',
                         fontWeight: 500
                       }}>
-                        Emoji
+                        Scent Notes
                       </label>
                       <input
                         type="text"
-                        name="emoji"
-                        value={formData.emoji}
+                        name="scent"
+                        value={formData.scent}
                         onChange={handleInputChange}
-                        placeholder="🕯️"
+                        placeholder="Lavender, Vanilla"
                         style={{
                           width: '100%',
                           padding: '0.75rem',
                           border: '1px solid #EDECE4',
                           borderRadius: '4px',
                           fontFamily: "'Cormorant', serif",
-                          fontSize: '1.5rem',
-                          textAlign: 'center'
+                          fontSize: '1rem'
                         }}
                       />
                     </div>
@@ -731,14 +785,42 @@ function AdminProducts() {
                         marginBottom: '0.5rem',
                         fontWeight: 500
                       }}>
-                        Scent
+                        Burn Time
                       </label>
                       <input
                         type="text"
-                        name="scent"
-                        value={formData.scent}
+                        name="burnTime"
+                        value={formData.burnTime}
                         onChange={handleInputChange}
-                        placeholder="Vanilla & Sandalwood"
+                        placeholder="40-50 hours"
+                        style={{
+                          width: '100%',
+                          padding: '0.75rem',
+                          border: '1px solid #EDECE4',
+                          borderRadius: '4px',
+                          fontFamily: "'Cormorant', serif",
+                          fontSize: '1rem'
+                        }}
+                      />
+                    </div>
+
+                    <div>
+                      <label style={{
+                        display: 'block',
+                        fontFamily: "'Cormorant', serif",
+                        fontSize: '1rem',
+                        color: '#171515',
+                        marginBottom: '0.5rem',
+                        fontWeight: 500
+                      }}>
+                        Size
+                      </label>
+                      <input
+                        type="text"
+                        name="size"
+                        value={formData.size}
+                        onChange={handleInputChange}
+                        placeholder="8 oz"
                         style={{
                           width: '100%',
                           padding: '0.75rem',
@@ -818,71 +900,114 @@ function AdminProducts() {
                     </div>
                   </div>
 
-                  {/* Images */}
+                  {/* Image Upload */}
                   <div>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.5rem' }}>
-                      <label style={{
-                        fontFamily: "'Cormorant', serif",
-                        fontSize: '1rem',
-                        color: '#171515',
-                        fontWeight: 500
+                    <label style={{
+                      display: 'block',
+                      fontFamily: "'Cormorant', serif",
+                      fontSize: '1rem',
+                      color: '#171515',
+                      marginBottom: '0.5rem',
+                      fontWeight: 500
+                    }}>
+                      Product Images
+                    </label>
+
+                    {/* Image Previews */}
+                    {imagePreviews.length > 0 && (
+                      <div style={{
+                        display: 'grid',
+                        gridTemplateColumns: 'repeat(auto-fill, minmax(100px, 1fr))',
+                        gap: '0.75rem',
+                        marginBottom: '1rem'
                       }}>
-                        Product Images (URLs)
-                      </label>
-                      <button
-                        type="button"
-                        onClick={addImageField}
-                        style={{
-                          padding: '0.25rem 0.75rem',
-                          background: '#8B7355',
-                          color: '#fff',
-                          border: 'none',
-                          borderRadius: '4px',
-                          fontFamily: "'Cormorant', serif",
-                          fontSize: '0.9rem',
-                          cursor: 'pointer'
-                        }}
-                      >
-                        + Add Image
-                      </button>
-                    </div>
-                    <div style={{ display: 'grid', gap: '0.5rem' }}>
-                      {formData.images.map((image, index) => (
-                        <div key={index} style={{ display: 'flex', gap: '0.5rem' }}>
-                          <input
-                            type="url"
-                            value={image}
-                            onChange={(e) => handleImageChange(index, e.target.value)}
-                            placeholder={`Image URL ${index + 1}`}
-                            style={{
-                              flex: 1,
-                              padding: '0.75rem',
-                              border: '1px solid #EDECE4',
-                              borderRadius: '4px',
-                              fontFamily: "'Cormorant', serif",
-                              fontSize: '1rem'
-                            }}
-                          />
-                          {formData.images.length > 1 && (
+                        {imagePreviews.map((preview, index) => (
+                          <div key={index} style={{ position: 'relative' }}>
+                            <img
+                              src={preview}
+                              alt={`Preview ${index + 1}`}
+                              style={{
+                                width: '100%',
+                                height: '100px',
+                                objectFit: 'cover',
+                                borderRadius: '4px',
+                                border: '1px solid #EDECE4'
+                              }}
+                            />
                             <button
                               type="button"
-                              onClick={() => removeImageField(index)}
+                              onClick={() => removeImage(index)}
                               style={{
-                                padding: '0.75rem',
-                                background: 'transparent',
-                                color: '#C53030',
-                                border: '1px solid #C53030',
-                                borderRadius: '4px',
+                                position: 'absolute',
+                                top: '0.25rem',
+                                right: '0.25rem',
+                                background: '#C53030',
+                                color: '#fff',
+                                border: 'none',
+                                borderRadius: '50%',
+                                width: '24px',
+                                height: '24px',
                                 cursor: 'pointer',
-                                minWidth: '40px'
+                                fontSize: '1rem',
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center'
                               }}
                             >
                               ×
                             </button>
-                          )}
-                        </div>
-                      ))}
-                    </div>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+
+                    {/* Upload Button */}
+                    <label style={{
+                      display: 'block',
+                      width: '100%',
+                      padding: '2rem',
+                      border: '2px dashed #EDECE4',
+                      borderRadius: '4px',
+                      textAlign: 'center',
+                      cursor: 'pointer',
+                      transition: 'all 0.2s',
+                      background: '#FAFAF8'
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.borderColor = '#8B7355';
+                      e.currentTarget.style.background = '#F6F1EB';
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.borderColor = '#EDECE4';
+                      e.currentTarget.style.background = '#FAFAF8';
+                    }}
+                    >
+                      <input
+                        type="file"
+                        multiple
+                        accept="image/*"
+                        onChange={handleImageUpload}
+                        style={{ display: 'none' }}
+                      />
+                      <div style={{ fontSize: '2rem', marginBottom: '0.5rem' }}>📸</div>
+                      <div style={{
+                        fontFamily: "'Cormorant', serif",
+                        fontSize: '1rem',
+                        color: '#171515',
+                        opacity: 0.7
+                      }}>
+                        Click to upload images or drag and drop
+                      </div>
+                      <div style={{
+                        fontFamily: "'Cormorant', serif",
+                        fontSize: '0.85rem',
+                        color: '#171515',
+                        opacity: 0.5,
+                        marginTop: '0.25rem'
+                      }}>
+                        PNG, JPG, JPEG (max 5MB each)
+                      </div>
+                    </label>
                   </div>
                 </div>
 
@@ -917,23 +1042,28 @@ function AdminProducts() {
                   </button>
                   <button
                     type="submit"
+                    disabled={uploadingImages}
                     style={{
                       flex: 1,
                       padding: '0.75rem',
-                      background: '#8B7355',
+                      background: uploadingImages ? '#A89584' : '#8B7355',
                       color: '#fff',
                       border: 'none',
                       borderRadius: '4px',
                       fontFamily: "'Cormorant', serif",
                       fontSize: '1rem',
                       fontWeight: 500,
-                      cursor: 'pointer',
+                      cursor: uploadingImages ? 'not-allowed' : 'pointer',
                       transition: 'background 0.2s'
                     }}
-                    onMouseEnter={(e) => e.target.style.background = '#6F5943'}
-                    onMouseLeave={(e) => e.target.style.background = '#8B7355'}
+                    onMouseEnter={(e) => {
+                      if (!uploadingImages) e.target.style.background = '#6F5943';
+                    }}
+                    onMouseLeave={(e) => {
+                      if (!uploadingImages) e.target.style.background = '#8B7355';
+                    }}
                   >
-                    {editingProduct ? 'Update Product' : 'Add Product'}
+                    {uploadingImages ? 'Uploading...' : (editingProduct ? 'Update Product' : 'Add Product')}
                   </button>
                 </div>
               </form>
