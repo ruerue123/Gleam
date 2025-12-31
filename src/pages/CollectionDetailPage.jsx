@@ -11,28 +11,28 @@ function CollectionDetailPage({ onAddToCart }) {
   const scents = {
     'ember': {
       name: 'EMBER',
-      image: '/images/Petty.png',
+      image: '/images/Ember.jpg',
       description: 'Warm notes that wrap your space in calm and comfort',
       color: 'linear-gradient(135deg, #A96A7B 0%, rgba(169, 106, 123, 0.7) 100%)',
       subtitle: 'Spicy sweet notes made to bring warmth to your space'
     },
     'zest': {
       name: 'ZEST',
-      image: '/images/Mood.png',
+      image: '/images/Zest.jpg',
       description: 'Clean, vibrant fragrances that brighten your space and mood.',
       color: 'linear-gradient(135deg, #9C7A4E 0%, rgba(156, 122, 78, 0.7) 100%)',
       subtitle: 'Energizing citrus scents that uplift and invigorate'
     },
     'serene': {
       name: 'SERENE',
-      image: '/images/Soft.png',
+      image: '/images/Serene.jpg',
       description: 'Soft, therapeutic blends designed for peace and relaxation.',
       color: 'linear-gradient(135deg, #E7CFC3 0%, rgba(231, 207, 195, 0.7) 100%)',
       subtitle: 'Gentle aromas that create a sanctuary of calm'
     },
     'root': {
       name: 'ROOT',
-      image: '/images/Luxe.png',
+      image: '/images/Root.jpg',
       description: 'Rich aromas that ground your space and linger beautifully.',
       color: 'linear-gradient(135deg, #C6A75E 0%, rgba(198, 167, 94, 0.7) 100%)',
       subtitle: 'Earthy tones that anchor and center your environment'
