@@ -17,7 +17,7 @@ function AdminProducts() {
     name: '',
     slug: '',
     description: '',
-    scentFamily: 'Ember',
+    scentFamily: 'EMBER',
     price: '',
     countInStock: '',
     scent: '',
@@ -31,7 +31,7 @@ function AdminProducts() {
   const [imagePreviews, setImagePreviews] = useState([]);
 
   // Collection names that match backend enum values
-  const scentFamilies = ['Ember', 'Zest', 'Serene', 'Root'];
+  const scentFamilies = ['EMBER', 'ZEST', 'SERENE', 'ROOT'];
 
   useEffect(() => {
     fetchProducts();
@@ -143,7 +143,7 @@ function AdminProducts() {
       name: '',
       slug: '',
       description: '',
-      scentFamily: 'Ember',
+      scentFamily: 'EMBER',
       price: '',
       countInStock: '',
       scent: '',
@@ -166,12 +166,14 @@ function AdminProducts() {
     const productData = {
       ...formData,
       price: parseFloat(formData.price),
-      countInStock: parseInt(formData.countInStock),
+      stock: parseInt(formData.countInStock),
       colors: formData.colors.filter(c => c.trim() !== ''),
       images: imageUrls,
       // Backend requires collection and collectionSlug fields
       collection: formData.scentFamily,
-      collectionSlug: formData.scentFamily.toLowerCase()
+      collectionSlug: formData.scentFamily.toLowerCase(),
+      // Also set scentFamily to match collection
+      scentFamily: formData.scentFamily
     };
 
     try {
@@ -212,9 +214,9 @@ function AdminProducts() {
       name: product.name || '',
       slug: product.slug || '',
       description: product.description || '',
-      scentFamily: product.scentFamily || product.collection || 'Ember',
+      scentFamily: product.scentFamily || product.collection || 'EMBER',
       price: product.price || '',
-      countInStock: product.countInStock || '',
+      countInStock: product.countInStock || product.stock || '',
       scent: product.scent || '',
       burnTime: product.burnTime || '',
       size: product.size || '',

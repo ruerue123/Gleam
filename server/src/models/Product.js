@@ -24,7 +24,7 @@ const productSchema = new mongoose.Schema({
   collection: {
     type: String,
     required: true,
-    enum: ['Petty Collection', 'Soft Feelings', 'Mood Collection', 'Luxe Gleam']
+    enum: ['EMBER', 'ZEST', 'SERENE', 'ROOT']
   },
   collectionSlug: {
     type: String,
