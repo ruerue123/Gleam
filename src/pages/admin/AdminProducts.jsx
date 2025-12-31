@@ -7,7 +7,6 @@ function AdminProducts() {
   const [loading, setLoading] = useState(true);
   const [showAddModal, setShowAddModal] = useState(false);
   const [editingProduct, setEditingProduct] = useState(null);
-  const [uploadingImages, setUploadingImages] = useState(false);
   const { token } = useAuth();
 
   const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
@@ -27,7 +26,6 @@ function AdminProducts() {
     images: []
   });
 
-  const [imageFiles, setImageFiles] = useState([]);
   const [imagePreviews, setImagePreviews] = useState([]);
 
   // Collection names that match backend enum values
@@ -80,62 +78,12 @@ function AdminProducts() {
     setFormData(prev => ({ ...prev, colors: prev.colors.filter((_, i) => i !== index) }));
   };
 
-  const handleImageUpload = (e) => {
-    const files = Array.from(e.target.files);
-
-    // Create preview URLs
-    const newPreviews = files.map(file => URL.createObjectURL(file));
-    setImagePreviews(prev => [...prev, ...newPreviews]);
-    setImageFiles(prev => [...prev, ...files]);
-  };
-
   const removeImage = (index) => {
-    // Revoke the URL to free up memory
-    URL.revokeObjectURL(imagePreviews[index]);
-
+    setFormData(prev => ({
+      ...prev,
+      images: prev.images.filter((_, i) => i !== index)
+    }));
     setImagePreviews(prev => prev.filter((_, i) => i !== index));
-    setImageFiles(prev => prev.filter((_, i) => i !== index));
-
-    // Also remove from uploaded images if editing
-    if (formData.images[index]) {
-      setFormData(prev => ({
-        ...prev,
-        images: prev.images.filter((_, i) => i !== index)
-      }));
-    }
-  };
-
-  const uploadImages = async () => {
-    if (imageFiles.length === 0) return formData.images;
-
-    setUploadingImages(true);
-    const uploadedUrls = [...formData.images];
-
-    try {
-      for (const file of imageFiles) {
-        const formDataImg = new FormData();
-        formDataImg.append('image', file);
-
-        const response = await fetch(`${API_URL}/api/upload`, {
-          method: 'POST',
-          headers: {
-            'Authorization': `Bearer ${token}`
-          },
-          body: formDataImg
-        });
-
-        if (response.ok) {
-          const data = await response.json();
-          uploadedUrls.push(data.url);
-        }
-      }
-    } catch (error) {
-      console.error('Error uploading images:', error);
-    } finally {
-      setUploadingImages(false);
-    }
-
-    return uploadedUrls;
   };
 
   const resetForm = () => {
@@ -152,7 +100,6 @@ function AdminProducts() {
       colors: [''],
       images: []
     });
-    setImageFiles([]);
     setImagePreviews([]);
     setEditingProduct(null);
   };
@@ -160,15 +107,13 @@ function AdminProducts() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Upload images first
-    const imageUrls = await uploadImages();
-
     const productData = {
       ...formData,
       price: parseFloat(formData.price),
       stock: parseInt(formData.countInStock),
       colors: formData.colors.filter(c => c.trim() !== ''),
-      images: imageUrls,
+      // Images are already in formData.images from the URL input
+      images: formData.images,
       // Backend requires collection and collectionSlug fields
       collection: formData.scentFamily,
       collectionSlug: formData.scentFamily.toLowerCase(),
@@ -920,7 +865,7 @@ function AdminProducts() {
                     </div>
                   </div>
 
-                  {/* Image Upload */}
+                  {/* Image URL Input (Temporary until upload is implemented) */}
                   <div>
                     <label style={{
                       display: 'block',
@@ -930,11 +875,40 @@ function AdminProducts() {
                       marginBottom: '0.5rem',
                       fontWeight: 500
                     }}>
-                      Product Images
+                      Product Image URL
                     </label>
+                    <input
+                      type="url"
+                      value={formData.images[0] || ''}
+                      onChange={(e) => {
+                        setFormData(prev => ({
+                          ...prev,
+                          images: e.target.value ? [e.target.value] : []
+                        }));
+                        if (e.target.value) {
+                          setImagePreviews([e.target.value]);
+                        } else {
+                          setImagePreviews([]);
+                        }
+                      }}
+                      placeholder="https://example.com/image.jpg"
+                      style={{
+                        width: '100%',
+                        padding: '0.75rem',
+                        border: '1px solid #EDECE4',
+                        borderRadius: '4px',
+                        fontFamily: "'Cormorant', serif",
+                        fontSize: '1rem',
+                        outline: 'none',
+                        transition: 'border-color 0.2s',
+                        marginBottom: '1rem'
+                      }}
+                      onFocus={(e) => e.target.style.borderColor = '#8B7355'}
+                      onBlur={(e) => e.target.style.borderColor = '#EDECE4'}
+                    />
 
                     {/* Image Previews */}
-                    {imagePreviews.length > 0 && (
+                    {imagePreviews.length > 0 && formData.images[0] && (
                       <div style={{
                         display: 'grid',
                         gridTemplateColumns: 'repeat(auto-fill, minmax(100px, 1fr))',
@@ -980,54 +954,6 @@ function AdminProducts() {
                         ))}
                       </div>
                     )}
-
-                    {/* Upload Button */}
-                    <label style={{
-                      display: 'block',
-                      width: '100%',
-                      padding: '2rem',
-                      border: '2px dashed #EDECE4',
-                      borderRadius: '4px',
-                      textAlign: 'center',
-                      cursor: 'pointer',
-                      transition: 'all 0.2s',
-                      background: '#FAFAF8'
-                    }}
-                    onMouseEnter={(e) => {
-                      e.currentTarget.style.borderColor = '#8B7355';
-                      e.currentTarget.style.background = '#F6F1EB';
-                    }}
-                    onMouseLeave={(e) => {
-                      e.currentTarget.style.borderColor = '#EDECE4';
-                      e.currentTarget.style.background = '#FAFAF8';
-                    }}
-                    >
-                      <input
-                        type="file"
-                        multiple
-                        accept="image/*"
-                        onChange={handleImageUpload}
-                        style={{ display: 'none' }}
-                      />
-                      <div style={{ fontSize: '2rem', marginBottom: '0.5rem' }}>📸</div>
-                      <div style={{
-                        fontFamily: "'Cormorant', serif",
-                        fontSize: '1rem',
-                        color: '#171515',
-                        opacity: 0.7
-                      }}>
-                        Click to upload images or drag and drop
-                      </div>
-                      <div style={{
-                        fontFamily: "'Cormorant', serif",
-                        fontSize: '0.85rem',
-                        color: '#171515',
-                        opacity: 0.5,
-                        marginTop: '0.25rem'
-                      }}>
-                        PNG, JPG, JPEG (max 5MB each)
-                      </div>
-                    </label>
                   </div>
                 </div>
 
@@ -1062,28 +988,27 @@ function AdminProducts() {
                   </button>
                   <button
                     type="submit"
-                    disabled={uploadingImages}
                     style={{
                       flex: 1,
                       padding: '0.75rem',
-                      background: uploadingImages ? '#A89584' : '#8B7355',
+                      background: '#8B7355',
                       color: '#fff',
                       border: 'none',
                       borderRadius: '4px',
                       fontFamily: "'Cormorant', serif",
                       fontSize: '1rem',
                       fontWeight: 500,
-                      cursor: uploadingImages ? 'not-allowed' : 'pointer',
+                      cursor: 'pointer',
                       transition: 'background 0.2s'
                     }}
                     onMouseEnter={(e) => {
-                      if (!uploadingImages) e.target.style.background = '#6F5943';
+                      e.target.style.background = '#6F5943';
                     }}
                     onMouseLeave={(e) => {
-                      if (!uploadingImages) e.target.style.background = '#8B7355';
+                      e.target.style.background = '#8B7355';
                     }}
                   >
-                    {uploadingImages ? 'Uploading...' : (editingProduct ? 'Update Product' : 'Add Product')}
+                    {editingProduct ? 'Update Product' : 'Add Product'}
                   </button>
                 </div>
               </form>
