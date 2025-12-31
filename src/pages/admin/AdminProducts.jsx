@@ -16,7 +16,7 @@ function AdminProducts() {
     name: '',
     slug: '',
     description: '',
-    collection: 'Petty Collection',
+    collection: 'Ember',
     price: '',
     stock: '',
     emoji: '🕯️',
@@ -25,7 +25,7 @@ function AdminProducts() {
     images: ['']
   });
 
-  const collections = ['Petty Collection', 'Soft Feelings', 'Mood Collection', 'Luxe Gleam'];
+  const collections = ['Ember', 'Serene', 'Zest', 'Root'];
 
   useEffect(() => {
     fetchProducts();
