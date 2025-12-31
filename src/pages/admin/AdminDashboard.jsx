@@ -4,6 +4,8 @@ import { useAuth } from '../../context/AuthContext';
 import AdminProducts from './AdminProducts';
 import AdminOrders from './AdminOrders';
 import AdminStats from './AdminStats';
+import AdminScentFamily from './AdminScentFamily';
+import AdminRequests from './AdminRequests';
 
 function AdminDashboard() {
   const { user, logout } = useAuth();
@@ -17,7 +19,9 @@ function AdminDashboard() {
   const tabs = [
     { id: 'stats', label: 'Dashboard', icon: '📊' },
     { id: 'products', label: 'Products', icon: '🕯️' },
+    { id: 'scents', label: 'Scent Family', icon: '🌸' },
     { id: 'orders', label: 'Orders', icon: '📦' },
+    { id: 'requests', label: 'Requests', icon: '📩' },
   ];
 
   return (
@@ -25,12 +29,18 @@ function AdminDashboard() {
       {/* Sidebar */}
       <div style={{ width: 'clamp(200px, 20vw, 280px)', background: '#171515', color: '#EDECE4', display: 'flex', flexDirection: 'column' }}>
         <div style={{ padding: 'clamp(1.5rem, 3vw, 2.5rem)', borderBottom: '1px solid rgba(237, 236, 228, 0.1)' }}>
-          <Link to="/" style={{ textDecoration: 'none' }}>
-            <h2 style={{ fontFamily: "'Cardo', serif", fontSize: 'clamp(1.5rem, 2.5vw, 1.8rem)', color: '#EDECE4', margin: 0, letterSpacing: '1px' }}>
-              gleam
-            </h2>
+          <Link to="/" style={{ textDecoration: 'none', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+            <img
+              src="/logo.svg"
+              alt="gleam"
+              style={{
+                height: 'clamp(50px, 8vw, 70px)',
+                width: 'auto',
+                marginBottom: '0.5rem'
+              }}
+            />
           </Link>
-          <p style={{ fontFamily: "'Cormorant', serif", fontSize: '0.9rem', color: '#8B7355', margin: '0.5rem 0 0 0', fontStyle: 'italic' }}>Admin Panel</p>
+          <p style={{ fontFamily: "'Cormorant', serif", fontSize: '0.9rem', color: '#8B7355', margin: '0.5rem 0 0 0', fontStyle: 'italic', textAlign: 'center' }}>Admin Panel</p>
         </div>
 
         <nav style={{ flex: 1, padding: '2rem 0' }}>
@@ -53,6 +63,18 @@ function AdminDashboard() {
                 display: 'flex',
                 alignItems: 'center',
                 gap: '0.75rem'
+              }}
+              onMouseEnter={(e) => {
+                if (activeTab !== tab.id) {
+                  e.currentTarget.style.color = '#EDECE4';
+                  e.currentTarget.style.background = 'rgba(139, 115, 85, 0.1)';
+                }
+              }}
+              onMouseLeave={(e) => {
+                if (activeTab !== tab.id) {
+                  e.currentTarget.style.color = 'rgba(237, 236, 228, 0.6)';
+                  e.currentTarget.style.background = 'transparent';
+                }
               }}
             >
               <span>{tab.icon}</span>
@@ -82,6 +104,14 @@ function AdminDashboard() {
               cursor: 'pointer',
               transition: 'all 0.2s'
             }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.background = '#8B7355';
+              e.currentTarget.style.borderColor = '#8B7355';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.background = 'transparent';
+              e.currentTarget.style.borderColor = 'rgba(237, 236, 228, 0.2)';
+            }}
           >
             Logout
           </button>
@@ -89,11 +119,13 @@ function AdminDashboard() {
       </div>
 
       {/* Main Content */}
-      <div style={{ flex: 1, padding: 'clamp(2rem, 4vw, 3rem)', paddingTop: 'clamp(150px, 16vw, 180px)' }}>
+      <div style={{ flex: 1, padding: 'clamp(2rem, 4vw, 3rem)' }}>
         <div style={{ maxWidth: '1400px', margin: '0 auto' }}>
           {activeTab === 'stats' && <AdminStats />}
           {activeTab === 'products' && <AdminProducts />}
+          {activeTab === 'scents' && <AdminScentFamily />}
           {activeTab === 'orders' && <AdminOrders />}
+          {activeTab === 'requests' && <AdminRequests />}
         </div>
       </div>
     </div>
