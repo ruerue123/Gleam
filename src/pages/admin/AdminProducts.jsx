@@ -161,8 +161,9 @@ function AdminProducts() {
       countInStock: parseInt(formData.countInStock),
       colors: formData.colors.filter(c => c.trim() !== ''),
       images: imageUrls,
-      // Also send as category for backend compatibility
-      category: formData.scentFamily
+      // Backend requires collection and collectionSlug fields
+      collection: formData.scentFamily,
+      collectionSlug: formData.scentFamily.toLowerCase()
     };
 
     try {
