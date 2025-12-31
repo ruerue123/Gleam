@@ -93,9 +93,9 @@ function Products({ onAddToCart, onAddToFavourites, favourites = [] }) {
     // Filter by availability
     if (selectedAvailability !== 'All') {
       if (selectedAvailability === 'In Stock') {
-        filtered = filtered.filter(product => product.countInStock > 0);
+        filtered = filtered.filter(product => (product.stock || (product.stock || product.countInStock || 0) || 0) > 0);
       } else {
-        filtered = filtered.filter(product => product.countInStock === 0);
+        filtered = filtered.filter(product => (product.stock || (product.stock || product.countInStock || 0) || 0) === 0);
       }
     }
 
@@ -671,37 +671,37 @@ function Products({ onAddToCart, onAddToFavourites, favourites = [] }) {
                         onClick={(e) => {
                           e.preventDefault();
                           e.stopPropagation();
-                          if (product.countInStock > 0) {
+                          if ((product.stock || product.countInStock || 0) > 0) {
                             onAddToCart(product);
                           }
                         }}
-                        disabled={product.countInStock === 0}
+                        disabled={(product.stock || product.countInStock || 0) === 0}
                         style={{
                           width: '100%',
                           padding: '0.9rem',
-                          background: product.countInStock > 0 ? '#111111' : '#CCCCCC',
+                          background: (product.stock || product.countInStock || 0) > 0 ? '#111111' : '#CCCCCC',
                           color: '#ffffff',
                           border: 'none',
                           borderRadius: '50px',
                           fontSize: 'clamp(0.85rem, 1.5vw, 0.95rem)',
                           letterSpacing: '0.3px',
-                          cursor: product.countInStock > 0 ? 'pointer' : 'not-allowed',
+                          cursor: (product.stock || product.countInStock || 0) > 0 ? 'pointer' : 'not-allowed',
                           transition: 'all 0.3s',
                           fontWeight: 500,
                           fontFamily: "'Raleway', sans-serif"
                         }}
                         onMouseEnter={(e) => {
-                          if (product.countInStock > 0) {
+                          if ((product.stock || product.countInStock || 0) > 0) {
                             e.currentTarget.style.background = '#8B7355';
                           }
                         }}
                         onMouseLeave={(e) => {
-                          if (product.countInStock > 0) {
+                          if ((product.stock || product.countInStock || 0) > 0) {
                             e.currentTarget.style.background = '#111111';
                           }
                         }}
                       >
-                        {product.countInStock > 0 ? 'Add to Cart' : 'Out of Stock'}
+                        {(product.stock || (product.stock || product.countInStock || 0) || 0) > 0 ? 'Add to Cart' : 'Out of Stock'}
                       </button>
                     </div>
                   </Link>
@@ -892,7 +892,7 @@ function Products({ onAddToCart, onAddToFavourites, favourites = [] }) {
                 ${quickViewProduct.price.toFixed(2)}
               </div>
 
-              {quickViewProduct.countInStock === 0 && (
+              {(quickViewProduct.stock || quickViewProduct.countInStock || 0) === 0 && (
                 <p style={{
                   fontFamily: "'Raleway', sans-serif",
                   fontSize: 'clamp(0.9rem, 2vw, 1rem)',
@@ -911,17 +911,17 @@ function Products({ onAddToCart, onAddToFavourites, favourites = [] }) {
               }}>
                 <button
                   onClick={() => {
-                    if (quickViewProduct.countInStock > 0) {
+                    if ((quickViewProduct.stock || quickViewProduct.countInStock || 0) > 0) {
                       onAddToCart(quickViewProduct);
                       setQuickViewProduct(null);
                     }
                   }}
-                  disabled={quickViewProduct.countInStock === 0}
+                  disabled={(quickViewProduct.stock || quickViewProduct.countInStock || 0) === 0}
                   style={{
                     flex: 1,
                     minWidth: 'clamp(120px, 30vw, 150px)',
                     padding: 'clamp(0.8rem, 2.5vw, 1rem)',
-                    background: quickViewProduct.countInStock > 0 ? '#111111' : '#CCCCCC',
+                    background: (quickViewProduct.stock || quickViewProduct.countInStock || 0) > 0 ? '#111111' : '#CCCCCC',
                     color: '#ffffff',
                     border: 'none',
                     borderRadius: '50px',
@@ -929,21 +929,21 @@ function Products({ onAddToCart, onAddToFavourites, favourites = [] }) {
                     fontFamily: "'Raleway', sans-serif",
                     fontWeight: 500,
                     letterSpacing: '0.5px',
-                    cursor: quickViewProduct.countInStock > 0 ? 'pointer' : 'not-allowed',
+                    cursor: (quickViewProduct.stock || quickViewProduct.countInStock || 0) > 0 ? 'pointer' : 'not-allowed',
                     transition: 'all 0.3s'
                   }}
                   onMouseEnter={(e) => {
-                    if (quickViewProduct.countInStock > 0) {
+                    if ((quickViewProduct.stock || quickViewProduct.countInStock || 0) > 0) {
                       e.currentTarget.style.background = '#8B7355';
                     }
                   }}
                   onMouseLeave={(e) => {
-                    if (quickViewProduct.countInStock > 0) {
+                    if ((quickViewProduct.stock || quickViewProduct.countInStock || 0) > 0) {
                       e.currentTarget.style.background = '#111111';
                     }
                   }}
                 >
-                  {quickViewProduct.countInStock > 0 ? 'Add to Cart' : 'Out of Stock'}
+                  {(quickViewProduct.stock || (quickViewProduct.stock || quickViewProduct.countInStock || 0) || 0) > 0 ? 'Add to Cart' : 'Out of Stock'}
                 </button>
 
                 <Link
