@@ -42,6 +42,13 @@ function AdminProducts() {
       const response = await fetch(`${API_URL}/api/products`);
       const data = await response.json();
       setProducts(data.data || []);
+
+      // Log existing collections to help debug
+      if (data.data && data.data.length > 0) {
+        const existingCollections = [...new Set(data.data.map(p => p.collection))];
+        console.log('Existing valid collections:', existingCollections);
+        console.log('Sample product structure:', data.data[0]);
+      }
     } catch (error) {
       console.error('Error fetching products:', error);
     } finally {
