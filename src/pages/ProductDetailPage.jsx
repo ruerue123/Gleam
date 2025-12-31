@@ -6,6 +6,7 @@ function ProductDetailPage({ onAddToCart, onAddToFavourites, favourites = [] }) 
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
   const [quantity, setQuantity] = useState(1);
+  const [selectedImageIndex, setSelectedImageIndex] = useState(0);
 
   const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
 
@@ -88,49 +89,104 @@ function ProductDetailPage({ onAddToCart, onAddToFavourites, favourites = [] }) 
         </div>
 
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(400px, 100%), 1fr))', gap: 'clamp(3rem, 6vw, 5rem)' }}>
-          {/* Product Image */}
-          <div style={{ background: '#ffffff', borderRadius: '8px', border: '1px solid #EDECE4', overflow: 'hidden', boxShadow: '0 4px 16px rgba(0, 0, 0, 0.06)' }}>
-            <div style={{
-              width: '100%',
-              height: 'clamp(400px, 60vw, 600px)',
-              background: 'linear-gradient(to bottom, #EDECE4 0%, #D8D6CE 100%)',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              fontSize: 'clamp(6rem, 12vw, 8rem)',
-              overflow: 'hidden'
-            }}>
-              {product.images && product.images.length > 0 ? (
-                <img
-                  src={product.images[0]}
-                  alt={product.name}
-                  style={{
-                    width: '100%',
-                    height: '100%',
-                    objectFit: 'contain',
-                    objectPosition: 'center'
-                  }}
-                />
-              ) : (
-                <div>{product.emoji || '🕯️'}</div>
-              )}
+          {/* Product Image Gallery */}
+          <div>
+            {/* Main Image */}
+            <div style={{ background: '#ffffff', borderRadius: '8px', border: '1px solid #EDECE4', overflow: 'hidden', boxShadow: '0 4px 16px rgba(0, 0, 0, 0.06)', marginBottom: '1rem' }}>
+              <div style={{
+                width: '100%',
+                height: 'clamp(400px, 60vw, 600px)',
+                background: '#F6F1EB',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                fontSize: 'clamp(6rem, 12vw, 8rem)',
+                overflow: 'hidden'
+              }}>
+                {product.images && product.images.length > 0 ? (
+                  <img
+                    src={product.images[selectedImageIndex]}
+                    alt={product.name}
+                    style={{
+                      width: '100%',
+                      height: '100%',
+                      objectFit: 'cover',
+                      objectPosition: 'center'
+                    }}
+                  />
+                ) : (
+                  <div>{product.emoji || '🕯️'}</div>
+                )}
+              </div>
             </div>
+
+            {/* Thumbnail Scroll */}
+            {product.images && product.images.length > 1 && (
+              <div style={{
+                display: 'flex',
+                gap: '0.75rem',
+                overflowX: 'auto',
+                paddingBottom: '0.5rem',
+                scrollbarWidth: 'thin',
+                scrollbarColor: '#8B7355 #EDECE4'
+              }}>
+                {product.images.map((image, index) => (
+                  <button
+                    key={index}
+                    onClick={() => setSelectedImageIndex(index)}
+                    style={{
+                      flex: '0 0 auto',
+                      width: '80px',
+                      height: '80px',
+                      border: selectedImageIndex === index ? '2px solid #8B7355' : '2px solid #EDECE4',
+                      borderRadius: '4px',
+                      overflow: 'hidden',
+                      cursor: 'pointer',
+                      background: '#F6F1EB',
+                      padding: 0,
+                      transition: 'all 0.3s ease'
+                    }}
+                  >
+                    <img
+                      src={image}
+                      alt={`${product.name} ${index + 1}`}
+                      style={{
+                        width: '100%',
+                        height: '100%',
+                        objectFit: 'cover',
+                        objectPosition: 'center'
+                      }}
+                    />
+                  </button>
+                ))}
+              </div>
+            )}
           </div>
 
           {/* Product Details */}
           <div>
-            {/* Collection Badge */}
-            <div style={{
-              fontSize: 'clamp(0.85rem, 1.5vw, 0.9rem)',
-              fontFamily: "'Cormorant', serif",
-              textTransform: 'uppercase',
-              letterSpacing: '1.5px',
-              color: '#8B7355',
-              marginBottom: '1rem',
-              fontWeight: 600
-            }}>
-              {product.collection}
-            </div>
+            {/* Scent Family Badge */}
+            {product.scent && (
+              <Link
+                to={`/products?scent=${product.scent}`}
+                style={{
+                  fontSize: 'clamp(0.85rem, 1.5vw, 0.9rem)',
+                  fontFamily: "'Cormorant', serif",
+                  textTransform: 'uppercase',
+                  letterSpacing: '1.5px',
+                  color: '#8B7355',
+                  marginBottom: '1rem',
+                  fontWeight: 600,
+                  textDecoration: 'none',
+                  display: 'inline-block',
+                  transition: 'opacity 0.3s ease'
+                }}
+                onMouseEnter={(e) => e.currentTarget.style.opacity = '0.7'}
+                onMouseLeave={(e) => e.currentTarget.style.opacity = '1'}
+              >
+                {product.scent} FAMILY
+              </Link>
+            )}
 
             {/* Product Name */}
             <h1 style={{
@@ -195,7 +251,7 @@ function ProductDetailPage({ onAddToCart, onAddToFavourites, favourites = [] }) 
                   <div style={{ display: 'flex', justifyContent: 'space-between', fontFamily: "'Cormorant', serif", fontSize: '1rem' }}>
                     <span style={{ opacity: 0.7 }}>Availability:</span>
                     <span style={{ fontWeight: 500, color: product.stock > 0 ? '#155724' : '#C53030' }}>
-                      {product.stock > 0 ? `${product.stock} in stock` : 'Out of stock'}
+                      {product.stock > 0 ? 'In Stock' : 'Out of Stock'}
                     </span>
                   </div>
                 )}
