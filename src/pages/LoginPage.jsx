@@ -54,7 +54,7 @@ function LoginPage() {
   };
 
   return (
-    <div style={{ paddingTop: 'clamp(90px, 10vw, 110px)', paddingBottom: 'clamp(4rem, 10vw, 8rem)', background: '#FAFAF8', minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+    <div style={{ paddingTop: 'clamp(110px, 12vw, 140px)', paddingBottom: 'clamp(4rem, 10vw, 8rem)', background: '#FAFAF8', minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
       <div style={{ maxWidth: '450px', width: '100%', margin: '0 5%', background: '#ffffff', padding: 'clamp(2rem, 5vw, 3rem)', borderRadius: '4px', border: '1px solid #EDECE4', boxShadow: '0 4px 16px rgba(0, 0, 0, 0.06)' }}>
         <h1 style={{ fontFamily: "'Cardo', serif", fontSize: 'clamp(2rem, 4vw, 2.5rem)', fontWeight: 400, marginBottom: 'clamp(0.5rem, 1vw, 0.8rem)', letterSpacing: '0.5px', color: '#171515', textAlign: 'center' }}>
           {isLogin ? 'Welcome Back' : 'Create Account'}

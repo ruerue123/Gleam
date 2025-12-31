@@ -1,6 +1,15 @@
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
+import { useAuth } from '../context/AuthContext'
 
-function ProfilePage() {
+function ProfilePage({ cart = [], favourites = [] }) {
+  const { user, logout } = useAuth();
+  const navigate = useNavigate();
+
+  const handleSignOut = async () => {
+    await logout();
+    navigate('/');
+  };
+
   return (
     <div style={{
       paddingTop: 'clamp(150px, 16vw, 180px)',
@@ -75,7 +84,7 @@ function ProfilePage() {
                 </label>
                 <input
                   type="text"
-                  defaultValue="Sarah Johnson"
+                  defaultValue={user?.name || ''}
                   style={{
                     width: '100%',
                     padding: 'clamp(0.75rem, 1.8vw, 0.9rem)',
@@ -102,7 +111,7 @@ function ProfilePage() {
                 </label>
                 <input
                   type="email"
-                  defaultValue="sarah.johnson@example.com"
+                  defaultValue={user?.email || ''}
                   style={{
                     width: '100%',
                     padding: 'clamp(0.75rem, 1.8vw, 0.9rem)',
@@ -183,7 +192,7 @@ function ProfilePage() {
                 marginBottom: '0.5rem',
                 color: '#171515'
               }}>
-                My Cart
+                My Cart {cart.length > 0 && `(${cart.length})`}
               </h3>
               <p style={{
                 fontFamily: "'Cormorant', serif",
@@ -192,7 +201,7 @@ function ProfilePage() {
                 opacity: 0.7,
                 fontStyle: 'italic'
               }}>
-                View items in your cart
+                {cart.length === 0 ? 'Your cart is empty' : `${cart.length} ${cart.length === 1 ? 'item' : 'items'} in your cart`}
               </p>
             </Link>
 
@@ -224,7 +233,7 @@ function ProfilePage() {
                 marginBottom: '0.5rem',
                 color: '#171515'
               }}>
-                My Favourites
+                My Favourites {favourites.length > 0 && `(${favourites.length})`}
               </h3>
               <p style={{
                 fontFamily: "'Cormorant', serif",
@@ -233,7 +242,7 @@ function ProfilePage() {
                 opacity: 0.7,
                 fontStyle: 'italic'
               }}>
-                Your saved items
+                {favourites.length === 0 ? 'No saved items yet' : `${favourites.length} ${favourites.length === 1 ? 'item' : 'items'} saved`}
               </p>
             </Link>
 
@@ -279,6 +288,7 @@ function ProfilePage() {
 
           {/* Sign Out */}
           <button
+            onClick={handleSignOut}
             style={{
               width: 'fit-content',
               padding: 'clamp(0.8rem, 2vw, 1rem) clamp(2rem, 4vw, 2.5rem)',

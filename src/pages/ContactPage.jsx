@@ -178,9 +178,9 @@ function ContactPage() {
             color: '#171515',
             opacity: 0.8
           }}>
-            <p>Email: hello@gleamcandles.com</p>
-            <p>Phone: +1 (555) 123-4567</p>
-            <p>Hours: Mon-Fri, 9am-6pm EST</p>
+            <p>Email: sales@gleam.co.zw</p>
+            <p>Phone: +263 78 448 6075</p>
+            <p>Hours: Mon-Fri, 8am-6pm CAT</p>
           </div>
         </div>
       </div>

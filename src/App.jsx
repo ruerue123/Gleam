@@ -214,7 +214,7 @@ function AnimatedRoutes({ handleAddToCart, handleAddToFavourites, handleRemoveFr
             variants={pageVariants}
             transition={pageTransition}
           >
-            <ProfilePage />
+            <ProfilePage cart={cart} favourites={favourites} />
           </motion.div>
         } />
         <Route path="/cart" element={
