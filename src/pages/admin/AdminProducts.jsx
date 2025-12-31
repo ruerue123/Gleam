@@ -27,6 +27,7 @@ function AdminProducts() {
   });
 
   const [imagePreviews, setImagePreviews] = useState([]);
+  const [uploadingImage, setUploadingImage] = useState(false);
 
   // Collection names that match backend enum values
   const scentFamilies = ['EMBER', 'ZEST', 'SERENE', 'ROOT'];
@@ -84,6 +85,61 @@ function AdminProducts() {
       images: prev.images.filter((_, i) => i !== index)
     }));
     setImagePreviews(prev => prev.filter((_, i) => i !== index));
+  };
+
+  const handleImageUpload = async (e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    // Validate file type
+    if (!file.type.startsWith('image/')) {
+      alert('Please select an image file');
+      return;
+    }
+
+    // Validate file size (5MB max)
+    if (file.size > 5 * 1024 * 1024) {
+      alert('Image size must be less than 5MB');
+      return;
+    }
+
+    setUploadingImage(true);
+
+    try {
+      const formDataUpload = new FormData();
+      formDataUpload.append('image', file);
+
+      const response = await fetch(`${API_URL}/api/upload/single`, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${token}`
+        },
+        body: formDataUpload
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+
+        // Add uploaded image URL to form data
+        setFormData(prev => ({
+          ...prev,
+          images: [...prev.images, data.url]
+        }));
+
+        // Add to preview
+        setImagePreviews(prev => [...prev, data.url]);
+      } else {
+        const errorData = await response.json();
+        alert(`Upload failed: ${errorData.message || 'Unknown error'}`);
+      }
+    } catch (error) {
+      console.error('Upload error:', error);
+      alert('Failed to upload image. Please try again.');
+    } finally {
+      setUploadingImage(false);
+      // Reset file input
+      e.target.value = '';
+    }
   };
 
   const resetForm = () => {
@@ -302,10 +358,10 @@ function AdminProducts() {
                 fontSize: '0.75rem',
                 fontFamily: "'Cormorant', serif",
                 fontWeight: 500,
-                background: product.countInStock > 0 ? '#D4EDDA' : '#F8D7DA',
-                color: product.countInStock > 0 ? '#155724' : '#721C24'
+                background: (product.stock || product.countInStock || 0) > 0 ? '#D4EDDA' : '#F8D7DA',
+                color: (product.stock || product.countInStock || 0) > 0 ? '#155724' : '#721C24'
               }}>
-                {product.countInStock > 0 ? `${product.countInStock} in stock` : 'Out of stock'}
+                {(product.stock || product.countInStock || 0) > 0 ? `${product.stock || product.countInStock} in stock` : 'Out of stock'}
               </div>
             </div>
 
@@ -865,7 +921,7 @@ function AdminProducts() {
                     </div>
                   </div>
 
-                  {/* Image URL Input (Temporary until upload is implemented) */}
+                  {/* Image Upload */}
                   <div>
                     <label style={{
                       display: 'block',
@@ -875,40 +931,49 @@ function AdminProducts() {
                       marginBottom: '0.5rem',
                       fontWeight: 500
                     }}>
-                      Product Image URL
+                      Product Images
                     </label>
-                    <input
-                      type="url"
-                      value={formData.images[0] || ''}
-                      onChange={(e) => {
-                        setFormData(prev => ({
-                          ...prev,
-                          images: e.target.value ? [e.target.value] : []
-                        }));
-                        if (e.target.value) {
-                          setImagePreviews([e.target.value]);
-                        } else {
-                          setImagePreviews([]);
-                        }
-                      }}
-                      placeholder="https://example.com/image.jpg"
-                      style={{
-                        width: '100%',
-                        padding: '0.75rem',
-                        border: '1px solid #EDECE4',
-                        borderRadius: '4px',
+
+                    <div style={{ marginBottom: '1rem' }}>
+                      <input
+                        type="file"
+                        accept="image/*"
+                        onChange={handleImageUpload}
+                        disabled={uploadingImage}
+                        style={{ display: 'none' }}
+                        id="image-upload"
+                      />
+                      <label
+                        htmlFor="image-upload"
+                        style={{
+                          display: 'inline-block',
+                          padding: '0.75rem 1.5rem',
+                          background: uploadingImage ? '#ccc' : '#8B7355',
+                          color: '#fff',
+                          border: 'none',
+                          borderRadius: '4px',
+                          fontFamily: "'Cormorant', serif",
+                          fontSize: '1rem',
+                          fontWeight: 500,
+                          cursor: uploadingImage ? 'not-allowed' : 'pointer',
+                          transition: 'background 0.2s'
+                        }}
+                      >
+                        {uploadingImage ? 'Uploading...' : '+ Upload Image'}
+                      </label>
+                      <p style={{
                         fontFamily: "'Cormorant', serif",
-                        fontSize: '1rem',
-                        outline: 'none',
-                        transition: 'border-color 0.2s',
-                        marginBottom: '1rem'
-                      }}
-                      onFocus={(e) => e.target.style.borderColor = '#8B7355'}
-                      onBlur={(e) => e.target.style.borderColor = '#EDECE4'}
-                    />
+                        fontSize: '0.85rem',
+                        color: '#8B7355',
+                        margin: '0.5rem 0 0 0',
+                        opacity: 0.8
+                      }}>
+                        Max 5MB • JPG, PNG, WEBP
+                      </p>
+                    </div>
 
                     {/* Image Previews */}
-                    {imagePreviews.length > 0 && formData.images[0] && (
+                    {imagePreviews.length > 0 && (
                       <div style={{
                         display: 'grid',
                         gridTemplateColumns: 'repeat(auto-fill, minmax(100px, 1fr))',
