@@ -247,11 +247,11 @@ function ProductDetailPage({ onAddToCart, onAddToFavourites, favourites = [] }) 
                     <span style={{ fontWeight: 500 }}>{product.size}</span>
                   </div>
                 )}
-                {product.stock !== undefined && (
+                {(product.countInStock !== undefined || product.stock !== undefined) && (
                   <div style={{ display: 'flex', justifyContent: 'space-between', fontFamily: "'Cormorant', serif", fontSize: '1rem' }}>
                     <span style={{ opacity: 0.7 }}>Availability:</span>
-                    <span style={{ fontWeight: 500, color: product.stock > 0 ? '#155724' : '#C53030' }}>
-                      {product.stock > 0 ? 'In Stock' : 'Out of Stock'}
+                    <span style={{ fontWeight: 500, color: (product.countInStock || product.stock || 0) > 0 ? '#155724' : '#C53030' }}>
+                      {(product.countInStock || product.stock || 0) > 0 ? 'In Stock' : 'Out of Stock'}
                     </span>
                   </div>
                 )}
@@ -308,12 +308,12 @@ function ProductDetailPage({ onAddToCart, onAddToFavourites, favourites = [] }) 
             <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
               <button
                 onClick={handleAddToCart}
-                disabled={!product.stock || product.stock === 0}
+                disabled={!(product.countInStock || product.stock) || (product.countInStock || product.stock || 0) === 0}
                 style={{
                   flex: 1,
                   minWidth: '200px',
                   padding: '1.2rem 2rem',
-                  background: product.stock > 0 ? '#8B7355' : '#D8D6CE',
+                  background: (product.countInStock || product.stock || 0) > 0 ? '#8B7355' : '#D8D6CE',
                   color: '#ffffff',
                   border: 'none',
                   borderRadius: '2px',
@@ -321,23 +321,23 @@ function ProductDetailPage({ onAddToCart, onAddToFavourites, favourites = [] }) 
                   fontFamily: "'Cormorant', serif",
                   fontWeight: 600,
                   letterSpacing: '0.5px',
-                  cursor: product.stock > 0 ? 'pointer' : 'not-allowed',
+                  cursor: (product.countInStock || product.stock || 0) > 0 ? 'pointer' : 'not-allowed',
                   transition: 'all 0.3s ease'
                 }}
                 onMouseEnter={(e) => {
-                  if (product.stock > 0) {
+                  if ((product.countInStock || product.stock || 0) > 0) {
                     e.currentTarget.style.background = '#6F5943';
                     e.currentTarget.style.transform = 'translateY(-2px)';
                     e.currentTarget.style.boxShadow = '0 4px 12px rgba(139, 115, 85, 0.3)';
                   }
                 }}
                 onMouseLeave={(e) => {
-                  e.currentTarget.style.background = product.stock > 0 ? '#8B7355' : '#D8D6CE';
+                  e.currentTarget.style.background = (product.countInStock || product.stock || 0) > 0 ? '#8B7355' : '#D8D6CE';
                   e.currentTarget.style.transform = 'translateY(0)';
                   e.currentTarget.style.boxShadow = 'none';
                 }}
               >
-                {product.stock > 0 ? 'Add to Cart' : 'Out of Stock'}
+                {(product.countInStock || product.stock || 0) > 0 ? 'Add to Cart' : 'Out of Stock'}
               </button>
 
               <button
