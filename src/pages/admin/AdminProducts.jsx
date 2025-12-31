@@ -160,7 +160,9 @@ function AdminProducts() {
       price: parseFloat(formData.price),
       countInStock: parseInt(formData.countInStock),
       colors: formData.colors.filter(c => c.trim() !== ''),
-      images: imageUrls
+      images: imageUrls,
+      // Also send as category for backend compatibility
+      category: formData.scentFamily
     };
 
     try {
@@ -169,6 +171,8 @@ function AdminProducts() {
         : `${API_URL}/api/products`;
 
       const method = editingProduct ? 'PUT' : 'POST';
+
+      console.log('Submitting product data:', productData);
 
       const response = await fetch(url, {
         method,
@@ -183,9 +187,14 @@ function AdminProducts() {
         fetchProducts();
         setShowAddModal(false);
         resetForm();
+      } else {
+        const errorData = await response.json();
+        console.error('Server error:', response.status, errorData);
+        alert(`Error: ${errorData.message || 'Failed to save product'}`);
       }
     } catch (error) {
       console.error('Error saving product:', error);
+      alert('Failed to save product. Please try again.');
     }
   };
 
@@ -517,7 +526,8 @@ function AdminProducts() {
                 maxWidth: '800px',
                 width: '100%',
                 maxHeight: '90vh',
-                overflow: 'auto',
+                display: 'flex',
+                flexDirection: 'column',
                 boxShadow: '0 8px 32px rgba(0, 0, 0, 0.2)'
               }}
             >
@@ -525,8 +535,7 @@ function AdminProducts() {
               <div style={{
                 padding: '1.5rem 2rem',
                 borderBottom: '1px solid #EDECE4',
-                position: 'sticky',
-                top: 0,
+                flexShrink: 0,
                 background: '#fff',
                 zIndex: 1
               }}>
@@ -541,7 +550,7 @@ function AdminProducts() {
               </div>
 
               {/* Modal Body */}
-              <form onSubmit={handleSubmit} style={{ padding: '2rem' }}>
+              <form onSubmit={handleSubmit} style={{ padding: '2rem', flex: 1, overflowY: 'auto' }}>
                 <div style={{ display: 'grid', gap: '1.5rem' }}>
                   {/* Product Name */}
                   <div>
