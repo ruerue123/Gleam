@@ -121,7 +121,7 @@ function AdminDashboard() {
       {/* Main Content */}
       <div style={{ flex: 1, padding: 'clamp(2rem, 4vw, 3rem)', overflowY: 'auto', overflowX: 'hidden' }}>
         <div style={{ maxWidth: '1400px', margin: '0 auto', width: '100%' }}>
-          {activeTab === 'stats' && <AdminStats />}
+          {activeTab === 'stats' && <AdminStats key={activeTab} />}
           {activeTab === 'products' && <AdminProducts />}
           {activeTab === 'scents' && <AdminScentFamily />}
           {activeTab === 'orders' && <AdminOrders />}
