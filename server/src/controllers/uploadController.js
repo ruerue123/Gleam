@@ -3,12 +3,24 @@ import { cloudinary, uploadToCloudinary } from '../config/cloudinary.js';
 // Upload single image
 export const uploadImage = async (req, res) => {
   try {
+    console.log('Upload request received');
+    console.log('File:', req.file ? 'Present' : 'Missing');
+
     if (!req.file) {
+      console.error('No file in request');
       return res.status(400).json({ message: 'No file uploaded' });
     }
 
+    console.log('File details:', {
+      mimetype: req.file.mimetype,
+      size: req.file.size,
+      originalname: req.file.originalname
+    });
+
     // Upload to Cloudinary
+    console.log('Uploading to Cloudinary...');
     const result = await uploadToCloudinary(req.file.buffer);
+    console.log('Upload successful:', result.secure_url);
 
     res.status(200).json({
       message: 'Image uploaded successfully',
