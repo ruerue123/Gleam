@@ -36,9 +36,45 @@ function AdminDashboard() {
   ];
 
   return (
-    <div style={{ display: 'flex', minHeight: '100vh', background: '#FAFAF8' }}>
+    <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh', background: '#FAFAF8' }}>
+      {/* Mobile Header */}
+      <style>{`
+        @media (min-width: 769px) {
+          .admin-mobile-header { display: none; }
+          .admin-layout { flex-direction: row !important; }
+          .admin-sidebar { display: flex !important; }
+        }
+        @media (max-width: 768px) {
+          .admin-sidebar { display: ${activeTab === 'menu' ? 'flex' : 'none'} !important; position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index: 1000; }
+          .admin-main-content { padding: 1rem !important; }
+        }
+      `}</style>
+
+      {/* Mobile Top Bar */}
+      <div className="admin-mobile-header" style={{ background: '#171515', color: '#EDECE4', padding: '1rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+        <button
+          onClick={() => setActiveTab(activeTab === 'menu' ? 'stats' : 'menu')}
+          style={{
+            background: 'none',
+            border: 'none',
+            color: '#EDECE4',
+            fontSize: '1.5rem',
+            cursor: 'pointer',
+            padding: '0.5rem'
+          }}
+          aria-label="Toggle menu"
+        >
+          {activeTab === 'menu' ? '✕' : '☰'}
+        </button>
+        <Link to="/" style={{ textDecoration: 'none' }}>
+          <img src="/logo.svg" alt="gleam" style={{ height: '50px', width: 'auto' }} />
+        </Link>
+        <div style={{ width: '40px' }} />
+      </div>
+
+      <div className="admin-layout" style={{ display: 'flex', flex: 1 }}>
       {/* Sidebar */}
-      <div style={{ width: 'clamp(200px, 20vw, 280px)', background: '#171515', color: '#EDECE4', display: 'flex', flexDirection: 'column' }}>
+      <div className="admin-sidebar" style={{ width: 'clamp(200px, 20vw, 280px)', background: '#171515', color: '#EDECE4', display: 'flex', flexDirection: 'column' }}>
         <div style={{ padding: 'clamp(1.5rem, 3vw, 2.5rem)', borderBottom: '1px solid rgba(237, 236, 228, 0.1)' }}>
           <Link to="/" style={{ textDecoration: 'none', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
             <img
@@ -130,14 +166,15 @@ function AdminDashboard() {
       </div>
 
       {/* Main Content */}
-      <div style={{ flex: 1, padding: 'clamp(2rem, 4vw, 3rem)', overflowY: 'auto', overflowX: 'hidden' }}>
+      <div className="admin-main-content" style={{ flex: 1, padding: 'clamp(2rem, 4vw, 3rem)', overflowY: 'auto', overflowX: 'hidden' }}>
         <div style={{ maxWidth: '1400px', margin: '0 auto', width: '100%' }}>
-          {activeTab === 'stats' && <AdminStats key={activeTab} />}
-          {activeTab === 'products' && <AdminProducts />}
-          {activeTab === 'scents' && <AdminScentFamily />}
-          {activeTab === 'orders' && <AdminOrders />}
-          {activeTab === 'requests' && <AdminRequests />}
+          {activeTab !== 'menu' && activeTab === 'stats' && <AdminStats key={activeTab} />}
+          {activeTab !== 'menu' && activeTab === 'products' && <AdminProducts />}
+          {activeTab !== 'menu' && activeTab === 'scents' && <AdminScentFamily />}
+          {activeTab !== 'menu' && activeTab === 'orders' && <AdminOrders />}
+          {activeTab !== 'menu' && activeTab === 'requests' && <AdminRequests />}
         </div>
+      </div>
       </div>
     </div>
   );
