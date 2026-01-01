@@ -8,6 +8,8 @@ function Navbar({ cartCount, favouritesCount }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [isAccountDropdownOpen, setIsAccountDropdownOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -143,6 +145,28 @@ function Navbar({ cartCount, favouritesCount }) {
             alignItems: 'center',
             justifyContent: 'flex-end'
           }}>
+            {/* Search Icon */}
+            <button
+              aria-label="Search"
+              onClick={() => setIsSearchOpen(!isSearchOpen)}
+              style={{
+                background: 'none',
+                border: 'none',
+                color: iconColor,
+                fontSize: 'clamp(1.1rem, 2vw, 1.3rem)',
+                cursor: 'pointer',
+                padding: 0,
+                transition: 'color 0.3s'
+              }}
+              onMouseEnter={(e) => e.currentTarget.style.color = hoverColor}
+              onMouseLeave={(e) => e.currentTarget.style.color = iconColor}
+            >
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <circle cx="11" cy="11" r="8"/>
+                <path d="m21 21-4.35-4.35"/>
+              </svg>
+            </button>
+
             {/* Account Icon with Dropdown */}
             <div style={{ position: 'relative' }} data-account-dropdown>
               {user ? (
@@ -362,6 +386,110 @@ function Navbar({ cartCount, favouritesCount }) {
             </button>
           </div>
         </div>
+
+        {/* Search Bar Overlay */}
+        {isSearchOpen && (
+          <div
+            style={{
+              position: 'fixed',
+              top: 0,
+              left: 0,
+              right: 0,
+              bottom: 0,
+              background: 'rgba(23, 21, 21, 0.8)',
+              zIndex: 1001,
+              display: 'flex',
+              alignItems: 'flex-start',
+              paddingTop: 'clamp(5rem, 10vw, 8rem)',
+              justifyContent: 'center'
+            }}
+            onClick={() => setIsSearchOpen(false)}
+          >
+            <div
+              style={{
+                width: '90%',
+                maxWidth: '600px',
+                background: '#FAFAF8',
+                borderRadius: '8px',
+                padding: 'clamp(1rem, 3vw, 1.5rem)',
+                boxShadow: '0 8px 24px rgba(0, 0, 0, 0.2)'
+              }}
+              onClick={(e) => e.stopPropagation()}
+            >
+              <form
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  if (searchQuery.trim()) {
+                    navigate(`/products?search=${encodeURIComponent(searchQuery)}`);
+                    setIsSearchOpen(false);
+                    setSearchQuery('');
+                  }
+                }}
+                style={{ display: 'flex', gap: '0.75rem', alignItems: 'center' }}
+              >
+                <input
+                  type="text"
+                  placeholder="Search for candles..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  autoFocus
+                  style={{
+                    flex: 1,
+                    padding: '0.9rem 1.2rem',
+                    fontSize: 'clamp(1rem, 2vw, 1.1rem)',
+                    fontFamily: "'Cormorant', serif",
+                    border: '1px solid #EDECE4',
+                    borderRadius: '4px',
+                    outline: 'none',
+                    background: '#ffffff'
+                  }}
+                  onFocus={(e) => e.currentTarget.style.borderColor = '#8B7355'}
+                  onBlur={(e) => e.currentTarget.style.borderColor = '#EDECE4'}
+                />
+                <button
+                  type="submit"
+                  style={{
+                    padding: '0.9rem 1.5rem',
+                    background: '#8B7355',
+                    color: '#ffffff',
+                    border: 'none',
+                    borderRadius: '4px',
+                    fontSize: 'clamp(1rem, 2vw, 1.1rem)',
+                    fontFamily: "'Cormorant', serif",
+                    cursor: 'pointer',
+                    transition: 'background 0.3s',
+                    fontWeight: 500
+                  }}
+                  onMouseEnter={(e) => e.currentTarget.style.background = '#6F5943'}
+                  onMouseLeave={(e) => e.currentTarget.style.background = '#8B7355'}
+                >
+                  Search
+                </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setIsSearchOpen(false);
+                    setSearchQuery('');
+                  }}
+                  style={{
+                    padding: '0.9rem',
+                    background: 'transparent',
+                    color: '#171515',
+                    border: '1px solid #EDECE4',
+                    borderRadius: '4px',
+                    fontSize: '1.2rem',
+                    cursor: 'pointer',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center'
+                  }}
+                >
+                  ✕
+                </button>
+              </form>
+            </div>
+          </div>
+        )}
       </nav>
 
       {/* Slide-out Menu */}

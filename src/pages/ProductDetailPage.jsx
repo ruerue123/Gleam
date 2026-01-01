@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
+import ProductReviews from '../components/ProductReviews';
 
 function ProductDetailPage({ onAddToCart, onAddToFavourites, favourites = [] }) {
   const { id } = useParams();
@@ -385,6 +386,9 @@ function ProductDetailPage({ onAddToCart, onAddToFavourites, favourites = [] }) 
               </button>
             </div>
           </div>
+
+          {/* Product Reviews Section */}
+          <ProductReviews productId={product._id} />
         </div>
       </div>
     </div>

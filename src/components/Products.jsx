@@ -70,9 +70,21 @@ function Products({ onAddToCart, onAddToFavourites, favourites = [] }) {
     }
   }, [searchParams]);
 
-  // Filter products based on selected filters
+  // Filter products based on selected filters and search query
   useEffect(() => {
     let filtered = [...allProducts];
+
+    // Filter by search query
+    const searchQuery = searchParams.get('search');
+    if (searchQuery) {
+      const query = searchQuery.toLowerCase();
+      filtered = filtered.filter(product =>
+        product.name?.toLowerCase().includes(query) ||
+        product.description?.toLowerCase().includes(query) ||
+        product.scentFamily?.toLowerCase().includes(query) ||
+        product.scentNotes?.toLowerCase().includes(query)
+      );
+    }
 
     // Filter by scent
     if (selectedScent !== 'All') {
@@ -100,7 +112,7 @@ function Products({ onAddToCart, onAddToFavourites, favourites = [] }) {
     }
 
     setProducts(filtered);
-  }, [allProducts, selectedScent, selectedPrice, selectedAvailability]);
+  }, [allProducts, selectedScent, selectedPrice, selectedAvailability, searchParams]);
 
   const productCount = products.length;
 
