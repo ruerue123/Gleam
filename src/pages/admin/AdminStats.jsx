@@ -65,7 +65,7 @@ function AdminStats() {
   ];
 
   return (
-    <div>
+    <div style={{ paddingTop: '0.5rem' }}>
       <h1 style={{ fontFamily: "'Cardo', serif", fontSize: 'clamp(2rem, 4vw, 2.5rem)', color: '#171515', marginBottom: '2rem' }}>
         Dashboard Overview
       </h1>

@@ -262,7 +262,7 @@ function AdminProducts() {
   }
 
   return (
-    <div>
+    <div style={{ paddingTop: '0.5rem' }}>
       {/* Header */}
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2rem', flexWrap: 'wrap', gap: '1rem' }}>
         <div>

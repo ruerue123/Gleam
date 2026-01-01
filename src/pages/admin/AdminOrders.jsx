@@ -62,7 +62,7 @@ function AdminOrders() {
   const filters = ['all', ...statusOptions];
 
   return (
-    <div>
+    <div style={{ paddingTop: '0.5rem' }}>
       <div style={{ marginBottom: '2rem' }}>
         <h1 style={{ fontFamily: "'Cardo', serif", fontSize: 'clamp(2rem, 4vw, 2.5rem)', color: '#171515', marginBottom: '1rem' }}>
           Orders Management
