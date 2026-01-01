@@ -29,6 +29,9 @@ function AdminStats() {
       const productsData = await productsRes.json();
       const ordersData = await ordersRes.json();
 
+      console.log('Products API response:', productsData);
+      console.log('Product count:', productsData.count);
+
       const totalRevenue = ordersData.reduce((sum, order) => sum + order.totalPrice, 0);
 
       setStats({
