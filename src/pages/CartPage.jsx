@@ -1,11 +1,14 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
+import Modal, { ModalButton } from '../components/Modal'
+import { useModal } from '../hooks/useModal'
 
 function CartPage({ cart, onUpdateQuantity, onRemove, onClearCart }) {
   const { user, token } = useAuth();
   const [showSuccess, setShowSuccess] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
+  const modal = useModal();
   const subtotal = cart.reduce((sum, item) => sum + (item.price * (item.quantity || 1)), 0);
   const shipping = subtotal > 50 ? 0 : 5.99;
   const total = subtotal + shipping;
@@ -14,7 +17,7 @@ function CartPage({ cart, onUpdateQuantity, onRemove, onClearCart }) {
 
   const handleWhatsAppCheckout = async () => {
     if (!user) {
-      alert('Please login to place an order');
+      modal.alert('Please login to place an order', 'Login Required', 'warning');
       return;
     }
 
@@ -102,12 +105,12 @@ function CartPage({ cart, onUpdateQuantity, onRemove, onClearCart }) {
           setTimeout(() => setShowSuccess(false), 5000);
         }, 100);
       } else {
-        alert(data.message || 'Failed to create order');
+        modal.alert(data.message || 'Failed to create order', 'Order Error', 'error');
         setIsProcessing(false);
       }
     } catch (error) {
       console.error('Error creating order:', error);
-      alert('Failed to create order. Please try again.');
+      modal.alert('Failed to create order. Please try again.', 'Order Error', 'error');
       setIsProcessing(false);
     }
   };
@@ -498,6 +501,20 @@ function CartPage({ cart, onUpdateQuantity, onRemove, onClearCart }) {
           </div>
         </div>
       </div>
+
+      {/* Accessible Modal for alerts */}
+      <Modal
+        isOpen={modal.isOpen}
+        onClose={modal.hideModal}
+        title={modal.modalConfig.title}
+        message={modal.modalConfig.message}
+        type={modal.modalConfig.type}
+        actions={
+          <ModalButton variant="primary" onClick={modal.hideModal} autoFocus>
+            OK
+          </ModalButton>
+        }
+      />
     </div>
   );
 }

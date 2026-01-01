@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useAuth } from '../../context/AuthContext';
+import Modal, { ModalButton } from '../../components/Modal';
+import { useModal } from '../../hooks/useModal';
 
 function AdminProducts() {
   const [products, setProducts] = useState([]);
@@ -8,6 +10,7 @@ function AdminProducts() {
   const [showAddModal, setShowAddModal] = useState(false);
   const [editingProduct, setEditingProduct] = useState(null);
   const { token } = useAuth();
+  const modal = useModal();
 
   const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
 
@@ -93,13 +96,13 @@ function AdminProducts() {
 
     // Validate file type
     if (!file.type.startsWith('image/')) {
-      alert('Please select an image file');
+      modal.alert('Please select an image file', 'Invalid File Type', 'error');
       return;
     }
 
     // Validate file size (5MB max)
     if (file.size > 5 * 1024 * 1024) {
-      alert('Image size must be less than 5MB');
+      modal.alert('Image size must be less than 5MB', 'File Too Large', 'error');
       return;
     }
 
@@ -130,11 +133,11 @@ function AdminProducts() {
         setImagePreviews(prev => [...prev, data.url]);
       } else {
         const errorData = await response.json();
-        alert(`Upload failed: ${errorData.message || 'Unknown error'}`);
+        modal.alert(`Upload failed: ${errorData.message || 'Unknown error'}`, 'Upload Error', 'error');
       }
     } catch (error) {
       console.error('Upload error:', error);
-      alert('Failed to upload image. Please try again.');
+      modal.alert('Failed to upload image. Please try again.', 'Upload Error', 'error');
     } finally {
       setUploadingImage(false);
       // Reset file input
@@ -202,11 +205,11 @@ function AdminProducts() {
       } else {
         const errorData = await response.json();
         console.error('Server error:', response.status, errorData);
-        alert(`Error: ${errorData.message || 'Failed to save product'}`);
+        modal.alert(`Error: ${errorData.message || 'Failed to save product'}`, 'Save Error', 'error');
       }
     } catch (error) {
       console.error('Error saving product:', error);
-      alert('Failed to save product. Please try again.');
+      modal.alert('Failed to save product. Please try again.', 'Save Error', 'error');
     }
   };
 
@@ -235,7 +238,12 @@ function AdminProducts() {
   };
 
   const handleDelete = async (productId) => {
-    if (!confirm('Are you sure you want to delete this product?')) return;
+    const confirmed = await modal.confirm(
+      'Delete Product',
+      'Are you sure you want to delete this product? This action cannot be undone.'
+    );
+
+    if (!confirmed) return;
 
     try {
       const response = await fetch(`${API_URL}/api/products/${productId}`, {
@@ -247,9 +255,13 @@ function AdminProducts() {
 
       if (response.ok) {
         fetchProducts();
+        modal.alert('Product deleted successfully', 'Success', 'success');
+      } else {
+        modal.alert('Failed to delete product', 'Error', 'error');
       }
     } catch (error) {
       console.error('Error deleting product:', error);
+      modal.alert('Failed to delete product. Please try again.', 'Error', 'error');
     }
   };
 
@@ -1081,6 +1093,31 @@ function AdminProducts() {
           </motion.div>
         )}
       </AnimatePresence>
+
+      {/* Accessible Modal for alerts and confirmations */}
+      <Modal
+        isOpen={modal.isOpen}
+        onClose={modal.hideModal}
+        title={modal.modalConfig.title}
+        message={modal.modalConfig.message}
+        type={modal.modalConfig.type}
+        actions={
+          modal.modalConfig.onConfirm && modal.modalConfig.onCancel ? (
+            <>
+              <ModalButton variant="secondary" onClick={modal.modalConfig.onCancel}>
+                Cancel
+              </ModalButton>
+              <ModalButton variant="primary" onClick={modal.modalConfig.onConfirm} autoFocus>
+                Confirm
+              </ModalButton>
+            </>
+          ) : (
+            <ModalButton variant="primary" onClick={modal.hideModal} autoFocus>
+              OK
+            </ModalButton>
+          )
+        }
+      />
     </div>
   );
 }
