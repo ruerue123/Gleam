@@ -472,6 +472,42 @@ function Products({ onAddToCart, onAddToFavourites, favourites = [] }) {
               </ul>
             )}
           </div>
+
+          {/* Reset Filters Button */}
+          {(selectedScent !== 'All' || selectedPrice !== 'All' || selectedAvailability !== 'All') && (
+            <button
+              onClick={() => {
+                setSelectedScent('All');
+                setSelectedPrice('All');
+                setSelectedAvailability('All');
+              }}
+              style={{
+                width: '100%',
+                padding: '0.75rem 1rem',
+                background: '#8B7355',
+                color: '#ffffff',
+                border: 'none',
+                borderRadius: '4px',
+                fontFamily: "'Cormorant', serif",
+                fontSize: 'clamp(0.95rem, 1.6vw, 1.05rem)',
+                fontWeight: 500,
+                cursor: 'pointer',
+                transition: 'all 0.3s ease',
+                letterSpacing: '0.3px',
+                marginTop: '1rem'
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.background = '#6F5943';
+                e.currentTarget.style.transform = 'translateY(-2px)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.background = '#8B7355';
+                e.currentTarget.style.transform = 'translateY(0)';
+              }}
+            >
+              Reset Filters
+            </button>
+          )}
         </aside>
 
         {/* Main Content */}
