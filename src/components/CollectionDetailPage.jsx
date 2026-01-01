@@ -104,8 +104,6 @@ function CollectionDetailPage({ onAddToCart }) {
             <img
               src={scent.image}
               alt={scent.name}
-              loading="lazy"
-              decoding="async"
               style={{
                 width: '100%',
                 height: '100%',
@@ -229,8 +227,6 @@ function CollectionDetailPage({ onAddToCart }) {
                     <img
                       src={product.images[0]}
                       alt={product.name}
-                      loading="lazy"
-                      decoding="async"
                       style={{
                         width: '100%',
                         height: '100%',

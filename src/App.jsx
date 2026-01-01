@@ -1,22 +1,39 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, lazy, Suspense } from 'react'
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom'
 import { AnimatePresence, motion } from 'framer-motion'
 import { AuthProvider, useAuth } from './context/AuthContext'
 import Navbar from './components/Navbar'
 import Footer from './components/Footer'
 import CartNotification from './components/CartNotification'
-import HomePage from './pages/HomePage'
-import ProductsPage from './pages/ProductsPage'
-import ProductDetailPage from './pages/ProductDetailPage'
-import AboutPage from './pages/AboutPage'
-import ScentsPage from './pages/CollectionsPage'
-import ContactPage from './pages/ContactPage'
-import LoginPage from './pages/LoginPage'
-import ProfilePage from './pages/ProfilePage'
-import CartPage from './pages/CartPage'
-import FavouritesPage from './pages/FavouritesPage'
-import OrdersPage from './pages/OrdersPage'
-import AdminDashboard from './pages/admin/AdminDashboard'
+
+// Lazy load page components for code splitting
+const HomePage = lazy(() => import('./pages/HomePage'))
+const ProductsPage = lazy(() => import('./pages/ProductsPage'))
+const ProductDetailPage = lazy(() => import('./pages/ProductDetailPage'))
+const AboutPage = lazy(() => import('./pages/AboutPage'))
+const ScentsPage = lazy(() => import('./pages/CollectionsPage'))
+const ContactPage = lazy(() => import('./pages/ContactPage'))
+const LoginPage = lazy(() => import('./pages/LoginPage'))
+const ProfilePage = lazy(() => import('./pages/ProfilePage'))
+const CartPage = lazy(() => import('./pages/CartPage'))
+const FavouritesPage = lazy(() => import('./pages/FavouritesPage'))
+const OrdersPage = lazy(() => import('./pages/OrdersPage'))
+const AdminDashboard = lazy(() => import('./pages/admin/AdminDashboard'))
+
+// Loading component for Suspense fallback
+const PageLoader = () => (
+  <div style={{
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    minHeight: '100vh',
+    fontFamily: "'Cormorant', serif",
+    fontSize: '1.2rem',
+    color: '#8B7355'
+  }}>
+    Loading...
+  </div>
+)
 
 function AppContent() {
   const { user } = useAuth();
@@ -146,140 +163,142 @@ function AnimatedRoutes({ handleAddToCart, handleAddToFavourites, handleRemoveFr
 
   return (
     <AnimatePresence mode="wait">
-      <Routes location={location} key={location.pathname}>
-        <Route path="/" element={
-          <motion.div
-            initial="initial"
-            animate="animate"
-            exit="exit"
-            variants={pageVariants}
-            transition={pageTransition}
-          >
-            <HomePage onAddToCart={handleAddToCart} onAddToFavourites={handleAddToFavourites} favourites={favourites} />
-          </motion.div>
-        } />
-        <Route path="/scents" element={
-          <motion.div
-            initial="initial"
-            animate="animate"
-            exit="exit"
-            variants={pageVariants}
-            transition={pageTransition}
-          >
-            <ScentsPage />
-          </motion.div>
-        } />
-        <Route path="/products" element={
-          <motion.div
-            initial="initial"
-            animate="animate"
-            exit="exit"
-            variants={pageVariants}
-            transition={pageTransition}
-          >
-            <ProductsPage onAddToCart={handleAddToCart} onAddToFavourites={handleAddToFavourites} favourites={favourites} />
-          </motion.div>
-        } />
-        <Route path="/product/:id" element={
-          <motion.div
-            initial="initial"
-            animate="animate"
-            exit="exit"
-            variants={pageVariants}
-            transition={pageTransition}
-          >
-            <ProductDetailPage onAddToCart={handleAddToCart} onAddToFavourites={handleAddToFavourites} favourites={favourites} />
-          </motion.div>
-        } />
-        <Route path="/about" element={
-          <motion.div
-            initial="initial"
-            animate="animate"
-            exit="exit"
-            variants={pageVariants}
-            transition={pageTransition}
-          >
-            <AboutPage />
-          </motion.div>
-        } />
-        <Route path="/contact" element={
-          <motion.div
-            initial="initial"
-            animate="animate"
-            exit="exit"
-            variants={pageVariants}
-            transition={pageTransition}
-          >
-            <ContactPage />
-          </motion.div>
-        } />
-        <Route path="/login" element={
-          <motion.div
-            initial="initial"
-            animate="animate"
-            exit="exit"
-            variants={pageVariants}
-            transition={pageTransition}
-          >
-            <LoginPage />
-          </motion.div>
-        } />
-        <Route path="/profile" element={
-          <motion.div
-            initial="initial"
-            animate="animate"
-            exit="exit"
-            variants={pageVariants}
-            transition={pageTransition}
-          >
-            <ProfilePage cart={cart} favourites={favourites} />
-          </motion.div>
-        } />
-        <Route path="/cart" element={
-          <motion.div
-            initial="initial"
-            animate="animate"
-            exit="exit"
-            variants={pageVariants}
-            transition={pageTransition}
-          >
-            <CartPage cart={cart} onRemove={handleRemoveFromCart} onClearCart={handleClearCart} />
-          </motion.div>
-        } />
-        <Route path="/favourites" element={
-          <motion.div
-            initial="initial"
-            animate="animate"
-            exit="exit"
-            variants={pageVariants}
-            transition={pageTransition}
-          >
-            <FavouritesPage favourites={favourites} onRemove={handleRemoveFromFavourites} onAddToCart={handleAddToCart} />
-          </motion.div>
-        } />
-        <Route path="/orders" element={
-          <motion.div
-            initial="initial"
-            animate="animate"
-            exit="exit"
-            variants={pageVariants}
-            transition={pageTransition}
-          >
-            <OrdersPage />
-          </motion.div>
-        } />
-        <Route path="/admin" element={
-          <motion.div
-            initial="initial"
-            animate="animate"
-            exit="exit"
-            variants={pageVariants}
-            transition={pageTransition}
-          >
-            <AdminDashboard />
-          </motion.div>
-        } />
-      </Routes>
+      <Suspense fallback={<PageLoader />}>
+        <Routes location={location} key={location.pathname}>
+          <Route path="/" element={
+            <motion.div
+              initial="initial"
+              animate="animate"
+              exit="exit"
+              variants={pageVariants}
+              transition={pageTransition}
+            >
+              <HomePage onAddToCart={handleAddToCart} onAddToFavourites={handleAddToFavourites} favourites={favourites} />
+            </motion.div>
+          } />
+          <Route path="/scents" element={
+            <motion.div
+              initial="initial"
+              animate="animate"
+              exit="exit"
+              variants={pageVariants}
+              transition={pageTransition}
+            >
+              <ScentsPage />
+            </motion.div>
+          } />
+          <Route path="/products" element={
+            <motion.div
+              initial="initial"
+              animate="animate"
+              exit="exit"
+              variants={pageVariants}
+              transition={pageTransition}
+            >
+              <ProductsPage onAddToCart={handleAddToCart} onAddToFavourites={handleAddToFavourites} favourites={favourites} />
+            </motion.div>
+          } />
+          <Route path="/product/:id" element={
+            <motion.div
+              initial="initial"
+              animate="animate"
+              exit="exit"
+              variants={pageVariants}
+              transition={pageTransition}
+            >
+              <ProductDetailPage onAddToCart={handleAddToCart} onAddToFavourites={handleAddToFavourites} favourites={favourites} />
+            </motion.div>
+          } />
+          <Route path="/about" element={
+            <motion.div
+              initial="initial"
+              animate="animate"
+              exit="exit"
+              variants={pageVariants}
+              transition={pageTransition}
+            >
+              <AboutPage />
+            </motion.div>
+          } />
+          <Route path="/contact" element={
+            <motion.div
+              initial="initial"
+              animate="animate"
+              exit="exit"
+              variants={pageVariants}
+              transition={pageTransition}
+            >
+              <ContactPage />
+            </motion.div>
+          } />
+          <Route path="/login" element={
+            <motion.div
+              initial="initial"
+              animate="animate"
+              exit="exit"
+              variants={pageVariants}
+              transition={pageTransition}
+            >
+              <LoginPage />
+            </motion.div>
+          } />
+          <Route path="/profile" element={
+            <motion.div
+              initial="initial"
+              animate="animate"
+              exit="exit"
+              variants={pageVariants}
+              transition={pageTransition}
+            >
+              <ProfilePage cart={cart} favourites={favourites} />
+            </motion.div>
+          } />
+          <Route path="/cart" element={
+            <motion.div
+              initial="initial"
+              animate="animate"
+              exit="exit"
+              variants={pageVariants}
+              transition={pageTransition}
+            >
+              <CartPage cart={cart} onRemove={handleRemoveFromCart} onClearCart={handleClearCart} />
+            </motion.div>
+          } />
+          <Route path="/favourites" element={
+            <motion.div
+              initial="initial"
+              animate="animate"
+              exit="exit"
+              variants={pageVariants}
+              transition={pageTransition}
+            >
+              <FavouritesPage favourites={favourites} onRemove={handleRemoveFromFavourites} onAddToCart={handleAddToCart} />
+            </motion.div>
+          } />
+          <Route path="/orders" element={
+            <motion.div
+              initial="initial"
+              animate="animate"
+              exit="exit"
+              variants={pageVariants}
+              transition={pageTransition}
+            >
+              <OrdersPage />
+            </motion.div>
+          } />
+          <Route path="/admin" element={
+            <motion.div
+              initial="initial"
+              animate="animate"
+              exit="exit"
+              variants={pageVariants}
+              transition={pageTransition}
+            >
+              <AdminDashboard />
+            </motion.div>
+          } />
+        </Routes>
+      </Suspense>
     </AnimatePresence>
   )
 }

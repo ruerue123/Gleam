@@ -223,6 +223,8 @@ function BestSellers({ onAddToCart, onAddToFavourites, favourites = [] }) {
                     <img
                       src={product.images[0]}
                       alt={product.name}
+                      loading="lazy"
+                      decoding="async"
                       style={{
                         width: '100%',
                         height: '100%',
@@ -447,6 +449,8 @@ function BestSellers({ onAddToCart, onAddToFavourites, favourites = [] }) {
                   <img
                     src={quickViewProduct.images[selectedImageIndex]}
                     alt={quickViewProduct.name}
+                    loading="lazy"
+                    decoding="async"
                     style={{
                       width: '100%',
                       height: 'auto',
@@ -494,6 +498,8 @@ function BestSellers({ onAddToCart, onAddToFavourites, favourites = [] }) {
                       <img
                         src={image}
                         alt={`${quickViewProduct.name} ${index + 1}`}
+                        loading="lazy"
+                        decoding="async"
                         style={{
                           width: '100%',
                           height: '100%',

@@ -349,6 +349,8 @@ function AdminProducts() {
                 <img
                   src={product.images[0]}
                   alt={product.name}
+                  loading="lazy"
+                  decoding="async"
                   style={{
                     width: '100%',
                     height: '100%',
@@ -997,6 +999,8 @@ function AdminProducts() {
                             <img
                               src={preview}
                               alt={`Preview ${index + 1}`}
+                              loading="lazy"
+                              decoding="async"
                               style={{
                                 width: '100%',
                                 height: '100px',

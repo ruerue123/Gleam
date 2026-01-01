@@ -179,6 +179,8 @@ function FavouritesPage({ favourites, onRemove, onAddToCart }) {
                   <img
                     src={product.images[0]}
                     alt={product.name}
+                    loading="lazy"
+                    decoding="async"
                     style={{
                       width: '100%',
                       height: '100%',

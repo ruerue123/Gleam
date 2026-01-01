@@ -14,7 +14,7 @@ function Collections() {
       id: 2,
       name: 'ZEST',
       slug: 'zest',
-      image: '/images/Zest.jpeg',
+      image: '/images/Zest.png',
       description: 'Clean, vibrant fragrances that brighten your space and mood.',
       color: 'linear-gradient(135deg, #9C7A4E 0%, rgba(156, 122, 78, 0.7) 100%)'
     },
@@ -108,6 +108,8 @@ function Collections() {
               <img
                 src={scent.image}
                 alt={scent.name}
+                loading="lazy"
+                decoding="async"
                 style={{
                   width: '100%',
                   height: '100%',

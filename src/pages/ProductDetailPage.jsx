@@ -107,6 +107,8 @@ function ProductDetailPage({ onAddToCart, onAddToFavourites, favourites = [] }) 
                   <img
                     src={product.images[selectedImageIndex]}
                     alt={product.name}
+                    loading="lazy"
+                    decoding="async"
                     style={{
                       width: '100%',
                       height: '100%',
@@ -150,6 +152,8 @@ function ProductDetailPage({ onAddToCart, onAddToFavourites, favourites = [] }) 
                     <img
                       src={image}
                       alt={`${product.name} ${index + 1}`}
+                      loading="lazy"
+                      decoding="async"
                       style={{
                         width: '100%',
                         height: '100%',
