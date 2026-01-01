@@ -31,14 +31,17 @@ function AdminStats() {
 
       console.log('Products API response:', productsData);
       console.log('Product count:', productsData.count);
+      console.log('Orders response:', ordersData);
 
-      const totalRevenue = ordersData.reduce((sum, order) => sum + order.totalPrice, 0);
+      // Handle orders data - it might be an array or an object with a data property
+      const orders = Array.isArray(ordersData) ? ordersData : (ordersData.data || []);
+      const totalRevenue = orders.reduce((sum, order) => sum + (order.totalPrice || 0), 0);
 
       setStats({
         totalProducts: productsData.count || 0,
-        totalOrders: ordersData.length || 0,
+        totalOrders: orders.length || 0,
         totalRevenue: totalRevenue || 0,
-        recentOrders: ordersData.slice(0, 5) || []
+        recentOrders: orders.slice(0, 5) || []
       });
     } catch (error) {
       console.error('Error fetching stats:', error);
