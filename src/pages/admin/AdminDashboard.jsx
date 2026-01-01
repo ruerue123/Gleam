@@ -8,8 +8,19 @@ import AdminScentFamily from './AdminScentFamily';
 import AdminRequests from './AdminRequests';
 
 function AdminDashboard() {
-  const { user, logout } = useAuth();
+  const { user, logout, loading } = useAuth();
   const [activeTab, setActiveTab] = useState('stats');
+
+  // Show loading while checking authentication
+  if (loading) {
+    return (
+      <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '100vh', background: '#FAFAF8' }}>
+        <div style={{ fontFamily: "'Cormorant', serif", fontSize: '1.2rem', color: '#8B7355' }}>
+          Loading...
+        </div>
+      </div>
+    );
+  }
 
   // Redirect if not admin
   if (!user || user.role !== 'admin') {

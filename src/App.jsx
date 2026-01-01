@@ -85,22 +85,40 @@ function AppContent() {
 
   return (
     <Router>
-      <div>
-        <Navbar cartCount={cart.length} favouritesCount={favourites.length} />
-        <CartNotification show={showNotification} />
-        <AnimatedRoutes
-          handleAddToCart={handleAddToCart}
-          handleAddToFavourites={handleAddToFavourites}
-          handleRemoveFromCart={handleRemoveFromCart}
-          handleRemoveFromFavourites={handleRemoveFromFavourites}
-          handleClearCart={handleClearCart}
-          cart={cart}
-          favourites={favourites}
-        />
-        <Footer />
-      </div>
+      <AppLayout
+        cart={cart}
+        favourites={favourites}
+        showNotification={showNotification}
+        handleAddToCart={handleAddToCart}
+        handleAddToFavourites={handleAddToFavourites}
+        handleRemoveFromCart={handleRemoveFromCart}
+        handleRemoveFromFavourites={handleRemoveFromFavourites}
+        handleClearCart={handleClearCart}
+      />
     </Router>
   )
+}
+
+function AppLayout({ cart, favourites, showNotification, handleAddToCart, handleAddToFavourites, handleRemoveFromCart, handleRemoveFromFavourites, handleClearCart }) {
+  const location = useLocation();
+  const isAdminRoute = location.pathname.startsWith('/admin');
+
+  return (
+    <div>
+      {!isAdminRoute && <Navbar cartCount={cart.length} favouritesCount={favourites.length} />}
+      {!isAdminRoute && <CartNotification show={showNotification} />}
+      <AnimatedRoutes
+        handleAddToCart={handleAddToCart}
+        handleAddToFavourites={handleAddToFavourites}
+        handleRemoveFromCart={handleRemoveFromCart}
+        handleRemoveFromFavourites={handleRemoveFromFavourites}
+        handleClearCart={handleClearCart}
+        cart={cart}
+        favourites={favourites}
+      />
+      {!isAdminRoute && <Footer />}
+    </div>
+  );
 }
 
 function AnimatedRoutes({ handleAddToCart, handleAddToFavourites, handleRemoveFromCart, handleRemoveFromFavourites, handleClearCart, cart, favourites }) {
