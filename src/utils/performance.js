@@ -5,9 +5,13 @@
 
 /**
  * Reports Core Web Vitals to console (or analytics in production)
+ * Note: Requires web-vitals package to be installed
  */
 export const reportWebVitals = (onPerfEntry) => {
   if (onPerfEntry && onPerfEntry instanceof Function) {
+    // Optional import - only if web-vitals is installed
+    // Commented out to avoid build errors. Uncomment after installing: npm install web-vitals
+    /*
     import('web-vitals').then(({ getCLS, getFID, getFCP, getLCP, getTTFB }) => {
       getCLS(onPerfEntry);
       getFID(onPerfEntry);
@@ -17,6 +21,7 @@ export const reportWebVitals = (onPerfEntry) => {
     }).catch(() => {
       // web-vitals not available, ignore
     });
+    */
   }
 };
 
