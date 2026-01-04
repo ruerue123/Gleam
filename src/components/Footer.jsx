@@ -3,11 +3,39 @@ import { Link } from 'react-router-dom';
 
 function Footer() {
   const [email, setEmail] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [message, setMessage] = useState('');
 
-  const handleSubscribe = (e) => {
+  const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+
+  const handleSubscribe = async (e) => {
     e.preventDefault();
-    alert(`Thanks for subscribing with: ${email}`);
-    setEmail('');
+    setIsSubmitting(true);
+    setMessage('');
+
+    try {
+      const response = await fetch(`${API_URL}/api/subscribe`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ email, source: 'footer' })
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        setMessage(data.message || 'Thank you for subscribing!');
+        setEmail('');
+      } else {
+        setMessage(data.message || 'Failed to subscribe. Please try again.');
+      }
+    } catch (error) {
+      console.error('Error subscribing:', error);
+      setMessage('Failed to subscribe. Please try again later.');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -264,6 +292,20 @@ function Footer() {
           }}>
             Join for exclusive drops and soft wisdom.
           </p>
+          {message && (
+            <p style={{
+              fontFamily: "'Cormorant', serif",
+              fontSize: 'clamp(0.75rem, 1.2vw, 0.85rem)',
+              color: message.includes('Thank') || message.includes('Welcome') ? '#D4EDDA' : '#F8D7DA',
+              marginBottom: 'clamp(0.5rem, 1vw, 0.6rem)',
+              padding: '0.5rem',
+              borderRadius: '2px',
+              background: message.includes('Thank') || message.includes('Welcome') ? 'rgba(212, 237, 218, 0.1)' : 'rgba(248, 215, 218, 0.1)',
+              border: `1px solid ${message.includes('Thank') || message.includes('Welcome') ? 'rgba(212, 237, 218, 0.3)' : 'rgba(248, 215, 218, 0.3)'}`
+            }}>
+              {message}
+            </p>
+          )}
           <form onSubmit={handleSubscribe}>
             <input
               type="email"
@@ -271,6 +313,7 @@ function Footer() {
               onChange={(e) => setEmail(e.target.value)}
               placeholder="Your email"
               required
+              disabled={isSubmitting}
               style={{
                 width: '100%',
                 padding: 'clamp(0.55rem, 1.1vw, 0.65rem) clamp(0.7rem, 1.4vw, 0.85rem)',
@@ -280,35 +323,43 @@ function Footer() {
                 fontFamily: "'Cormorant', serif",
                 fontSize: 'clamp(0.8rem, 1.3vw, 0.9rem)',
                 background: 'rgba(255, 255, 255, 0.05)',
-                color: '#EDECE4'
+                color: '#EDECE4',
+                cursor: isSubmitting ? 'not-allowed' : 'text',
+                opacity: isSubmitting ? 0.6 : 1
               }}
             />
             <button
               type="submit"
+              disabled={isSubmitting}
               style={{
                 width: '100%',
                 padding: 'clamp(0.6rem, 1.2vw, 0.7rem)',
-                background: '#8B7355',
+                background: isSubmitting ? '#666' : '#8B7355',
                 color: '#ffffff',
-                border: '1px solid #8B7355',
+                border: `1px solid ${isSubmitting ? '#666' : '#8B7355'}`,
                 borderRadius: '2px',
                 fontSize: 'clamp(0.8rem, 1.3vw, 0.85rem)',
                 fontFamily: "'Cormorant', serif",
                 fontWeight: 500,
                 letterSpacing: '0.5px',
-                cursor: 'pointer',
-                transition: 'all 0.3s ease'
+                cursor: isSubmitting ? 'not-allowed' : 'pointer',
+                transition: 'all 0.3s ease',
+                opacity: isSubmitting ? 0.7 : 1
               }}
               onMouseEnter={(e) => {
-                e.currentTarget.style.background = '#6F5943';
-                e.currentTarget.style.borderColor = '#6F5943';
+                if (!isSubmitting) {
+                  e.currentTarget.style.background = '#6F5943';
+                  e.currentTarget.style.borderColor = '#6F5943';
+                }
               }}
               onMouseLeave={(e) => {
-                e.currentTarget.style.background = '#8B7355';
-                e.currentTarget.style.borderColor = '#8B7355';
+                if (!isSubmitting) {
+                  e.currentTarget.style.background = '#8B7355';
+                  e.currentTarget.style.borderColor = '#8B7355';
+                }
               }}
             >
-              Subscribe
+              {isSubmitting ? 'Subscribing...' : 'Subscribe'}
             </button>
           </form>
         </div>
