@@ -261,36 +261,41 @@ function Products({ onAddToCart, onAddToFavourites, favourites = [] }) {
               }}>
                 {scents.map((scent) => (
                   <li key={scent.value} style={{ marginBottom: '0.8rem' }}>
-                    <button
-                      onClick={() => setSelectedScent(scent.value)}
+                    <label
                       style={{
-                        background: 'none',
-                        border: 'none',
-                        padding: '0.5rem 0',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '0.75rem',
                         cursor: 'pointer',
+                        padding: '0.5rem 0',
                         fontFamily: "'Raleway', sans-serif",
                         fontSize: 'clamp(0.9rem, 1.5vw, 1rem)',
-                        color: selectedScent === scent.value ? '#8B7355' : '#171515',
-                        opacity: selectedScent === scent.value ? 1 : 0.7,
-                        fontWeight: selectedScent === scent.value ? 500 : 400,
+                        color: '#171515',
                         letterSpacing: '0.3px',
-                        transition: 'all 0.3s ease',
-                        textAlign: 'left',
-                        width: '100%'
+                        transition: 'all 0.3s ease'
                       }}
                       onMouseEnter={(e) => {
-                        e.currentTarget.style.opacity = '1';
                         e.currentTarget.style.color = '#8B7355';
                       }}
                       onMouseLeave={(e) => {
-                        if (selectedScent !== scent.value) {
-                          e.currentTarget.style.opacity = '0.7';
-                          e.currentTarget.style.color = '#171515';
-                        }
+                        e.currentTarget.style.color = '#171515';
                       }}
                     >
-                      {scent.label}
-                    </button>
+                      <input
+                        type="radio"
+                        name="scent"
+                        value={scent.value}
+                        checked={selectedScent === scent.value}
+                        onChange={() => setSelectedScent(scent.value)}
+                        style={{
+                          width: '18px',
+                          height: '18px',
+                          cursor: 'pointer',
+                          accentColor: '#8B7355'
+                        }}
+                      />
+                      <span>{scent.label}</span>
+                    </label>
                   </li>
                 ))}
               </ul>
@@ -349,36 +354,41 @@ function Products({ onAddToCart, onAddToFavourites, favourites = [] }) {
               }}>
                 {priceRanges.map((range) => (
                   <li key={range.value} style={{ marginBottom: '0.8rem' }}>
-                    <button
-                      onClick={() => setSelectedPrice(range.value)}
+                    <label
                       style={{
-                        background: 'none',
-                        border: 'none',
-                        padding: '0.5rem 0',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '0.75rem',
                         cursor: 'pointer',
+                        padding: '0.5rem 0',
                         fontFamily: "'Raleway', sans-serif",
                         fontSize: 'clamp(0.9rem, 1.5vw, 1rem)',
-                        color: selectedPrice === range.value ? '#8B7355' : '#171515',
-                        opacity: selectedPrice === range.value ? 1 : 0.7,
-                        fontWeight: selectedPrice === range.value ? 500 : 400,
+                        color: '#171515',
                         letterSpacing: '0.3px',
-                        transition: 'all 0.3s ease',
-                        textAlign: 'left',
-                        width: '100%'
+                        transition: 'all 0.3s ease'
                       }}
                       onMouseEnter={(e) => {
-                        e.currentTarget.style.opacity = '1';
                         e.currentTarget.style.color = '#8B7355';
                       }}
                       onMouseLeave={(e) => {
-                        if (selectedPrice !== range.value) {
-                          e.currentTarget.style.opacity = '0.7';
-                          e.currentTarget.style.color = '#171515';
-                        }
+                        e.currentTarget.style.color = '#171515';
                       }}
                     >
-                      {range.label}
-                    </button>
+                      <input
+                        type="radio"
+                        name="price"
+                        value={range.value}
+                        checked={selectedPrice === range.value}
+                        onChange={() => setSelectedPrice(range.value)}
+                        style={{
+                          width: '18px',
+                          height: '18px',
+                          cursor: 'pointer',
+                          accentColor: '#8B7355'
+                        }}
+                      />
+                      <span>{range.label}</span>
+                    </label>
                   </li>
                 ))}
               </ul>
@@ -437,36 +447,41 @@ function Products({ onAddToCart, onAddToFavourites, favourites = [] }) {
               }}>
                 {availabilityOptions.map((option) => (
                   <li key={option.value} style={{ marginBottom: '0.8rem' }}>
-                    <button
-                      onClick={() => setSelectedAvailability(option.value)}
+                    <label
                       style={{
-                        background: 'none',
-                        border: 'none',
-                        padding: '0.5rem 0',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '0.75rem',
                         cursor: 'pointer',
+                        padding: '0.5rem 0',
                         fontFamily: "'Raleway', sans-serif",
                         fontSize: 'clamp(0.9rem, 1.5vw, 1rem)',
-                        color: selectedAvailability === option.value ? '#8B7355' : '#171515',
-                        opacity: selectedAvailability === option.value ? 1 : 0.7,
-                        fontWeight: selectedAvailability === option.value ? 500 : 400,
+                        color: '#171515',
                         letterSpacing: '0.3px',
-                        transition: 'all 0.3s ease',
-                        textAlign: 'left',
-                        width: '100%'
+                        transition: 'all 0.3s ease'
                       }}
                       onMouseEnter={(e) => {
-                        e.currentTarget.style.opacity = '1';
                         e.currentTarget.style.color = '#8B7355';
                       }}
                       onMouseLeave={(e) => {
-                        if (selectedAvailability !== option.value) {
-                          e.currentTarget.style.opacity = '0.7';
-                          e.currentTarget.style.color = '#171515';
-                        }
+                        e.currentTarget.style.color = '#171515';
                       }}
                     >
-                      {option.label}
-                    </button>
+                      <input
+                        type="radio"
+                        name="availability"
+                        value={option.value}
+                        checked={selectedAvailability === option.value}
+                        onChange={() => setSelectedAvailability(option.value)}
+                        style={{
+                          width: '18px',
+                          height: '18px',
+                          cursor: 'pointer',
+                          accentColor: '#8B7355'
+                        }}
+                      />
+                      <span>{option.label}</span>
+                    </label>
                   </li>
                 ))}
               </ul>

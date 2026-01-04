@@ -207,7 +207,7 @@ function Footer() {
               </Link>
             </li>
             <li style={{ marginBottom: 'clamp(0.4rem, 0.8vw, 0.5rem)' }}>
-              <a href="#" style={{
+              <Link to="/about" style={{
                 fontFamily: "'Cormorant', serif",
                 fontSize: 'clamp(0.8rem, 1.3vw, 0.9rem)',
                 color: '#EDECE4',
@@ -220,10 +220,10 @@ function Footer() {
               onMouseLeave={(e) => e.target.style.opacity = '0.7'}
               >
                 Our Story
-              </a>
+              </Link>
             </li>
             <li style={{ marginBottom: 'clamp(0.4rem, 0.8vw, 0.5rem)' }}>
-              <a href="#" style={{
+              <Link to="/contact" style={{
                 fontFamily: "'Cormorant', serif",
                 fontSize: 'clamp(0.8rem, 1.3vw, 0.9rem)',
                 color: '#EDECE4',
@@ -236,7 +236,7 @@ function Footer() {
               onMouseLeave={(e) => e.target.style.opacity = '0.7'}
               >
                 Contact
-              </a>
+              </Link>
             </li>
           </ul>
         </div>

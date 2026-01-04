@@ -1,4 +1,51 @@
+import { useState } from 'react';
+
 function ContactPage() {
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    message: ''
+  });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState(null); // 'success', 'error', null
+
+  const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value
+    });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    setSubmitStatus(null);
+
+    try {
+      const response = await fetch(`${API_URL}/api/contact`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(formData)
+      });
+
+      if (response.ok) {
+        setSubmitStatus('success');
+        setFormData({ name: '', email: '', message: '' });
+      } else {
+        setSubmitStatus('error');
+      }
+    } catch (error) {
+      console.error('Error submitting form:', error);
+      setSubmitStatus('error');
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
   return (
     <div style={{
       paddingTop: 'clamp(150px, 16vw, 180px)',
@@ -35,7 +82,40 @@ function ContactPage() {
           We'd love to hear from you
         </p>
 
-        <form style={{
+        {/* Success/Error Message */}
+        {submitStatus === 'success' && (
+          <div style={{
+            padding: '1rem 1.5rem',
+            background: '#D4EDDA',
+            border: '1px solid #C3E6CB',
+            borderRadius: '4px',
+            marginBottom: '2rem',
+            fontFamily: "'Cormorant', serif",
+            fontSize: '1.1rem',
+            color: '#155724',
+            textAlign: 'center'
+          }}>
+            Thank you! Your message has been sent successfully. We'll get back to you soon.
+          </div>
+        )}
+
+        {submitStatus === 'error' && (
+          <div style={{
+            padding: '1rem 1.5rem',
+            background: '#F8D7DA',
+            border: '1px solid #F5C6CB',
+            borderRadius: '4px',
+            marginBottom: '2rem',
+            fontFamily: "'Cormorant', serif",
+            fontSize: '1.1rem',
+            color: '#721C24',
+            textAlign: 'center'
+          }}>
+            Oops! Something went wrong. Please try again or email us directly at sales@gleam.co.zw
+          </div>
+        )}
+
+        <form onSubmit={handleSubmit} style={{
           display: 'flex',
           flexDirection: 'column',
           gap: 'clamp(1.5rem, 3vw, 2rem)'
@@ -53,7 +133,11 @@ function ContactPage() {
             </label>
             <input
               type="text"
+              name="name"
+              value={formData.name}
+              onChange={handleChange}
               placeholder="Your name"
+              required
               style={{
                 width: '100%',
                 padding: 'clamp(0.8rem, 2vw, 1rem)',
@@ -80,7 +164,11 @@ function ContactPage() {
             </label>
             <input
               type="email"
+              name="email"
+              value={formData.email}
+              onChange={handleChange}
               placeholder="your.email@example.com"
+              required
               style={{
                 width: '100%',
                 padding: 'clamp(0.8rem, 2vw, 1rem)',
@@ -106,8 +194,12 @@ function ContactPage() {
               Message
             </label>
             <textarea
+              name="message"
+              value={formData.message}
+              onChange={handleChange}
               rows="6"
               placeholder="How can we help you?"
+              required
               style={{
                 width: '100%',
                 padding: 'clamp(0.8rem, 2vw, 1rem)',
@@ -124,34 +216,39 @@ function ContactPage() {
 
           <button
             type="submit"
+            disabled={isSubmitting}
             style={{
               padding: 'clamp(1rem, 2.5vw, 1.2rem) clamp(2.5rem, 6vw, 3.5rem)',
-              background: '#8B7355',
+              background: isSubmitting ? '#ccc' : '#8B7355',
               color: '#ffffff',
-              border: '1px solid #8B7355',
+              border: `1px solid ${isSubmitting ? '#ccc' : '#8B7355'}`,
               borderRadius: '2px',
               fontSize: 'clamp(1rem, 1.8vw, 1.1rem)',
               fontFamily: "'Cormorant', serif",
               fontWeight: 500,
               letterSpacing: '0.5px',
-              cursor: 'pointer',
+              cursor: isSubmitting ? 'not-allowed' : 'pointer',
               transition: 'all 0.3s ease',
               alignSelf: 'center'
             }}
             onMouseEnter={(e) => {
-              e.currentTarget.style.background = '#6F5943';
-              e.currentTarget.style.borderColor = '#6F5943';
-              e.currentTarget.style.transform = 'translateY(-2px)';
-              e.currentTarget.style.boxShadow = '0 4px 12px rgba(139, 115, 85, 0.3)';
+              if (!isSubmitting) {
+                e.currentTarget.style.background = '#6F5943';
+                e.currentTarget.style.borderColor = '#6F5943';
+                e.currentTarget.style.transform = 'translateY(-2px)';
+                e.currentTarget.style.boxShadow = '0 4px 12px rgba(139, 115, 85, 0.3)';
+              }
             }}
             onMouseLeave={(e) => {
-              e.currentTarget.style.background = '#8B7355';
-              e.currentTarget.style.borderColor = '#8B7355';
-              e.currentTarget.style.transform = 'translateY(0)';
-              e.currentTarget.style.boxShadow = 'none';
+              if (!isSubmitting) {
+                e.currentTarget.style.background = '#8B7355';
+                e.currentTarget.style.borderColor = '#8B7355';
+                e.currentTarget.style.transform = 'translateY(0)';
+                e.currentTarget.style.boxShadow = 'none';
+              }
             }}
           >
-            Send Message
+            {isSubmitting ? 'Sending...' : 'Send Message'}
           </button>
         </form>
 

@@ -19,9 +19,12 @@ function AdminOrders() {
         headers: { 'Authorization': `Bearer ${token}` }
       });
       const data = await response.json();
-      setOrders(data || []);
+      // Handle orders data - it might be an array or an object with a data property
+      const ordersArray = Array.isArray(data) ? data : (data.data || []);
+      setOrders(ordersArray);
     } catch (error) {
       console.error('Error fetching orders:', error);
+      setOrders([]);
     } finally {
       setLoading(false);
     }
@@ -48,7 +51,7 @@ function AdminOrders() {
 
   const filteredOrders = filter === 'all'
     ? orders
-    : orders.filter(order => order.status === filter);
+    : orders.filter(order => (order.orderStatus || order.status) === filter);
 
   if (loading) {
     return (
@@ -87,7 +90,7 @@ function AdminOrders() {
                 textTransform: 'capitalize'
               }}
             >
-              {f} ({f === 'all' ? orders.length : orders.filter(o => o.status === f).length})
+              {f} ({f === 'all' ? orders.length : orders.filter(o => (o.orderStatus || o.status) === f).length})
             </button>
           ))}
         </div>
@@ -115,7 +118,7 @@ function AdminOrders() {
                 </div>
                 <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
                   <select
-                    value={order.status}
+                    value={order.orderStatus || order.status}
                     onChange={(e) => updateOrderStatus(order._id, e.target.value)}
                     style={{
                       padding: '0.5rem 1rem',

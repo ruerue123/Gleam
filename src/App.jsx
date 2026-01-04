@@ -59,8 +59,12 @@ function AppContent() {
 
   // Load user-specific cart and favourites when user changes (login/logout)
   useEffect(() => {
-    const savedCart = localStorage.getItem(getStorageKey('cart'));
-    const savedFavourites = localStorage.getItem(getStorageKey('favourites'));
+    // Clear current cart and favourites first to prevent leakage between users
+    const userKey = user ? `gleam_cart_${user._id}` : 'gleam_cart_guest';
+    const favouritesKey = user ? `gleam_favourites_${user._id}` : 'gleam_favourites_guest';
+
+    const savedCart = localStorage.getItem(userKey);
+    const savedFavourites = localStorage.getItem(favouritesKey);
 
     setCart(savedCart ? JSON.parse(savedCart) : []);
     setFavourites(savedFavourites ? JSON.parse(savedFavourites) : []);

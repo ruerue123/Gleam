@@ -6,6 +6,7 @@ import AdminOrders from './AdminOrders';
 import AdminStats from './AdminStats';
 import AdminScentFamily from './AdminScentFamily';
 import AdminRequests from './AdminRequests';
+import AdminBestsellers from './AdminBestsellers';
 
 function AdminDashboard() {
   const { user, logout, loading } = useAuth();
@@ -30,6 +31,7 @@ function AdminDashboard() {
   const tabs = [
     { id: 'stats', label: 'Dashboard', icon: '📊' },
     { id: 'products', label: 'Products', icon: '🕯️' },
+    { id: 'bestsellers', label: 'Bestsellers', icon: '⭐' },
     { id: 'scents', label: 'Scent Family', icon: '🌸' },
     { id: 'orders', label: 'Orders', icon: '📦' },
     { id: 'requests', label: 'Requests', icon: '📩' },
@@ -170,6 +172,7 @@ function AdminDashboard() {
         <div style={{ maxWidth: '1400px', margin: '0 auto', width: '100%' }}>
           {activeTab !== 'menu' && activeTab === 'stats' && <AdminStats key={activeTab} />}
           {activeTab !== 'menu' && activeTab === 'products' && <AdminProducts />}
+          {activeTab !== 'menu' && activeTab === 'bestsellers' && <AdminBestsellers />}
           {activeTab !== 'menu' && activeTab === 'scents' && <AdminScentFamily />}
           {activeTab !== 'menu' && activeTab === 'orders' && <AdminOrders />}
           {activeTab !== 'menu' && activeTab === 'requests' && <AdminRequests />}
