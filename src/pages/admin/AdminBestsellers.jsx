@@ -18,7 +18,11 @@ function AdminBestsellers() {
     try {
       const response = await fetch(`${API_URL}/api/products`);
       const data = await response.json();
-      const productsArray = Array.isArray(data) ? data : (data.products || []);
+      console.log('API Response:', data);
+
+      // Handle different response formats: { success, data: [...] } or direct array
+      const productsArray = data.data || data.products || (Array.isArray(data) ? data : []);
+      console.log('Products array:', productsArray);
       setProducts(productsArray);
 
       // Get current bestsellers

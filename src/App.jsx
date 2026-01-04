@@ -38,22 +38,9 @@ const PageLoader = () => (
 function AppContent() {
   const { user } = useAuth();
 
-  // Get user-specific localStorage keys
-  const getStorageKey = (key) => {
-    return user ? `gleam_${key}_${user._id}` : `gleam_${key}_guest`;
-  };
-
-  // Initialize cart from user-specific localStorage
-  const [cart, setCart] = useState(() => {
-    const saved = localStorage.getItem(getStorageKey('cart'));
-    return saved ? JSON.parse(saved) : [];
-  });
-
-  // Initialize favourites from user-specific localStorage
-  const [favourites, setFavourites] = useState(() => {
-    const saved = localStorage.getItem(getStorageKey('favourites'));
-    return saved ? JSON.parse(saved) : [];
-  });
+  // Initialize cart and favourites as empty - will be loaded in useEffect
+  const [cart, setCart] = useState([]);
+  const [favourites, setFavourites] = useState([]);
 
   const [showNotification, setShowNotification] = useState(false);
 
@@ -96,12 +83,14 @@ function AppContent() {
 
   // Save cart to user-specific localStorage whenever it changes
   useEffect(() => {
-    localStorage.setItem(getStorageKey('cart'), JSON.stringify(cart));
+    const userKey = user ? `gleam_cart_${user._id}` : 'gleam_cart_guest';
+    localStorage.setItem(userKey, JSON.stringify(cart));
   }, [cart, user]);
 
   // Save favourites to user-specific localStorage whenever they change
   useEffect(() => {
-    localStorage.setItem(getStorageKey('favourites'), JSON.stringify(favourites));
+    const favouritesKey = user ? `gleam_favourites_${user._id}` : 'gleam_favourites_guest';
+    localStorage.setItem(favouritesKey, JSON.stringify(favourites));
   }, [favourites, user]);
 
   return (

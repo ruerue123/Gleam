@@ -86,9 +86,11 @@ function Products({ onAddToCart, onAddToFavourites, favourites = [] }) {
       );
     }
 
-    // Filter by scent
+    // Filter by scent - check both scentFamily and collection fields
     if (selectedScent !== 'All') {
-      filtered = filtered.filter(product => product.scentFamily === selectedScent);
+      filtered = filtered.filter(product =>
+        product.scentFamily === selectedScent || product.collection === selectedScent
+      );
     }
 
     // Filter by price
