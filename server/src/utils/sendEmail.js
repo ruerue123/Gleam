@@ -1,4 +1,6 @@
-import nodemailer from 'nodemailer';
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
+const nodemailer = require('nodemailer');
 
 // Create reusable transporter
 const createTransporter = () => {
@@ -16,14 +18,26 @@ const createTransporter = () => {
   }
 
   // Default to SMTP configuration
-  return nodemailer.createTransporter({
+  const port = parseInt(process.env.SMTP_PORT) || 587;
+  const secure = process.env.SMTP_SECURE === 'true'; // true for port 465, false for other ports
+
+  return nodemailer.createTransport({
     host: process.env.SMTP_HOST || 'smtp.gmail.com',
-    port: process.env.SMTP_PORT || 587,
-    secure: process.env.SMTP_SECURE === 'true', // true for 465, false for other ports
+    port: port,
+    secure: secure,
     auth: {
       user: process.env.SMTP_USER || process.env.EMAIL_USER,
       pass: process.env.SMTP_PASSWORD || process.env.EMAIL_PASSWORD
-    }
+    },
+    // TLS settings for better compatibility
+    tls: {
+      rejectUnauthorized: false, // Allow self-signed certificates
+      minVersion: 'TLSv1.2'
+    },
+    // Connection timeout
+    connectionTimeout: 10000, // 10 seconds
+    greetingTimeout: 10000,
+    socketTimeout: 10000
   });
 };
 
