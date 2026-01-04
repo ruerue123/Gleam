@@ -16,8 +16,9 @@ function BestSellers({ onAddToCart, onAddToFavourites, favourites = [] }) {
 
   const fetchBestSellers = async () => {
     try {
-      const response = await fetch(`${API_URL}/api/products?featured=true&limit=6`);
+      const response = await fetch(`${API_URL}/api/products?isBestseller=true&limit=6`);
       const data = await response.json();
+      console.log('Bestsellers API response:', data);
       if (data.success) {
         setBestSellers(data.data);
       }

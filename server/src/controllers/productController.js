@@ -5,7 +5,7 @@ import Product from '../models/Product.js';
 // @access  Public
 export const getProducts = async (req, res) => {
   try {
-    const { collection, scentFamily, search, featured, limit } = req.query;
+    const { collection, scentFamily, search, featured, isBestseller, limit } = req.query;
 
     let query = { isActive: true };
 
@@ -26,6 +26,11 @@ export const getProducts = async (req, res) => {
     // Filter by featured
     if (featured === 'true') {
       query.featured = true;
+    }
+
+    // Filter by bestseller
+    if (isBestseller === 'true') {
+      query.isBestseller = true;
     }
 
     // Search functionality
