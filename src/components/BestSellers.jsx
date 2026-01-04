@@ -43,6 +43,11 @@ function BestSellers({ onAddToCart, onAddToFavourites, favourites = [] }) {
     );
   }
 
+  // Don't render section if no bestsellers
+  if (bestSellers.length === 0) {
+    return null;
+  }
+
   return (
     <section style={{
       background: '#ffffff',

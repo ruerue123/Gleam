@@ -50,28 +50,36 @@ function AdminBestsellers() {
   const saveBestsellers = async () => {
     setSaving(true);
     try {
-      // Update all products
-      const updatePromises = products.map(product => {
+      // Update all products - only send isBestseller field
+      const updatePromises = products.map(async (product) => {
         const isBestseller = bestsellers.includes(product._id);
-        return fetch(`${API_URL}/api/products/${product._id}`, {
+
+        const response = await fetch(`${API_URL}/api/products/${product._id}`, {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${token}`
           },
           body: JSON.stringify({
-            ...product,
             isBestseller
           })
         });
+
+        if (!response.ok) {
+          console.error(`Failed to update ${product.name}:`, await response.text());
+          throw new Error(`Failed to update ${product.name}`);
+        }
+
+        return response.json();
       });
 
-      await Promise.all(updatePromises);
-      alert('Bestsellers updated successfully!');
+      const results = await Promise.all(updatePromises);
+      console.log('✅ Bestsellers updated:', results.length, 'products');
+      alert(`Bestsellers updated successfully! ${bestsellers.length} products marked as bestsellers.`);
       fetchProducts(); // Refresh the list
     } catch (error) {
       console.error('Error updating bestsellers:', error);
-      alert('Error updating bestsellers');
+      alert(`Error updating bestsellers: ${error.message}`);
     } finally {
       setSaving(false);
     }
