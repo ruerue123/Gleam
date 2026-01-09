@@ -10,10 +10,12 @@ function Products({ onAddToCart, onAddToFavourites, favourites = [] }) {
   const [selectedScent, setSelectedScent] = useState(searchParams.get('scent') || 'All');
   const [selectedPrice, setSelectedPrice] = useState('All');
   const [selectedAvailability, setSelectedAvailability] = useState('All');
+  const [selectedStyle, setSelectedStyle] = useState('All');
   const [quickViewProduct, setQuickViewProduct] = useState(null);
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
   const [expandedSections, setExpandedSections] = useState({
     scent: true,
+    style: false,
     price: false,
     availability: false
   });
@@ -25,8 +27,13 @@ function Products({ onAddToCart, onAddToFavourites, favourites = [] }) {
     { value: 'EMBER', label: 'Ember' },
     { value: 'ZEST', label: 'Zest' },
     { value: 'SERENE', label: 'Serene' },
-    { value: 'ROOT', label: 'Root' },
-    { value: 'DESERT', label: 'Desert Candles' },
+    { value: 'ROOT', label: 'Root' }
+  ];
+
+  const candleStyles = [
+    { value: 'All', label: 'All Styles' },
+    { value: 'STANDARD', label: 'Jar Candles' },
+    { value: 'DESSERT', label: 'Dessert Candles' },
     { value: 'MOLDED', label: 'Molded Candles' }
   ];
 
@@ -95,6 +102,13 @@ function Products({ onAddToCart, onAddToFavourites, favourites = [] }) {
       );
     }
 
+    // Filter by candle style (product type)
+    if (selectedStyle !== 'All') {
+      filtered = filtered.filter(product =>
+        product.productType === selectedStyle
+      );
+    }
+
     // Filter by price
     if (selectedPrice !== 'All') {
       const [min, max] = selectedPrice.split('-').map(Number);
@@ -116,7 +130,7 @@ function Products({ onAddToCart, onAddToFavourites, favourites = [] }) {
     }
 
     setProducts(filtered);
-  }, [allProducts, selectedScent, selectedPrice, selectedAvailability, searchParams]);
+  }, [allProducts, selectedScent, selectedPrice, selectedAvailability, selectedStyle, searchParams]);
 
   const productCount = products.length;
 
@@ -299,6 +313,99 @@ function Products({ onAddToCart, onAddToFavourites, favourites = [] }) {
                         }}
                       />
                       <span>{scent.label}</span>
+                    </label>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
+
+          {/* Candle Styles */}
+          <div style={{ marginBottom: '1.5rem', borderBottom: '1px solid #EDECE4', paddingBottom: '1rem' }}>
+            <button
+              onClick={() => setExpandedSections(prev => ({ ...prev, style: !prev.style }))}
+              style={{
+                width: '100%',
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                background: 'none',
+                border: 'none',
+                padding: '0.5rem 0',
+                cursor: 'pointer'
+              }}
+            >
+              <h3 style={{
+                fontFamily: "'Cardo', serif",
+                fontSize: 'clamp(1.1rem, 2vw, 1.3rem)',
+                fontWeight: 400,
+                letterSpacing: '0.5px',
+                color: '#171515',
+                textTransform: 'uppercase',
+                margin: 0
+              }}>
+                Candle Style
+              </h3>
+              <svg
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="#171515"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                style={{
+                  transform: expandedSections.style ? 'rotate(180deg)' : 'rotate(0deg)',
+                  transition: 'transform 0.3s ease'
+                }}
+              >
+                <polyline points="6 9 12 15 18 9" />
+              </svg>
+            </button>
+
+            {expandedSections.style && (
+              <ul style={{
+                listStyle: 'none',
+                padding: 0,
+                margin: '1rem 0 0 0'
+              }}>
+                {candleStyles.map((style) => (
+                  <li key={style.value} style={{ marginBottom: '0.8rem' }}>
+                    <label
+                      style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '0.75rem',
+                        cursor: 'pointer',
+                        padding: '0.5rem 0',
+                        fontFamily: "'Raleway', sans-serif",
+                        fontSize: 'clamp(0.9rem, 1.5vw, 1rem)',
+                        color: '#171515',
+                        letterSpacing: '0.3px',
+                        transition: 'all 0.3s ease'
+                      }}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.color = '#8B7355';
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.color = '#171515';
+                      }}
+                    >
+                      <input
+                        type="radio"
+                        name="style"
+                        value={style.value}
+                        checked={selectedStyle === style.value}
+                        onChange={() => setSelectedStyle(style.value)}
+                        style={{
+                          width: '18px',
+                          height: '18px',
+                          cursor: 'pointer',
+                          accentColor: '#8B7355'
+                        }}
+                      />
+                      <span>{style.label}</span>
                     </label>
                   </li>
                 ))}
@@ -493,10 +600,11 @@ function Products({ onAddToCart, onAddToFavourites, favourites = [] }) {
           </div>
 
           {/* Reset Filters Button */}
-          {(selectedScent !== 'All' || selectedPrice !== 'All' || selectedAvailability !== 'All') && (
+          {(selectedScent !== 'All' || selectedStyle !== 'All' || selectedPrice !== 'All' || selectedAvailability !== 'All') && (
             <button
               onClick={() => {
                 setSelectedScent('All');
+                setSelectedStyle('All');
                 setSelectedPrice('All');
                 setSelectedAvailability('All');
               }}

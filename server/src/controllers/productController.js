@@ -5,7 +5,7 @@ import Product from '../models/Product.js';
 // @access  Public
 export const getProducts = async (req, res) => {
   try {
-    const { collection, scentFamily, search, featured, isBestseller, limit } = req.query;
+    const { collection, scentFamily, search, featured, isBestseller, productType, limit } = req.query;
 
     let query = { isActive: true };
 
@@ -21,6 +21,11 @@ export const getProducts = async (req, res) => {
         { collection: collection },
         { collectionSlug: collection }
       ];
+    }
+
+    // Filter by product type (candle style)
+    if (productType) {
+      query.productType = productType;
     }
 
     // Filter by featured

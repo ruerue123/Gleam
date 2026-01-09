@@ -20,6 +20,7 @@ function AdminProducts() {
     slug: '',
     description: '',
     scentFamily: 'EMBER',
+    productType: 'STANDARD',
     price: '',
     countInStock: '',
     scent: '',
@@ -32,8 +33,15 @@ function AdminProducts() {
   const [imagePreviews, setImagePreviews] = useState([]);
   const [uploadingImage, setUploadingImage] = useState(false);
 
-  // Collection names that match backend enum values
-  const scentFamilies = ['EMBER', 'ZEST', 'SERENE', 'ROOT', 'DESERT', 'MOLDED'];
+  // Scent families (moods)
+  const scentFamilies = ['EMBER', 'ZEST', 'SERENE', 'ROOT'];
+
+  // Product types (candle styles)
+  const productTypes = [
+    { value: 'STANDARD', label: 'Standard Jar Candle' },
+    { value: 'DESSERT', label: 'Dessert Candle' },
+    { value: 'MOLDED', label: 'Molded Candle' }
+  ];
 
   useEffect(() => {
     fetchProducts();
@@ -151,6 +159,7 @@ function AdminProducts() {
       slug: '',
       description: '',
       scentFamily: 'EMBER',
+      productType: 'STANDARD',
       price: '',
       countInStock: '',
       scent: '',
@@ -219,6 +228,7 @@ function AdminProducts() {
       slug: product.slug || '',
       description: product.description || '',
       scentFamily: product.scentFamily || product.collection || 'EMBER',
+      productType: product.productType || 'STANDARD',
       price: product.price || '',
       countInStock: product.countInStock || product.stock || '',
       scent: product.scent || '',
@@ -677,38 +687,73 @@ function AdminProducts() {
                     />
                   </div>
 
-                  {/* Scent Family */}
-                  <div>
-                    <label style={{
-                      display: 'block',
-                      fontFamily: "'Cormorant', serif",
-                      fontSize: '1rem',
-                      color: '#171515',
-                      marginBottom: '0.5rem',
-                      fontWeight: 500
-                    }}>
-                      Scent Family *
-                    </label>
-                    <select
-                      name="scentFamily"
-                      value={formData.scentFamily}
-                      onChange={handleInputChange}
-                      required
-                      style={{
-                        width: '100%',
-                        padding: '0.75rem',
-                        border: '1px solid #EDECE4',
-                        borderRadius: '4px',
+                  {/* Scent Family and Product Type */}
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
+                    <div>
+                      <label style={{
+                        display: 'block',
                         fontFamily: "'Cormorant', serif",
                         fontSize: '1rem',
-                        outline: 'none',
-                        cursor: 'pointer'
-                      }}
-                    >
-                      {scentFamilies.map(family => (
-                        <option key={family} value={family}>{family}</option>
-                      ))}
-                    </select>
+                        color: '#171515',
+                        marginBottom: '0.5rem',
+                        fontWeight: 500
+                      }}>
+                        Scent Family (Mood) *
+                      </label>
+                      <select
+                        name="scentFamily"
+                        value={formData.scentFamily}
+                        onChange={handleInputChange}
+                        required
+                        style={{
+                          width: '100%',
+                          padding: '0.75rem',
+                          border: '1px solid #EDECE4',
+                          borderRadius: '4px',
+                          fontFamily: "'Cormorant', serif",
+                          fontSize: '1rem',
+                          outline: 'none',
+                          cursor: 'pointer'
+                        }}
+                      >
+                        {scentFamilies.map(family => (
+                          <option key={family} value={family}>{family}</option>
+                        ))}
+                      </select>
+                    </div>
+
+                    <div>
+                      <label style={{
+                        display: 'block',
+                        fontFamily: "'Cormorant', serif",
+                        fontSize: '1rem',
+                        color: '#171515',
+                        marginBottom: '0.5rem',
+                        fontWeight: 500
+                      }}>
+                        Candle Style *
+                      </label>
+                      <select
+                        name="productType"
+                        value={formData.productType}
+                        onChange={handleInputChange}
+                        required
+                        style={{
+                          width: '100%',
+                          padding: '0.75rem',
+                          border: '1px solid #EDECE4',
+                          borderRadius: '4px',
+                          fontFamily: "'Cormorant', serif",
+                          fontSize: '1rem',
+                          outline: 'none',
+                          cursor: 'pointer'
+                        }}
+                      >
+                        {productTypes.map(type => (
+                          <option key={type.value} value={type.value}>{type.label}</option>
+                        ))}
+                      </select>
+                    </div>
                   </div>
 
                   {/* Price and Stock */}
