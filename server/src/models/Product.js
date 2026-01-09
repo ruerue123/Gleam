@@ -24,7 +24,7 @@ const productSchema = new mongoose.Schema({
   collection: {
     type: String,
     required: true,
-    enum: ['EMBER', 'ZEST', 'SERENE', 'ROOT']
+    enum: ['EMBER', 'ZEST', 'SERENE', 'ROOT', 'DESERT', 'MOLDED']
   },
   collectionSlug: {
     type: String,
@@ -40,7 +40,7 @@ const productSchema = new mongoose.Schema({
   },
   scentFamily: {
     type: String,
-    enum: ['EMBER', 'ZEST', 'SERENE', 'ROOT'],
+    enum: ['EMBER', 'ZEST', 'SERENE', 'ROOT', 'DESERT', 'MOLDED'],
     required: false
   },
   scentFamilyDescription: {

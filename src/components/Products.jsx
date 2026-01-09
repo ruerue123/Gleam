@@ -25,7 +25,9 @@ function Products({ onAddToCart, onAddToFavourites, favourites = [] }) {
     { value: 'EMBER', label: 'Ember' },
     { value: 'ZEST', label: 'Zest' },
     { value: 'SERENE', label: 'Serene' },
-    { value: 'ROOT', label: 'Root' }
+    { value: 'ROOT', label: 'Root' },
+    { value: 'DESERT', label: 'Desert Candles' },
+    { value: 'MOLDED', label: 'Molded Candles' }
   ];
 
   const priceRanges = [

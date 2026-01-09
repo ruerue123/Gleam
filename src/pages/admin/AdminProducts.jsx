@@ -33,7 +33,7 @@ function AdminProducts() {
   const [uploadingImage, setUploadingImage] = useState(false);
 
   // Collection names that match backend enum values
-  const scentFamilies = ['EMBER', 'ZEST', 'SERENE', 'ROOT'];
+  const scentFamilies = ['EMBER', 'ZEST', 'SERENE', 'ROOT', 'DESERT', 'MOLDED'];
 
   useEffect(() => {
     fetchProducts();
