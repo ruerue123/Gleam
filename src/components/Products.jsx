@@ -71,11 +71,17 @@ function Products({ onAddToCart, onAddToFavourites, favourites = [] }) {
     fetchProducts();
   }, [fetchProducts]);
 
-  // Update selected scent when URL changes
+  // Update selected filters when URL changes
   useEffect(() => {
     const scentFromUrl = searchParams.get('scent');
+    const styleFromUrl = searchParams.get('style');
+
     if (scentFromUrl) {
       setSelectedScent(scentFromUrl);
+    }
+
+    if (styleFromUrl) {
+      setSelectedStyle(styleFromUrl);
     }
   }, [searchParams]);
 
