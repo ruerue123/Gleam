@@ -6,7 +6,7 @@ function CandleStyles() {
       id: 1,
       name: 'Jar Candles',
       type: 'STANDARD',
-      image: '/images/jar-candles.jpg',
+      image: '/images/standard.jpg',
       description: 'Classic hand-poured candles in elegant jars',
       emoji: '🕯️'
     },
@@ -14,7 +14,7 @@ function CandleStyles() {
       id: 2,
       name: 'Dessert Candles',
       type: 'DESSERT',
-      image: '/images/dessert-candles.jpg',
+      image: '/images/dessert.jpg',
       description: 'Whipped, layered, and indulgent. Inspired by your favorite treats',
       emoji: '🍰'
     },
@@ -22,7 +22,7 @@ function CandleStyles() {
       id: 3,
       name: 'Molded Candles',
       type: 'MOLDED',
-      image: '/images/molded-candles.jpg',
+      image: '/images/molded.jpg',
       description: 'Sculptural pieces designed for display and intentional burning',
       emoji: '🗿'
     }
