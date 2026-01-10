@@ -829,10 +829,11 @@ function Products({ onAddToCart, onAddToFavourites, favourites = [] }) {
                       <p style={{
                         fontSize: 'clamp(0.85rem, 1.4vw, 0.95rem)',
                         fontStyle: 'italic',
-                        opacity: 0.6,
+                        color: '#171515',
+                        opacity: 0.85,
                         marginBottom: '1rem',
                         lineHeight: 1.5,
-                        fontWeight: 300,
+                        fontWeight: 400,
                         fontFamily: "'Cormorant', serif",
                         flex: 1
                       }}>
@@ -1062,9 +1063,11 @@ function Products({ onAddToCart, onAddToFavourites, favourites = [] }) {
                 fontFamily: "'Cormorant', serif",
                 fontSize: 'clamp(0.85rem, 2.5vw, 1.1rem)',
                 fontStyle: 'italic',
-                opacity: 0.7,
+                color: '#171515',
+                opacity: 0.85,
                 marginBottom: 'clamp(0.8rem, 2vw, 1rem)',
-                lineHeight: 1.6
+                lineHeight: 1.6,
+                fontWeight: 400
               }}>
                 {quickViewProduct.description}
               </p>
