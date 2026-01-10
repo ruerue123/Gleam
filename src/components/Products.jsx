@@ -183,38 +183,80 @@ function Products({ onAddToCart, onAddToFavourites, favourites = [] }) {
         }
       `}</style>
 
-      {/* Mobile Scent Filters */}
+      {/* Mobile Filters */}
       <div className="mobile-scent-filters" style={{
         display: 'none',
-        overflowX: 'auto',
+        flexDirection: 'column',
         padding: '1rem 5%',
-        gap: '0.5rem',
-        WebkitOverflowScrolling: 'touch',
-        scrollbarWidth: 'none',
-        msOverflowStyle: 'none'
+        gap: '1rem'
       }}>
-        {scents.map((scent) => (
-          <button
-            key={scent.value}
-            onClick={() => setSelectedScent(scent.value)}
-            style={{
-              padding: '0.6rem 1.2rem',
-              background: selectedScent === scent.value ? '#8B7355' : '#ffffff',
-              color: selectedScent === scent.value ? '#ffffff' : '#171515',
-              border: selectedScent === scent.value ? 'none' : '1px solid #EDECE4',
-              borderRadius: '50px',
-              fontSize: '0.85rem',
-              fontFamily: "'Raleway', sans-serif",
-              fontWeight: 500,
-              cursor: 'pointer',
-              whiteSpace: 'nowrap',
-              transition: 'all 0.3s ease',
-              letterSpacing: '0.3px'
-            }}
-          >
-            {scent.label}
-          </button>
-        ))}
+        {/* Scent Filters */}
+        <div style={{
+          display: 'flex',
+          overflowX: 'auto',
+          gap: '0.5rem',
+          WebkitOverflowScrolling: 'touch',
+          scrollbarWidth: 'none',
+          msOverflowStyle: 'none',
+          paddingBottom: '0.5rem'
+        }}>
+          {scents.map((scent) => (
+            <button
+              key={scent.value}
+              onClick={() => setSelectedScent(scent.value)}
+              style={{
+                padding: '0.5rem 1rem',
+                background: selectedScent === scent.value ? '#8B7355' : '#ffffff',
+                color: selectedScent === scent.value ? '#ffffff' : '#171515',
+                border: selectedScent === scent.value ? 'none' : '1px solid #EDECE4',
+                borderRadius: '20px',
+                fontSize: '0.8rem',
+                fontFamily: "'Raleway', sans-serif",
+                fontWeight: 500,
+                cursor: 'pointer',
+                whiteSpace: 'nowrap',
+                transition: 'all 0.3s ease',
+                letterSpacing: '0.3px'
+              }}
+            >
+              {scent.label}
+            </button>
+          ))}
+        </div>
+
+        {/* Style Filters */}
+        <div style={{
+          display: 'flex',
+          overflowX: 'auto',
+          gap: '0.5rem',
+          WebkitOverflowScrolling: 'touch',
+          scrollbarWidth: 'none',
+          msOverflowStyle: 'none',
+          paddingBottom: '0.5rem'
+        }}>
+          {candleStyles.map((style) => (
+            <button
+              key={style.value}
+              onClick={() => setSelectedStyle(style.value)}
+              style={{
+                padding: '0.5rem 1rem',
+                background: selectedStyle === style.value ? '#8B7355' : '#ffffff',
+                color: selectedStyle === style.value ? '#ffffff' : '#171515',
+                border: selectedStyle === style.value ? 'none' : '1px solid #EDECE4',
+                borderRadius: '20px',
+                fontSize: '0.8rem',
+                fontFamily: "'Raleway', sans-serif",
+                fontWeight: 500,
+                cursor: 'pointer',
+                whiteSpace: 'nowrap',
+                transition: 'all 0.3s ease',
+                letterSpacing: '0.3px'
+              }}
+            >
+              {style.label}
+            </button>
+          ))}
+        </div>
       </div>
 
       <div className="products-main-content" style={{
@@ -659,8 +701,8 @@ function Products({ onAddToCart, onAddToFavourites, favourites = [] }) {
           {/* Products Grid */}
           <div className="products-grid" style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))',
-            gap: 'clamp(1.5rem, 3vw, 2.5rem)',
+            gridTemplateColumns: 'repeat(auto-fill, minmax(min(160px, 100%), 1fr))',
+            gap: 'clamp(0.8rem, 2vw, 1.5rem)',
             marginBottom: 'clamp(3rem, 6vw, 5rem)'
           }}>
             {products.map((product) => {
@@ -673,7 +715,7 @@ function Products({ onAddToCart, onAddToFavourites, favourites = [] }) {
                   transition={{ duration: 0.3 }}
                   style={{
                     background: '#F6F1EB',
-                    borderRadius: '20px',
+                    borderRadius: '12px',
                     overflow: 'hidden',
                     position: 'relative',
                     boxShadow: '0 2px 8px rgba(0, 0, 0, 0.05)',
@@ -736,9 +778,10 @@ function Products({ onAddToCart, onAddToFavourites, favourites = [] }) {
                     {/* Product Image with Quick View */}
                     <div className="product-image-container" style={{
                       width: '100%',
-                      height: '320px',
+                      aspectRatio: '1/1',
                       position: 'relative',
-                      overflow: 'hidden'
+                      overflow: 'hidden',
+                      background: '#ffffff'
                     }}>
                       {product.images && product.images.length > 0 ? (
                         <img
@@ -749,8 +792,9 @@ function Products({ onAddToCart, onAddToFavourites, favourites = [] }) {
                           style={{
                             width: '100%',
                             height: '100%',
-                            objectFit: 'cover',
-                            objectPosition: 'center'
+                            objectFit: 'contain',
+                            objectPosition: 'center',
+                            padding: '0.5rem'
                           }}
                         />
                       ) : (
@@ -809,31 +853,33 @@ function Products({ onAddToCart, onAddToFavourites, favourites = [] }) {
 
                     {/* Product Details */}
                     <div style={{
-                      padding: 'clamp(1.2rem, 2vw, 1.5rem)',
-                      textAlign: 'center',
+                      padding: 'clamp(0.8rem, 1.5vw, 1rem)',
+                      textAlign: 'left',
                       display: 'flex',
                       flexDirection: 'column',
-                      flex: 1
+                      flex: 1,
+                      gap: '0.3rem'
                     }}>
                       <h3 style={{
                         fontFamily: "'Raleway', sans-serif",
-                        fontSize: 'clamp(1.05rem, 1.8vw, 1.2rem)',
-                        fontWeight: 400,
-                        marginBottom: '0.5rem',
-                        letterSpacing: '0.5px',
-                        color: '#171515'
+                        fontSize: 'clamp(0.9rem, 1.6vw, 1rem)',
+                        fontWeight: 500,
+                        marginBottom: '0.2rem',
+                        letterSpacing: '0.3px',
+                        color: '#171515',
+                        lineHeight: 1.3
                       }}>
                         {product.name}
                       </h3>
 
                       <p style={{
-                        fontSize: 'clamp(0.85rem, 1.4vw, 0.95rem)',
-                        fontStyle: 'italic',
+                        fontSize: 'clamp(0.75rem, 1.2vw, 0.85rem)',
+                        fontStyle: 'normal',
                         color: '#8B7355',
-                        marginBottom: '1rem',
-                        lineHeight: 1.5,
+                        marginBottom: '0.4rem',
+                        lineHeight: 1.3,
                         fontWeight: 400,
-                        fontFamily: "'Cormorant', serif",
+                        fontFamily: "'Raleway', sans-serif",
                         flex: 1
                       }}>
                         {product.scent}
@@ -841,9 +887,9 @@ function Products({ onAddToCart, onAddToFavourites, favourites = [] }) {
 
                       <div style={{
                         fontFamily: "'Raleway', sans-serif",
-                        fontSize: 'clamp(1rem, 1.8vw, 1.15rem)',
-                        fontWeight: 500,
-                        marginBottom: '1rem',
+                        fontSize: 'clamp(0.95rem, 1.6vw, 1.05rem)',
+                        fontWeight: 600,
+                        marginBottom: '0.5rem',
                         color: '#171515',
                         marginTop: 'auto'
                       }}>
@@ -861,12 +907,12 @@ function Products({ onAddToCart, onAddToFavourites, favourites = [] }) {
                         disabled={(product.stock || product.countInStock || 0) === 0}
                         style={{
                           width: '100%',
-                          padding: '0.9rem',
+                          padding: 'clamp(0.6rem, 1.5vw, 0.75rem)',
                           background: (product.stock || product.countInStock || 0) > 0 ? '#111111' : '#CCCCCC',
                           color: '#ffffff',
                           border: 'none',
-                          borderRadius: '50px',
-                          fontSize: 'clamp(0.85rem, 1.5vw, 0.95rem)',
+                          borderRadius: '6px',
+                          fontSize: 'clamp(0.75rem, 1.3vw, 0.85rem)',
                           letterSpacing: '0.3px',
                           cursor: (product.stock || product.countInStock || 0) > 0 ? 'pointer' : 'not-allowed',
                           transition: 'all 0.3s',
