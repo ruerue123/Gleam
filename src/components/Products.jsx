@@ -829,15 +829,14 @@ function Products({ onAddToCart, onAddToFavourites, favourites = [] }) {
                       <p style={{
                         fontSize: 'clamp(0.85rem, 1.4vw, 0.95rem)',
                         fontStyle: 'italic',
-                        color: '#171515',
-                        opacity: 0.85,
+                        color: '#8B7355',
                         marginBottom: '1rem',
                         lineHeight: 1.5,
                         fontWeight: 400,
                         fontFamily: "'Cormorant', serif",
                         flex: 1
                       }}>
-                        {product.description}
+                        {product.scent}
                       </p>
 
                       <div style={{

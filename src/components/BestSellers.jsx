@@ -291,14 +291,14 @@ function BestSellers({ onAddToCart, onAddToFavourites, favourites = [] }) {
                   <p style={{
                     fontSize: 'clamp(0.75rem, 1.3vw, 0.85rem)',
                     fontStyle: 'italic',
-                    opacity: 0.6,
+                    color: '#8B7355',
                     marginBottom: '0.8rem',
                     lineHeight: 1.4,
-                    fontWeight: 300,
+                    fontWeight: 400,
                     fontFamily: "'Cormorant', serif",
                     flex: 1
                   }}>
-                    {product.description}
+                    {product.scent}
                   </p>
 
                   <div style={{

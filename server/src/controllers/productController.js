@@ -9,43 +9,44 @@ export const getProducts = async (req, res) => {
 
     let query = { isActive: true };
 
-    // Filter by slug (for product detail page)
+    // Filter by slug (for product detail page) - this takes priority
     if (slug) {
       query.slug = slug;
-    }
+      // When filtering by slug, don't apply other filters
+    } else {
+      // Filter by scent family
+      if (scentFamily) {
+        query.scentFamily = scentFamily;
+      }
 
-    // Filter by scent family
-    if (scentFamily) {
-      query.scentFamily = scentFamily;
-    }
+      // Filter by collection (accept both collection name and slug)
+      if (collection) {
+        // Check if it's a collection name or slug
+        query.$or = [
+          { collection: collection },
+          { collectionSlug: collection }
+        ];
+      }
 
-    // Filter by collection (accept both collection name and slug)
-    if (collection) {
-      // Check if it's a collection name or slug
-      query.$or = [
-        { collection: collection },
-        { collectionSlug: collection }
-      ];
-    }
+      // Filter by product type (candle style)
+      if (productType) {
+        query.productType = productType;
+      }
 
-    // Filter by product type (candle style)
-    if (productType) {
-      query.productType = productType;
-    }
+      // Filter by featured
+      if (featured === 'true') {
+        query.featured = true;
+      }
 
-    // Filter by featured
-    if (featured === 'true') {
-      query.featured = true;
-    }
+      // Filter by bestseller
+      if (isBestseller === 'true') {
+        query.isBestseller = true;
+      }
 
-    // Filter by bestseller
-    if (isBestseller === 'true') {
-      query.isBestseller = true;
-    }
-
-    // Search functionality
-    if (search) {
-      query.$text = { $search: search };
+      // Search functionality
+      if (search) {
+        query.$text = { $search: search };
+      }
     }
 
     let productsQuery = Product.find(query);
