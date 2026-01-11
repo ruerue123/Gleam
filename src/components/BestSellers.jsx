@@ -291,7 +291,7 @@ function BestSellers({ onAddToCart, onAddToFavourites, favourites = [] }) {
                   <p style={{
                     fontSize: 'clamp(0.75rem, 1.3vw, 0.85rem)',
                     fontStyle: 'italic',
-                    color: '#8B7355',
+                    color: '#5C4A39',
                     marginBottom: '0.8rem',
                     lineHeight: 1.4,
                     fontWeight: 400,

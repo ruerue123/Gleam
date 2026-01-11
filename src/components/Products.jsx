@@ -195,7 +195,11 @@ function Products({ onAddToCart, onAddToFavourites, favourites = [] }) {
         justifyContent: 'center',
         padding: '1rem 5%',
         gap: '0.75rem',
-        borderBottom: '1px solid #EDECE4'
+        borderBottom: '1px solid #EDECE4',
+        position: 'sticky',
+        top: '80px',
+        background: '#FAFAF8',
+        zIndex: 100
       }}>
         {/* Scent Family Filter Bubble */}
         <div style={{ position: 'relative', display: 'inline-block' }}>
@@ -1108,7 +1112,7 @@ function Products({ onAddToCart, onAddToFavourites, favourites = [] }) {
                       <p style={{
                         fontSize: 'clamp(0.85rem, 1.4vw, 0.95rem)',
                         fontStyle: 'italic',
-                        color: '#8B7355',
+                        color: '#5C4A39',
                         marginBottom: '1rem',
                         lineHeight: 1.5,
                         fontWeight: 400,
