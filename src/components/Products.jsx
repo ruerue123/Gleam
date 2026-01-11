@@ -192,12 +192,9 @@ function Products({ onAddToCart, onAddToFavourites, favourites = [] }) {
       {/* Mobile Filter Bubbles */}
       <div className="mobile-filter-bubbles" style={{
         display: 'none',
-        overflowX: 'auto',
+        justifyContent: 'center',
         padding: '1rem 5%',
-        gap: '0.5rem',
-        WebkitOverflowScrolling: 'touch',
-        scrollbarWidth: 'none',
-        msOverflowStyle: 'none',
+        gap: '0.75rem',
         borderBottom: '1px solid #EDECE4'
       }}>
         {/* Scent Family Filter Bubble */}
@@ -497,104 +494,6 @@ function Products({ onAddToCart, onAddToFavourites, favourites = [] }) {
           )}
         </div>
 
-        {/* Availability Filter Bubble */}
-        <div style={{ position: 'relative', display: 'inline-block' }}>
-          <button
-            onClick={() => setMobileExpandedSections(prev => ({ ...prev, availability: !prev.availability }))}
-            style={{
-              padding: '0.6rem 1.2rem',
-              background: selectedAvailability !== 'All' ? '#8B7355' : '#ffffff',
-              color: selectedAvailability !== 'All' ? '#ffffff' : '#171515',
-              border: '1px solid #EDECE4',
-              borderRadius: '50px',
-              fontSize: '0.85rem',
-              fontFamily: "'Raleway', sans-serif",
-              fontWeight: 500,
-              cursor: 'pointer',
-              whiteSpace: 'nowrap',
-              transition: 'all 0.3s ease',
-              letterSpacing: '0.3px',
-              display: 'flex',
-              alignItems: 'center',
-              gap: '0.5rem'
-            }}
-          >
-            Availability
-            <svg
-              width="14"
-              height="14"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              style={{
-                transform: mobileExpandedSections.availability ? 'rotate(180deg)' : 'rotate(0deg)',
-                transition: 'transform 0.3s ease'
-              }}
-            >
-              <polyline points="6 9 12 15 18 9" />
-            </svg>
-          </button>
-
-          {mobileExpandedSections.availability && (
-            <div style={{
-              position: 'absolute',
-              top: 'calc(100% + 0.5rem)',
-              left: 0,
-              background: '#ffffff',
-              border: '1px solid #EDECE4',
-              borderRadius: '12px',
-              padding: '0.75rem',
-              zIndex: 1000,
-              boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
-              minWidth: '150px'
-            }}>
-              {['All', 'In Stock', 'Out of Stock'].map((avail) => (
-                <label
-                  key={avail}
-                  style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '0.5rem',
-                    padding: '0.5rem',
-                    cursor: 'pointer',
-                    fontFamily: "'Raleway', sans-serif",
-                    fontSize: '0.85rem',
-                    color: '#171515',
-                    borderRadius: '6px',
-                    transition: 'background 0.2s ease'
-                  }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.background = '#F6F1EB';
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.background = 'transparent';
-                  }}
-                >
-                  <input
-                    type="radio"
-                    name="mobile-availability"
-                    value={avail}
-                    checked={selectedAvailability === avail}
-                    onChange={() => {
-                      setSelectedAvailability(avail);
-                      setMobileExpandedSections(prev => ({ ...prev, availability: false }));
-                    }}
-                    style={{
-                      width: '16px',
-                      height: '16px',
-                      cursor: 'pointer',
-                      accentColor: '#8B7355'
-                    }}
-                  />
-                  <span>{avail}</span>
-                </label>
-              ))}
-            </div>
-          )}
-        </div>
       </div>
 
       <div className="products-main-content" style={{
