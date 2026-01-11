@@ -19,7 +19,12 @@ function Products({ onAddToCart, onAddToFavourites, favourites = [] }) {
     price: false,
     availability: false
   });
-  const [mobileFilterOpen, setMobileFilterOpen] = useState(false);
+  const [mobileExpandedSections, setMobileExpandedSections] = useState({
+    scent: false,
+    style: false,
+    price: false,
+    availability: false
+  });
 
   const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
 
@@ -169,8 +174,8 @@ function Products({ onAddToCart, onAddToFavourites, favourites = [] }) {
             grid-template-columns: 1fr !important;
             padding: 0 3% !important;
           }
-          .mobile-filter-dropdown {
-            display: block !important;
+          .mobile-filter-bubbles {
+            display: flex !important;
           }
           .products-grid {
             grid-template-columns: repeat(2, 1fr) !important;
@@ -178,178 +183,418 @@ function Products({ onAddToCart, onAddToFavourites, favourites = [] }) {
           }
         }
         @media (min-width: 969px) {
-          .mobile-filter-dropdown {
+          .mobile-filter-bubbles {
             display: none !important;
           }
         }
       `}</style>
 
-      {/* Mobile Filter Dropdown */}
-      <div className="mobile-filter-dropdown" style={{
+      {/* Mobile Filter Bubbles */}
+      <div className="mobile-filter-bubbles" style={{
         display: 'none',
+        overflowX: 'auto',
         padding: '1rem 5%',
-        position: 'relative'
+        gap: '0.5rem',
+        WebkitOverflowScrolling: 'touch',
+        scrollbarWidth: 'none',
+        msOverflowStyle: 'none',
+        borderBottom: '1px solid #EDECE4'
       }}>
-        <button
-          onClick={() => setMobileFilterOpen(!mobileFilterOpen)}
-          style={{
-            width: '100%',
-            padding: '0.75rem 1rem',
-            background: '#ffffff',
-            border: '1px solid #EDECE4',
-            borderRadius: '8px',
-            fontSize: '0.95rem',
-            fontFamily: "'Raleway', sans-serif",
-            fontWeight: 500,
-            cursor: 'pointer',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            color: '#171515',
-            letterSpacing: '0.3px'
-          }}
-        >
-          <span>{selectedScent !== 'All' ? selectedScent : selectedStyle !== 'All' ? selectedStyle : 'All'}</span>
-          <svg
-            width="20"
-            height="20"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="#171515"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
+        {/* Scent Family Filter Bubble */}
+        <div style={{ position: 'relative', display: 'inline-block' }}>
+          <button
+            onClick={() => setMobileExpandedSections(prev => ({ ...prev, scent: !prev.scent }))}
             style={{
-              transform: mobileFilterOpen ? 'rotate(180deg)' : 'rotate(0deg)',
-              transition: 'transform 0.3s ease'
+              padding: '0.6rem 1.2rem',
+              background: selectedScent !== 'All' ? '#8B7355' : '#ffffff',
+              color: selectedScent !== 'All' ? '#ffffff' : '#171515',
+              border: '1px solid #EDECE4',
+              borderRadius: '50px',
+              fontSize: '0.85rem',
+              fontFamily: "'Raleway', sans-serif",
+              fontWeight: 500,
+              cursor: 'pointer',
+              whiteSpace: 'nowrap',
+              transition: 'all 0.3s ease',
+              letterSpacing: '0.3px',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '0.5rem'
             }}
           >
-            <polyline points="6 9 12 15 18 9" />
-          </svg>
-        </button>
-
-        {/* Dropdown Menu */}
-        {mobileFilterOpen && (
-          <div style={{
-            position: 'absolute',
-            top: 'calc(100% - 0.5rem)',
-            left: '5%',
-            right: '5%',
-            background: '#ffffff',
-            border: '1px solid #EDECE4',
-            borderRadius: '8px',
-            padding: '1rem',
-            zIndex: 1000,
-            boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
-            maxHeight: '400px',
-            overflowY: 'auto'
-          }}>
-            {/* All Option */}
-            <button
-              onClick={() => {
-                setSelectedScent('All');
-                setSelectedStyle('All');
-                setMobileFilterOpen(false);
-              }}
+            Scent Family
+            <svg
+              width="14"
+              height="14"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
               style={{
-                width: '100%',
-                padding: '0.75rem 1rem',
-                background: (selectedScent === 'All' && selectedStyle === 'All') ? '#F6F1EB' : 'transparent',
-                border: 'none',
-                borderRadius: '6px',
-                fontSize: '0.95rem',
-                fontFamily: "'Raleway', sans-serif",
-                fontWeight: (selectedScent === 'All' && selectedStyle === 'All') ? 600 : 400,
-                cursor: 'pointer',
-                textAlign: 'left',
-                color: '#171515',
-                marginBottom: '0.5rem',
-                display: 'flex',
-                alignItems: 'center',
-                gap: '0.5rem'
+                transform: mobileExpandedSections.scent ? 'rotate(180deg)' : 'rotate(0deg)',
+                transition: 'transform 0.3s ease'
               }}
             >
-              {(selectedScent === 'All' && selectedStyle === 'All') && (
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#8B7355" strokeWidth="3">
-                  <polyline points="20 6 9 17 4 12" />
-                </svg>
-              )}
-              All
-            </button>
+              <polyline points="6 9 12 15 18 9" />
+            </svg>
+          </button>
 
-            {/* Scent Categories */}
-            {scents.filter(s => s.value !== 'All').map((scent) => (
-              <button
-                key={scent.value}
-                onClick={() => {
-                  setSelectedScent(scent.value);
-                  setSelectedStyle('All');
-                  setMobileFilterOpen(false);
-                }}
-                style={{
-                  width: '100%',
-                  padding: '0.75rem 1rem',
-                  background: selectedScent === scent.value ? '#F6F1EB' : 'transparent',
-                  border: 'none',
-                  borderRadius: '6px',
-                  fontSize: '0.95rem',
-                  fontFamily: "'Raleway', sans-serif",
-                  fontWeight: selectedScent === scent.value ? 600 : 400,
-                  cursor: 'pointer',
-                  textAlign: 'left',
-                  color: '#171515',
-                  marginBottom: '0.5rem',
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '0.5rem'
-                }}
-              >
-                {selectedScent === scent.value && (
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#8B7355" strokeWidth="3">
-                    <polyline points="20 6 9 17 4 12" />
-                  </svg>
-                )}
-                {scent.label}
-              </button>
-            ))}
+          {mobileExpandedSections.scent && (
+            <div style={{
+              position: 'absolute',
+              top: 'calc(100% + 0.5rem)',
+              left: 0,
+              background: '#ffffff',
+              border: '1px solid #EDECE4',
+              borderRadius: '12px',
+              padding: '0.75rem',
+              zIndex: 1000,
+              boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
+              minWidth: '180px'
+            }}>
+              {scents.map((scent) => (
+                <label
+                  key={scent.value}
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '0.5rem',
+                    padding: '0.5rem',
+                    cursor: 'pointer',
+                    fontFamily: "'Raleway', sans-serif",
+                    fontSize: '0.85rem',
+                    color: '#171515',
+                    borderRadius: '6px',
+                    transition: 'background 0.2s ease'
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.background = '#F6F1EB';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.background = 'transparent';
+                  }}
+                >
+                  <input
+                    type="radio"
+                    name="mobile-scent"
+                    value={scent.value}
+                    checked={selectedScent === scent.value}
+                    onChange={() => {
+                      setSelectedScent(scent.value);
+                      setMobileExpandedSections(prev => ({ ...prev, scent: false }));
+                    }}
+                    style={{
+                      width: '16px',
+                      height: '16px',
+                      cursor: 'pointer',
+                      accentColor: '#8B7355'
+                    }}
+                  />
+                  <span>{scent.label}</span>
+                </label>
+              ))}
+            </div>
+          )}
+        </div>
 
-            {/* Style Categories */}
-            {candleStyles.filter(s => s.value !== 'All').map((style) => (
-              <button
-                key={style.value}
-                onClick={() => {
-                  setSelectedStyle(style.value);
-                  setSelectedScent('All');
-                  setMobileFilterOpen(false);
-                }}
-                style={{
-                  width: '100%',
-                  padding: '0.75rem 1rem',
-                  background: selectedStyle === style.value ? '#F6F1EB' : 'transparent',
-                  border: 'none',
-                  borderRadius: '6px',
-                  fontSize: '0.95rem',
-                  fontFamily: "'Raleway', sans-serif",
-                  fontWeight: selectedStyle === style.value ? 600 : 400,
-                  cursor: 'pointer',
-                  textAlign: 'left',
-                  color: '#171515',
-                  marginBottom: '0.5rem',
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '0.5rem'
-                }}
-              >
-                {selectedStyle === style.value && (
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#8B7355" strokeWidth="3">
-                    <polyline points="20 6 9 17 4 12" />
-                  </svg>
-                )}
-                {style.label}
-              </button>
-            ))}
-          </div>
-        )}
+        {/* Candle Style Filter Bubble */}
+        <div style={{ position: 'relative', display: 'inline-block' }}>
+          <button
+            onClick={() => setMobileExpandedSections(prev => ({ ...prev, style: !prev.style }))}
+            style={{
+              padding: '0.6rem 1.2rem',
+              background: selectedStyle !== 'All' ? '#8B7355' : '#ffffff',
+              color: selectedStyle !== 'All' ? '#ffffff' : '#171515',
+              border: '1px solid #EDECE4',
+              borderRadius: '50px',
+              fontSize: '0.85rem',
+              fontFamily: "'Raleway', sans-serif",
+              fontWeight: 500,
+              cursor: 'pointer',
+              whiteSpace: 'nowrap',
+              transition: 'all 0.3s ease',
+              letterSpacing: '0.3px',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '0.5rem'
+            }}
+          >
+            Candle Type
+            <svg
+              width="14"
+              height="14"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              style={{
+                transform: mobileExpandedSections.style ? 'rotate(180deg)' : 'rotate(0deg)',
+                transition: 'transform 0.3s ease'
+              }}
+            >
+              <polyline points="6 9 12 15 18 9" />
+            </svg>
+          </button>
+
+          {mobileExpandedSections.style && (
+            <div style={{
+              position: 'absolute',
+              top: 'calc(100% + 0.5rem)',
+              left: 0,
+              background: '#ffffff',
+              border: '1px solid #EDECE4',
+              borderRadius: '12px',
+              padding: '0.75rem',
+              zIndex: 1000,
+              boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
+              minWidth: '180px'
+            }}>
+              {candleStyles.map((style) => (
+                <label
+                  key={style.value}
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '0.5rem',
+                    padding: '0.5rem',
+                    cursor: 'pointer',
+                    fontFamily: "'Raleway', sans-serif",
+                    fontSize: '0.85rem',
+                    color: '#171515',
+                    borderRadius: '6px',
+                    transition: 'background 0.2s ease'
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.background = '#F6F1EB';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.background = 'transparent';
+                  }}
+                >
+                  <input
+                    type="radio"
+                    name="mobile-style"
+                    value={style.value}
+                    checked={selectedStyle === style.value}
+                    onChange={() => {
+                      setSelectedStyle(style.value);
+                      setMobileExpandedSections(prev => ({ ...prev, style: false }));
+                    }}
+                    style={{
+                      width: '16px',
+                      height: '16px',
+                      cursor: 'pointer',
+                      accentColor: '#8B7355'
+                    }}
+                  />
+                  <span>{style.label}</span>
+                </label>
+              ))}
+            </div>
+          )}
+        </div>
+
+        {/* Price Filter Bubble */}
+        <div style={{ position: 'relative', display: 'inline-block' }}>
+          <button
+            onClick={() => setMobileExpandedSections(prev => ({ ...prev, price: !prev.price }))}
+            style={{
+              padding: '0.6rem 1.2rem',
+              background: selectedPrice !== 'All' ? '#8B7355' : '#ffffff',
+              color: selectedPrice !== 'All' ? '#ffffff' : '#171515',
+              border: '1px solid #EDECE4',
+              borderRadius: '50px',
+              fontSize: '0.85rem',
+              fontFamily: "'Raleway', sans-serif",
+              fontWeight: 500,
+              cursor: 'pointer',
+              whiteSpace: 'nowrap',
+              transition: 'all 0.3s ease',
+              letterSpacing: '0.3px',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '0.5rem'
+            }}
+          >
+            Price
+            <svg
+              width="14"
+              height="14"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              style={{
+                transform: mobileExpandedSections.price ? 'rotate(180deg)' : 'rotate(0deg)',
+                transition: 'transform 0.3s ease'
+              }}
+            >
+              <polyline points="6 9 12 15 18 9" />
+            </svg>
+          </button>
+
+          {mobileExpandedSections.price && (
+            <div style={{
+              position: 'absolute',
+              top: 'calc(100% + 0.5rem)',
+              left: 0,
+              background: '#ffffff',
+              border: '1px solid #EDECE4',
+              borderRadius: '12px',
+              padding: '0.75rem',
+              zIndex: 1000,
+              boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
+              minWidth: '150px'
+            }}>
+              {priceRanges.map((price) => (
+                <label
+                  key={price.value}
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '0.5rem',
+                    padding: '0.5rem',
+                    cursor: 'pointer',
+                    fontFamily: "'Raleway', sans-serif",
+                    fontSize: '0.85rem',
+                    color: '#171515',
+                    borderRadius: '6px',
+                    transition: 'background 0.2s ease'
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.background = '#F6F1EB';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.background = 'transparent';
+                  }}
+                >
+                  <input
+                    type="radio"
+                    name="mobile-price"
+                    value={price.value}
+                    checked={selectedPrice === price.value}
+                    onChange={() => {
+                      setSelectedPrice(price.value);
+                      setMobileExpandedSections(prev => ({ ...prev, price: false }));
+                    }}
+                    style={{
+                      width: '16px',
+                      height: '16px',
+                      cursor: 'pointer',
+                      accentColor: '#8B7355'
+                    }}
+                  />
+                  <span>{price.label}</span>
+                </label>
+              ))}
+            </div>
+          )}
+        </div>
+
+        {/* Availability Filter Bubble */}
+        <div style={{ position: 'relative', display: 'inline-block' }}>
+          <button
+            onClick={() => setMobileExpandedSections(prev => ({ ...prev, availability: !prev.availability }))}
+            style={{
+              padding: '0.6rem 1.2rem',
+              background: selectedAvailability !== 'All' ? '#8B7355' : '#ffffff',
+              color: selectedAvailability !== 'All' ? '#ffffff' : '#171515',
+              border: '1px solid #EDECE4',
+              borderRadius: '50px',
+              fontSize: '0.85rem',
+              fontFamily: "'Raleway', sans-serif",
+              fontWeight: 500,
+              cursor: 'pointer',
+              whiteSpace: 'nowrap',
+              transition: 'all 0.3s ease',
+              letterSpacing: '0.3px',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '0.5rem'
+            }}
+          >
+            Availability
+            <svg
+              width="14"
+              height="14"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              style={{
+                transform: mobileExpandedSections.availability ? 'rotate(180deg)' : 'rotate(0deg)',
+                transition: 'transform 0.3s ease'
+              }}
+            >
+              <polyline points="6 9 12 15 18 9" />
+            </svg>
+          </button>
+
+          {mobileExpandedSections.availability && (
+            <div style={{
+              position: 'absolute',
+              top: 'calc(100% + 0.5rem)',
+              left: 0,
+              background: '#ffffff',
+              border: '1px solid #EDECE4',
+              borderRadius: '12px',
+              padding: '0.75rem',
+              zIndex: 1000,
+              boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
+              minWidth: '150px'
+            }}>
+              {['All', 'In Stock', 'Out of Stock'].map((avail) => (
+                <label
+                  key={avail}
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '0.5rem',
+                    padding: '0.5rem',
+                    cursor: 'pointer',
+                    fontFamily: "'Raleway', sans-serif",
+                    fontSize: '0.85rem',
+                    color: '#171515',
+                    borderRadius: '6px',
+                    transition: 'background 0.2s ease'
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.background = '#F6F1EB';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.background = 'transparent';
+                  }}
+                >
+                  <input
+                    type="radio"
+                    name="mobile-availability"
+                    value={avail}
+                    checked={selectedAvailability === avail}
+                    onChange={() => {
+                      setSelectedAvailability(avail);
+                      setMobileExpandedSections(prev => ({ ...prev, availability: false }));
+                    }}
+                    style={{
+                      width: '16px',
+                      height: '16px',
+                      cursor: 'pointer',
+                      accentColor: '#8B7355'
+                    }}
+                  />
+                  <span>{avail}</span>
+                </label>
+              ))}
+            </div>
+          )}
+        </div>
       </div>
 
       <div className="products-main-content" style={{
