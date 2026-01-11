@@ -19,6 +19,7 @@ function Products({ onAddToCart, onAddToFavourites, favourites = [] }) {
     price: false,
     availability: false
   });
+  const [mobileFilterOpen, setMobileFilterOpen] = useState(false);
 
   const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
 
@@ -168,8 +169,8 @@ function Products({ onAddToCart, onAddToFavourites, favourites = [] }) {
             grid-template-columns: 1fr !important;
             padding: 0 3% !important;
           }
-          .mobile-scent-filters {
-            display: flex !important;
+          .mobile-filter-dropdown {
+            display: block !important;
           }
           .products-grid {
             grid-template-columns: repeat(2, 1fr) !important;
@@ -177,44 +178,178 @@ function Products({ onAddToCart, onAddToFavourites, favourites = [] }) {
           }
         }
         @media (min-width: 969px) {
-          .mobile-scent-filters {
+          .mobile-filter-dropdown {
             display: none !important;
           }
         }
       `}</style>
 
-      {/* Mobile Scent Filters */}
-      <div className="mobile-scent-filters" style={{
+      {/* Mobile Filter Dropdown */}
+      <div className="mobile-filter-dropdown" style={{
         display: 'none',
-        overflowX: 'auto',
         padding: '1rem 5%',
-        gap: '0.5rem',
-        WebkitOverflowScrolling: 'touch',
-        scrollbarWidth: 'none',
-        msOverflowStyle: 'none'
+        position: 'relative'
       }}>
-        {scents.map((scent) => (
-          <button
-            key={scent.value}
-            onClick={() => setSelectedScent(scent.value)}
+        <button
+          onClick={() => setMobileFilterOpen(!mobileFilterOpen)}
+          style={{
+            width: '100%',
+            padding: '0.75rem 1rem',
+            background: '#ffffff',
+            border: '1px solid #EDECE4',
+            borderRadius: '8px',
+            fontSize: '0.95rem',
+            fontFamily: "'Raleway', sans-serif",
+            fontWeight: 500,
+            cursor: 'pointer',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            color: '#171515',
+            letterSpacing: '0.3px'
+          }}
+        >
+          <span>{selectedScent !== 'All' ? selectedScent : selectedStyle !== 'All' ? selectedStyle : 'All'}</span>
+          <svg
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="#171515"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
             style={{
-              padding: '0.6rem 1.2rem',
-              background: selectedScent === scent.value ? '#8B7355' : '#ffffff',
-              color: selectedScent === scent.value ? '#ffffff' : '#171515',
-              border: selectedScent === scent.value ? 'none' : '1px solid #EDECE4',
-              borderRadius: '50px',
-              fontSize: '0.85rem',
-              fontFamily: "'Raleway', sans-serif",
-              fontWeight: 500,
-              cursor: 'pointer',
-              whiteSpace: 'nowrap',
-              transition: 'all 0.3s ease',
-              letterSpacing: '0.3px'
+              transform: mobileFilterOpen ? 'rotate(180deg)' : 'rotate(0deg)',
+              transition: 'transform 0.3s ease'
             }}
           >
-            {scent.label}
-          </button>
-        ))}
+            <polyline points="6 9 12 15 18 9" />
+          </svg>
+        </button>
+
+        {/* Dropdown Menu */}
+        {mobileFilterOpen && (
+          <div style={{
+            position: 'absolute',
+            top: 'calc(100% - 0.5rem)',
+            left: '5%',
+            right: '5%',
+            background: '#ffffff',
+            border: '1px solid #EDECE4',
+            borderRadius: '8px',
+            padding: '1rem',
+            zIndex: 1000,
+            boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
+            maxHeight: '400px',
+            overflowY: 'auto'
+          }}>
+            {/* All Option */}
+            <button
+              onClick={() => {
+                setSelectedScent('All');
+                setSelectedStyle('All');
+                setMobileFilterOpen(false);
+              }}
+              style={{
+                width: '100%',
+                padding: '0.75rem 1rem',
+                background: (selectedScent === 'All' && selectedStyle === 'All') ? '#F6F1EB' : 'transparent',
+                border: 'none',
+                borderRadius: '6px',
+                fontSize: '0.95rem',
+                fontFamily: "'Raleway', sans-serif",
+                fontWeight: (selectedScent === 'All' && selectedStyle === 'All') ? 600 : 400,
+                cursor: 'pointer',
+                textAlign: 'left',
+                color: '#171515',
+                marginBottom: '0.5rem',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '0.5rem'
+              }}
+            >
+              {(selectedScent === 'All' && selectedStyle === 'All') && (
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#8B7355" strokeWidth="3">
+                  <polyline points="20 6 9 17 4 12" />
+                </svg>
+              )}
+              All
+            </button>
+
+            {/* Scent Categories */}
+            {scents.filter(s => s.value !== 'All').map((scent) => (
+              <button
+                key={scent.value}
+                onClick={() => {
+                  setSelectedScent(scent.value);
+                  setSelectedStyle('All');
+                  setMobileFilterOpen(false);
+                }}
+                style={{
+                  width: '100%',
+                  padding: '0.75rem 1rem',
+                  background: selectedScent === scent.value ? '#F6F1EB' : 'transparent',
+                  border: 'none',
+                  borderRadius: '6px',
+                  fontSize: '0.95rem',
+                  fontFamily: "'Raleway', sans-serif",
+                  fontWeight: selectedScent === scent.value ? 600 : 400,
+                  cursor: 'pointer',
+                  textAlign: 'left',
+                  color: '#171515',
+                  marginBottom: '0.5rem',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '0.5rem'
+                }}
+              >
+                {selectedScent === scent.value && (
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#8B7355" strokeWidth="3">
+                    <polyline points="20 6 9 17 4 12" />
+                  </svg>
+                )}
+                {scent.label}
+              </button>
+            ))}
+
+            {/* Style Categories */}
+            {candleStyles.filter(s => s.value !== 'All').map((style) => (
+              <button
+                key={style.value}
+                onClick={() => {
+                  setSelectedStyle(style.value);
+                  setSelectedScent('All');
+                  setMobileFilterOpen(false);
+                }}
+                style={{
+                  width: '100%',
+                  padding: '0.75rem 1rem',
+                  background: selectedStyle === style.value ? '#F6F1EB' : 'transparent',
+                  border: 'none',
+                  borderRadius: '6px',
+                  fontSize: '0.95rem',
+                  fontFamily: "'Raleway', sans-serif",
+                  fontWeight: selectedStyle === style.value ? 600 : 400,
+                  cursor: 'pointer',
+                  textAlign: 'left',
+                  color: '#171515',
+                  marginBottom: '0.5rem',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '0.5rem'
+                }}
+              >
+                {selectedStyle === style.value && (
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#8B7355" strokeWidth="3">
+                    <polyline points="20 6 9 17 4 12" />
+                  </svg>
+                )}
+                {style.label}
+              </button>
+            ))}
+          </div>
+        )}
       </div>
 
       <div className="products-main-content" style={{
