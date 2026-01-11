@@ -294,7 +294,7 @@ function BestSellers({ onAddToCart, onAddToFavourites, favourites = [] }) {
                     color: '#5C4A39',
                     marginBottom: '0.8rem',
                     lineHeight: 1.4,
-                    fontWeight: 400,
+                    fontWeight: 600,
                     fontFamily: "'Cormorant', serif",
                     flex: 1
                   }}>

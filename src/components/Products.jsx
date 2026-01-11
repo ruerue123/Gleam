@@ -1115,7 +1115,7 @@ function Products({ onAddToCart, onAddToFavourites, favourites = [] }) {
                         color: '#5C4A39',
                         marginBottom: '1rem',
                         lineHeight: 1.5,
-                        fontWeight: 400,
+                        fontWeight: 600,
                         fontFamily: "'Cormorant', serif",
                         flex: 1
                       }}>
