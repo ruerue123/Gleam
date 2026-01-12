@@ -235,9 +235,8 @@ function BestSellers({ onAddToCart, onAddToFavourites, favourites = [] }) {
                       style={{
                         width: '100%',
                         height: '100%',
-                        objectFit: 'contain',
-                        objectPosition: 'center',
-                        padding: '0.5rem'
+                        objectFit: 'cover',
+                        objectPosition: 'center'
                       }}
                     />
                   ) : (
@@ -463,7 +462,7 @@ function BestSellers({ onAddToCart, onAddToFavourites, favourites = [] }) {
                       width: '100%',
                       height: 'auto',
                       maxHeight: 'clamp(250px, 50vw, 400px)',
-                      objectFit: 'contain'
+                      objectFit: 'cover'
                     }}
                   />
                 ) : (
@@ -511,7 +510,7 @@ function BestSellers({ onAddToCart, onAddToFavourites, favourites = [] }) {
                         style={{
                           width: '100%',
                           height: '100%',
-                          objectFit: 'contain'
+                          objectFit: 'cover'
                         }}
                       />
                     </button>
