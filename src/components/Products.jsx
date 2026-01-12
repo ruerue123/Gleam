@@ -1022,7 +1022,11 @@ function Products({ onAddToCart, onAddToFavourites, favourites = [] }) {
                       height: '320px',
                       position: 'relative',
                       overflow: 'hidden',
-                      background: 'linear-gradient(135deg, #F6F1EB 0%, #EDECE4 100%)'
+                      background: 'linear-gradient(135deg, #F6F1EB 0%, #EDECE4 100%)',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      padding: '0.75rem'
                     }}>
                       {product.images && product.images.length > 0 ? (
                         <img
@@ -1031,9 +1035,11 @@ function Products({ onAddToCart, onAddToFavourites, favourites = [] }) {
                           loading="lazy"
                           decoding="async"
                           style={{
-                            width: '100%',
-                            height: '100%',
-                            objectFit: 'cover',
+                            maxWidth: '100%',
+                            maxHeight: '100%',
+                            width: 'auto',
+                            height: 'auto',
+                            objectFit: 'contain',
                             objectPosition: 'center center'
                           }}
                         />
