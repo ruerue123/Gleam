@@ -120,9 +120,6 @@ function BestSellers({ onAddToCart, onAddToFavourites, favourites = [] }) {
           height: 280px;
           overflow: hidden;
           background: linear-gradient(135deg, #F6F1EB 0%, #EDECE4 100%);
-          display: flex;
-          align-items: center;
-          justify-content: center;
         }
 
         .bestseller-quick-view-overlay {
@@ -238,9 +235,8 @@ function BestSellers({ onAddToCart, onAddToFavourites, favourites = [] }) {
                       style={{
                         width: '100%',
                         height: '100%',
-                        objectFit: 'contain',
-                        objectPosition: 'center',
-                        padding: '1rem'
+                        objectFit: 'cover',
+                        objectPosition: 'center center'
                       }}
                     />
                   ) : (
