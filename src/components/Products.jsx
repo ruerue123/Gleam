@@ -1021,7 +1021,8 @@ function Products({ onAddToCart, onAddToFavourites, favourites = [] }) {
                       width: '100%',
                       height: '320px',
                       position: 'relative',
-                      overflow: 'hidden'
+                      overflow: 'hidden',
+                      background: '#ffffff'
                     }}>
                       {product.images && product.images.length > 0 ? (
                         <img
@@ -1032,8 +1033,9 @@ function Products({ onAddToCart, onAddToFavourites, favourites = [] }) {
                           style={{
                             width: '100%',
                             height: '100%',
-                            objectFit: 'cover',
-                            objectPosition: 'center'
+                            objectFit: 'contain',
+                            objectPosition: 'center',
+                            padding: '0.5rem'
                           }}
                         />
                       ) : (
