@@ -104,7 +104,10 @@ function Collections() {
               height: 'clamp(180px, 30vw, 280px)',
               position: 'relative',
               overflow: 'hidden',
-              background: 'linear-gradient(135deg, #F6F1EB 0%, #EDECE4 100%)'
+              background: 'linear-gradient(135deg, #F6F1EB 0%, #EDECE4 100%)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center'
             }}>
               <img
                 src={scent.image}
@@ -114,8 +117,9 @@ function Collections() {
                 style={{
                   width: '100%',
                   height: '100%',
-                  objectFit: 'cover',
-                  objectPosition: 'center'
+                  objectFit: 'contain',
+                  objectPosition: 'center',
+                  padding: '1rem'
                 }}
               />
             </div>
