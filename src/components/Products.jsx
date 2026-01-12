@@ -1022,7 +1022,7 @@ function Products({ onAddToCart, onAddToFavourites, favourites = [] }) {
                       height: '320px',
                       position: 'relative',
                       overflow: 'hidden',
-                      background: '#ffffff'
+                      background: 'linear-gradient(135deg, #F6F1EB 0%, #EDECE4 100%)'
                     }}>
                       {product.images && product.images.length > 0 ? (
                         <img

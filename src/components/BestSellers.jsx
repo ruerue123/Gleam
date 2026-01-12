@@ -119,7 +119,7 @@ function BestSellers({ onAddToCart, onAddToFavourites, favourites = [] }) {
           width: 100%;
           height: 280px;
           overflow: hidden;
-          background: #ffffff;
+          background: linear-gradient(135deg, #F6F1EB 0%, #EDECE4 100%);
         }
 
         .bestseller-quick-view-overlay {
