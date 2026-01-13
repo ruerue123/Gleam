@@ -120,10 +120,6 @@ function BestSellers({ onAddToCart, onAddToFavourites, favourites = [] }) {
           height: 280px;
           overflow: hidden;
           background: linear-gradient(135deg, #F6F1EB 0%, #EDECE4 100%);
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          padding: 0.75rem;
         }
 
         .bestseller-quick-view-overlay {
@@ -237,12 +233,10 @@ function BestSellers({ onAddToCart, onAddToFavourites, favourites = [] }) {
                       loading="lazy"
                       decoding="async"
                       style={{
-                        maxWidth: '100%',
-                        maxHeight: '100%',
-                        width: 'auto',
-                        height: 'auto',
-                        objectFit: 'contain',
-                        objectPosition: 'center center'
+                        width: '100%',
+                        height: '100%',
+                        objectFit: 'cover',
+                        objectPosition: 'center'
                       }}
                     />
                   ) : (
