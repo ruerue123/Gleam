@@ -11,6 +11,21 @@ function Hero() {
             padding: 1.5rem !important;
           }
         }
+
+        /* Subtle linen/plaster texture overlay */
+        #home::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+          opacity: 0.03;
+          pointer-events: none;
+          z-index: 1;
+          mix-blend-mode: multiply;
+        }
       `}</style>
       <section id="home" style={{
         marginTop: 'clamp(60px, 8vw, 95px)',
@@ -27,7 +42,9 @@ function Hero() {
       }}>
         <div style={{
           padding: 'clamp(2rem, 5vw, 4rem)',
-          maxWidth: '900px'
+          maxWidth: '900px',
+          position: 'relative',
+          zIndex: 2
         }}>
         <p style={{
           fontFamily: "'Cormorant', serif",
@@ -66,7 +83,7 @@ function Hero() {
           padding: '0 clamp(1rem, 3vw, 2rem)',
           lineHeight: 1.6
         }}>
-          Luxury candles for people who heal softly, feel deeply, and embrace their quiet power
+          Luxury soy candles, hand-poured to bring warmth, calm, and intention into your home.
         </p>
 
         <a href="#scents" style={{
