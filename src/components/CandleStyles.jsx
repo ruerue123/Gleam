@@ -1,19 +1,18 @@
 import { Link } from 'react-router-dom'
 
 function CandleStyles() {
-  // Signature product - lead with this
-  const signature = {
-    id: 1,
-    name: 'Jar Candles',
-    type: 'STANDARD',
-    image: '/images/standard.jpg',
-    description: 'Everyday luxury, hand-poured to soften your space. Our most-loved collection.',
-    emoji: '🕯️',
-    badge: 'Our Signature'
-  };
-
-  // Limited edition products
-  const limitedEdition = [
+  // All styles - signature first, then limited editions
+  const styles = [
+    {
+      id: 1,
+      name: 'Jar Candles',
+      type: 'STANDARD',
+      image: '/images/standard.jpg',
+      description: 'Everyday luxury, hand-poured to soften your space. Our most-loved collection.',
+      emoji: '🕯️',
+      badge: 'Our Signature',
+      isSignature: true
+    },
     {
       id: 2,
       name: 'Dessert Candles',
@@ -21,7 +20,8 @@ function CandleStyles() {
       image: '/images/dessert.jpg',
       description: 'Playful, indulgent candles that look good enough to taste.',
       emoji: '🍰',
-      badge: 'Limited Edition'
+      badge: 'Limited Edition',
+      isSignature: false
     },
     {
       id: 3,
@@ -30,7 +30,8 @@ function CandleStyles() {
       image: '/images/molded.jpg',
       description: 'Sculptural forms for moments that deserve intention.',
       emoji: '🗿',
-      badge: 'Limited Edition'
+      badge: 'Limited Edition',
+      isSignature: false
     }
   ];
 
@@ -88,7 +89,7 @@ function CandleStyles() {
       {/* Image Container */}
       <div style={{
         width: '100%',
-        height: isSignature ? 'clamp(280px, 40vw, 400px)' : 'clamp(220px, 35vw, 320px)',
+        height: 'clamp(220px, 25vw, 320px)',
         position: 'relative',
         overflow: 'hidden',
         background: 'linear-gradient(135deg, #F6F1EB 0%, #EDECE4 100%)',
@@ -134,7 +135,7 @@ function CandleStyles() {
       }}>
         <h3 style={{
           fontFamily: "'Cardo', serif",
-          fontSize: isSignature ? 'clamp(1.5rem, 3vw, 1.9rem)' : 'clamp(1.3rem, 2.5vw, 1.6rem)',
+          fontSize: 'clamp(1.3rem, 2.5vw, 1.6rem)',
           fontWeight: 400,
           marginBottom: 'clamp(0.6rem, 1vw, 0.8rem)',
           letterSpacing: '0.5px',
@@ -144,7 +145,7 @@ function CandleStyles() {
         </h3>
         <p style={{
           fontFamily: "'Cormorant', serif",
-          fontSize: isSignature ? 'clamp(1rem, 1.8vw, 1.15rem)' : 'clamp(0.95rem, 1.6vw, 1.05rem)',
+          fontSize: 'clamp(0.95rem, 1.6vw, 1.05rem)',
           color: '#171515',
           opacity: 0.7,
           lineHeight: 1.6,
@@ -158,7 +159,7 @@ function CandleStyles() {
         <div style={{
           marginTop: 'clamp(1rem, 2vw, 1.5rem)',
           fontFamily: "'Raleway', sans-serif",
-          fontSize: isSignature ? 'clamp(0.9rem, 1.5vw, 1rem)' : 'clamp(0.85rem, 1.4vw, 0.95rem)',
+          fontSize: 'clamp(0.85rem, 1.4vw, 0.95rem)',
           fontWeight: 600,
           color: '#8B7355',
           letterSpacing: '0.5px',
@@ -218,21 +219,22 @@ function CandleStyles() {
         Explore our collection by candle type
       </p>
 
-      {/* Signature Product - Featured Large */}
-      <div style={{
-        marginBottom: 'clamp(2rem, 4vw, 3rem)'
-      }}>
-        {renderStyleCard(signature, true)}
-      </div>
-
-      {/* Limited Edition Products - Side by Side */}
-      <div style={{
+      {/* All three cards side by side on desktop, stacked on mobile */}
+      <div className="candle-styles-grid" style={{
         display: 'grid',
-        gridTemplateColumns: 'repeat(auto-fit, minmax(min(280px, 100%), 1fr))',
+        gridTemplateColumns: 'repeat(3, 1fr)',
         gap: 'clamp(1.5rem, 3vw, 2rem)'
       }}>
-        {limitedEdition.map((style) => renderStyleCard(style, false))}
+        {styles.map((style) => renderStyleCard(style, style.isSignature))}
       </div>
+
+      <style>{`
+        @media (max-width: 900px) {
+          .candle-styles-grid {
+            grid-template-columns: 1fr !important;
+          }
+        }
+      `}</style>
     </section>
   );
 }

@@ -13,18 +13,32 @@ function Hero() {
         }
 
         /* Subtle linen/plaster texture overlay */
-        #home::before {
+        #home::after {
           content: '';
           position: absolute;
           top: 0;
           left: 0;
           right: 0;
           bottom: 0;
-          background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
-          opacity: 0.03;
+          background:
+            repeating-linear-gradient(
+              0deg,
+              transparent,
+              transparent 2px,
+              rgba(139, 115, 85, 0.015) 2px,
+              rgba(139, 115, 85, 0.015) 4px
+            ),
+            repeating-linear-gradient(
+              90deg,
+              transparent,
+              transparent 2px,
+              rgba(139, 115, 85, 0.015) 2px,
+              rgba(139, 115, 85, 0.015) 4px
+            ),
+            url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+          opacity: 0.04;
           pointer-events: none;
           z-index: 1;
-          mix-blend-mode: multiply;
         }
       `}</style>
       <section id="home" style={{
@@ -114,7 +128,7 @@ function Hero() {
           e.currentTarget.style.boxShadow = 'none';
         }}
         >
-          Explore Scents
+          Shop the Collection
         </a>
       </div>
     </section>
